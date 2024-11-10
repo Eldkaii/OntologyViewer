@@ -1,0 +1,61 @@
+/* Fondo y color de texto de la aplicación */
+QMainWindow {
+    background-color: #2e2e2e;  /* Fondo oscuro */
+    color: #f0f0f0;  /* Texto claro */
+}
+
+/* Estilo de las etiquetas */
+QLabel {
+    font-size: 14px;
+    color: #f0f0f0;
+}
+
+/* Estilo de los campos de texto y combobox */
+QLineEdit, QComboBox {
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 8px;
+    background-color: #3e3e3e;
+    color: #ffffff;
+}
+
+/* Estilo general de los botones */
+QPushButton {
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #4a90e2; /* Azul claro */
+    color: #ffffff;
+}
+
+/* Estilo de los botones al pasar el cursor */
+QPushButton:hover {
+    background-color: #357ab8; /* Azul más oscuro al pasar el cursor */
+}
+
+/* Botón de acción principal (Guardar o Agregar) */
+QPushButton#actionButton {
+    background-color: #e94e77; /* Color distintivo */
+}
+
+QPushButton#actionButton:hover {
+    background-color: #b03a5b;
+}
+/* Estilos para QMessageBox */
+QMessageBox {
+    background-color: #333333;  /* Fondo oscuro */
+    color: #FFFFFF;  /* Texto en blanco */
+    font-size: 14px;
+}
+
+/* Estilos para los botones de QMessageBox */
+QMessageBox QPushButton {
+    background-color: #4a90e2; /* Azul claro */
+    color: #FFFFFF;  /* Texto en blanco */
+    border-radius: 6px;
+    padding: 6px;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #357ab8; /* Azul más oscuro */
+}

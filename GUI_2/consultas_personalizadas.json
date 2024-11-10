@@ -1,0 +1,19 @@
+{
+    "consultas": [
+        {
+            "grupo": "Registros",
+            "nombre": "Obtener todos los registros",
+            "consulta": "SELECT DISTINCT ?proy ?registro WHERE { ?proy <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro .}"
+        },
+        {
+            "grupo": "Proyectos",
+            "nombre": "Obtener todos los proyectos",
+            "consulta": "SELECT DISTINCT ?proy WHERE { ?proy <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .}"
+        },
+        {
+            "grupo": "Investigador",
+            "nombre": "Prueba",
+            "consulta": "SELECT ?investigador WHERE {  ?investigador rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador>  . }"
+        }
+    ]
+}
