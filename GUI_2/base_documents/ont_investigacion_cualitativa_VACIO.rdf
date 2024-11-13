@@ -1,0 +1,1042 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
+     xml:base="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27"
+     xmlns:ns="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicación -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicación"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_parte_del_marco_teorico -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_parte_del_marco_teorico">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante_de -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante_de">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Inf_insumo_para_producir -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Inf_insumo_para_producir">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Interpretacion_de_analisis -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Interpretacion_de_analisis">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Met_insumo_para_producir -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Met_insumo_para_producir">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Metadato -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Metadato">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Posee_metadatos -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Posee_metadatos">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_esquema_de_clasificacion_descriptivo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_esquema_de_clasificacion_descriptivo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_informacion -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_informacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_al_registro -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_al_registro">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_entrevista -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_entrevista">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica"/>
+        </owl:propertyChainAxiom>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_aplica_en -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_aplica_en">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_reformula -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_reformula">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_bibliografia -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_bibliografia">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_marco_teorico -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_marco_teorico">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://www.w3.org/2002/07/owl#topObjectProperty">
+        <owl:inverseOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Autor -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Autor">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Concluciones -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Concluciones">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Descripcion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Descripcion">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Fecha_de_realizacion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Fecha_de_realizacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Núcleo_temático -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Núcleo_temático">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Pauta -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Pauta">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tipo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tipo">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Titulo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Titulo">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicacion -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Valor -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Valor">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis_documental -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis_documental">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <owl:hasKey rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo"/>
+        </owl:hasKey>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+

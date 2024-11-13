@@ -1,8 +1,11 @@
+import shutil
 import subprocess
 import os
 
 import rdflib
 from rdflib import Graph
+import PyQt6.QtWidgets
+
 
 class OntologyLoader:
     def __init__(self):
@@ -14,7 +17,7 @@ class OntologyLoader:
         self.graph.parse(file_name)
         print(f"Archivo RDF '{file_name}' cargado correctamente.")
 
-    import subprocess
+
 
     def validate_ontology(self, file_name):
         jar_file = "razonador/validadorHermiT-jar-with-dependencies.jar"  # Ruta al archivo .jar
@@ -34,30 +37,72 @@ class OntologyLoader:
             print(f"Error al ejecutar el archivo .jar: {e.stderr}")
             return False
 
-    def validate_and_infer_ontology(self, file_name):
-        """Ejecuta el razonador en el archivo RDF y carga la ontología resultante."""
+
+    def validate_and_infer_ontology(self, file_name,replace,justLoad, inference_options=None):
+
         base_name, ext = os.path.splitext(file_name)
+        if justLoad:
+            self.load_rdf_file(file_name)
+            return True
 
-        jar_file = "razonador/validadorHermiT-jar-with-dependencies.jar"  # Ruta al archivo .jar
+        # Lista de opciones de inferencia válidas
+        valid_inference_options = {
+            "classAssertions": "classAssertions",
+            "propertyAssertions": "propertyAssertions",
+            "subClass": "subClass",
+            "equivalentClass": "equivalentClass",
+            "disjointClasses": "disjointClasses",
+            "equivalentObjectProperty": "equivalentObjectProperty",
+            "objectPropertyCharacteristic": "objectPropertyCharacteristic",
+            "inverseObjectProperties": "inverseObjectProperties",
+            "subObjectProperty": "subObjectProperty",
+            "dataPropertyCharacteristic": "dataPropertyCharacteristic"
+        }
 
-        command = ["java", "-jar", jar_file, file_name]
+        # Verificar qué opciones de inferencia se proporcionaron y construir la lista de argumentos
+        selected_inferences = []
+        if inference_options:
+            for option in inference_options:
+                if option in valid_inference_options:
+                    selected_inferences.append(valid_inference_options[option])
+                else:
+                    print(f"Opción de inferencia no válida: {option}")
+
+        if replace:
+            # Preparación para la inferencia
+            # Crear el nombre para la copia con el sufijo "_INF"
+            # Obtener la carpeta y el nombre del archivo original
+            folder_path = os.path.dirname(file_name)
+            base_name = os.path.basename(file_name)
+            copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
+            shutil.copy(file_name, copy_file_name)
+
+            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
+            # Construye el comando completo con los parámetros adicionales
+            command_inference = ["java", "-jar", razonador, copy_file_name] + selected_inferences
+        else:
+            output_file = file_name
+            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
+            # Construye el comando completo con los parámetros adicionales
+            command_inference = ["java", "-jar", razonador, file_name] + selected_inferences
+
+
         try:
-            subprocess.run(command, check=True)
+            subprocess.run(command_inference, check=True)
+            if replace:
+                print(f"Ontología mejorada guardada en '{copy_file_name}'.")
+                self.load_rdf_file(copy_file_name)
 
-        except subprocess.CalledProcessError as e:
-            print(f"Error al ejecutar el archivo .jar: {e}")
-            return False
+            else:
+                print(f"Ontología mejorada guardada correctamente'.")
+                self.load_rdf_file(file_name)
 
-        output_file = f"{base_name}2{ext}"
-        jar_file = "razonador/razonadorHermiT-jar-with-dependencies.jar"  # Ruta al archivo .jar
-        command = ["java", "-jar", jar_file, file_name,output_file]
-        try:
-            subprocess.run(command, check=True)
-            print(f"Ontología mejorada guardada en '{output_file}'.")
-            self.load_rdf_file(output_file)
+
+
+
             return True
         except subprocess.CalledProcessError as e:
-            print(f"Error al ejecutar el archivo .jar: {e}")
+            print(f"Error al ejecutar el archivo de inferencia .jar: {e}")
             return False
 
     def get_project_instances(self):
@@ -99,6 +144,7 @@ class OntologyLoader:
         }}
         """
         return self.graph.query(objectives_query)
+
 
     def get_reformulaciones_objetivos_for_project(self, project_instance):
         """Retorna los objetivos relacionados con un proyecto."""

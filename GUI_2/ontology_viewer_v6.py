@@ -1,12 +1,15 @@
 import rdflib
+from rdflib import Graph, Literal, Namespace,RDFS
 from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtWidgets import QVBoxLayout, QScrollArea, QLabel, QHBoxLayout, QCheckBox, QFileDialog, QDialog, QTextEdit, QWidget, QFrame, QGridLayout,QLineEdit,QPushButton,QTabWidget
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem,QHeaderView, QComboBox
 from PyQt6.QtCore import QPropertyAnimation, QEasingCurve
 
+
 import main
 from ontology_loader_v6 import OntologyLoader
 from clickable_widgets_v6 import ClickableFrame
+from carga_xcel import *
 
 from main import *
 import json  # Añadir esta línea al inicio para cargar JSON
@@ -21,13 +24,19 @@ class OntologyViewer(QtWidgets.QMainWindow):
     def __init__(self):
         super(OntologyViewer, self).__init__()
         self.loader = OntologyLoader()  # Instancia del nuevo manejador de ontologías
-        self.setWindowTitle('Ontology Viewer')
+        self.version = 'beta'
+        self.file_path = ''
+
+        self.update_window_title(None)
+
         self.setGeometry(100, 100, 1200, 600)
         self.graph = rdflib.Graph()  # Grafo RDF
         self.is_all_sections_active = True
         self.is_secondary_sections_active = True
         self.is_third_sections_active = True
         self.ontology_file = ""
+        self.is_maximized = False
+
 
         # Inicializamos tecnica_buttons como un diccionario vacío
         self.tecnica_buttons = {}
@@ -35,6 +44,29 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Crear el área de desplazamiento (scroll area)
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setWidgetResizable(True)
+        # Personalizar la barra de desplazamiento
+        self.scroll_area.setStyleSheet("""
+                   QScrollBar:vertical {
+                       background-color: #f0f0f0;    /* Color de fondo de la barra de scroll */
+                       width: 25px;                   /* Ancho de la barra */
+                       margin: 15px 3px 15px 3px;     /* Márgenes superior, derecho, inferior, izquierdo */
+                       border-radius: 5px;            /* Bordes redondeados */
+                   }
+                   QScrollBar::handle:vertical {
+                       background-color: #3d52a0;     /* Color de la "manija" que se arrastra */
+                       min-height: 30px;              /* Altura mínima de la manija */
+                       border-radius: 5px;
+                   }
+                   QScrollBar::handle:vertical:hover {
+                       background-color: #7091e6;     /* Color de la manija al pasar el mouse */
+                   }
+                   QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                       background: none;              /* Quita las flechas al final de la barra */
+                   }
+                   QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                       background: none;              /* Quita el espacio entre el fondo y la manija */
+                   }
+               """)
 
         # Crear un widget central que contendrá todo el contenido
         self.central_widget = QtWidgets.QWidget()
@@ -85,13 +117,197 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.load_button.clicked.connect(self.load_ontology)
         self.main_layout.addWidget(self.load_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        # Checkbox para la inferencia
-        self.infer_checkbox = QtWidgets.QCheckBox("Validar e inferir ontología", self)
-        self.infer_checkbox.setStyleSheet("""
-            font-size: 16px; color: black;
-            font-family: 'Segoe UI', Arial, sans-serif;
+        #BOTONES DE INFERENCIA
+        # Crear el botón para mostrar/ocultar el recuadro de configuración avanzada
+        self.advanced_settings_button = QtWidgets.QPushButton("Configuración avanzada")
+        self.advanced_settings_button.setIcon(QtGui.QIcon('icons/advance_configuracion.png'))
+        self.advanced_settings_button.setCheckable(True)  # Permite que el botón mantenga su estado (presionado o no)
+
+        self.advanced_settings_button.setStyleSheet("""
+            QPushButton {
+                font-size: 12px;
+                color: #4c89f7;
+                background-color: transparent;
+                border: none;
+                text-decoration: underline;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                color: #6a9ef7;
+            }
         """)
-        self.main_layout.addWidget(self.infer_checkbox, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.advanced_settings_button.clicked.connect(self.toggle_advanced_settings)
+
+
+        self.cargar_con_excel = QtWidgets.QPushButton("Cargar con excel")
+        self.cargar_con_excel.setIcon(QtGui.QIcon('icons/advance_configuracion.png'))
+        self.cargar_con_excel.setStyleSheet("""
+                    QPushButton {
+                        font-size: 12px;
+                        color: #4c89f7;
+                        background-color: transparent;
+                        border: none;
+                        text-decoration: underline;
+                        padding: 5px;
+                    }
+                    QPushButton:hover {
+                        color: #6a9ef7;
+                    }
+                """)
+        self.cargar_con_excel.clicked.connect(lambda: load_excel_and_populate_ontology(self))
+
+        # Crear el contenedor y aplicar estilo
+        self.checkbox_container = QtWidgets.QGroupBox()
+        self.checkbox_container.setVisible(False)  # Ocultar el recuadro al inicio
+        self.checkbox_container_layout = QtWidgets.QVBoxLayout(self.checkbox_container)
+
+        # Crear un layout horizontal para el título y el botón de ayuda
+        title_layout = QtWidgets.QHBoxLayout()
+        title_label = QtWidgets.QLabel("Opciones de Inferencia")
+        title_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #333;")
+
+        # Crear botón de ayuda
+        self.help_button = QtWidgets.QPushButton("?")
+        self.help_button.setFixedSize(20, 20)
+        self.help_button.setStyleSheet("""
+            QPushButton {
+                font-size: 12px;
+                font-weight: bold;
+                color: white;
+                background-color: #4c89f7;
+                border-radius: 10px;
+                padding: 0;
+            }
+            QPushButton:hover {
+                background-color: #5c9aff;
+            }
+        """)
+        self.help_button.clicked.connect(self.show_help_dialog)
+
+        # Agregar el título y botón de ayuda al layout del título
+        title_layout.addWidget(title_label)
+        title_layout.addWidget(self.help_button)
+        title_layout.addStretch()
+
+        # Agregar el layout del título al layout principal del contenedor
+        self.checkbox_container_layout.addLayout(title_layout)
+
+
+        # Crear un QGridLayout para organizar los checkboxes en varias filas y columnas
+        self.checkbox_layout = QtWidgets.QGridLayout()
+        self.checkbox_layout.setContentsMargins(10, 10, 10, 10)  # Ajustar márgenes
+
+        # Crear los checkboxes individuales
+        self.replaceFile_checkbox = QtWidgets.QCheckBox("Reemplazar Archivo")
+        self.classAssertions_checkbox = QtWidgets.QCheckBox("Class Assertions")
+        self.classAssertions_checkbox.setChecked(True)  # Marcar este checkbox por defecto
+        self.propertyAssertions_checkbox = QtWidgets.QCheckBox("Property Assertions")
+        self.propertyAssertions_checkbox.setChecked(True)  # Marcar este checkbox por defecto
+        self.subClass_checkbox = QtWidgets.QCheckBox("Subclass")
+        self.equivalentClass_checkbox = QtWidgets.QCheckBox("Equivalent Class")
+        self.disjointClasses_checkbox = QtWidgets.QCheckBox("Disjoint Classes")
+        self.equivalentObjectProperty_checkbox = QtWidgets.QCheckBox("Equivalent Object Property")
+        self.objectPropertyCharacteristic_checkbox = QtWidgets.QCheckBox("Object Property Characteristic")
+        self.inverseObjectProperties_checkbox = QtWidgets.QCheckBox("Inverse Object Properties")
+        self.subObjectProperty_checkbox = QtWidgets.QCheckBox("Sub Object Property")
+        self.dataPropertyCharacteristic_checkbox = QtWidgets.QCheckBox("Data Property Characteristic")
+        self.justLoadNoInference = QtWidgets.QCheckBox("Cargar Sin Inferencia")
+
+        # Lista de checkboxes y posición en una cuadrícula de tres columnas
+        checkboxes = [
+            (self.replaceFile_checkbox, 0, 0),
+            (self.classAssertions_checkbox, 0, 1),
+            (self.subClass_checkbox, 0, 2),
+            (self.propertyAssertions_checkbox, 1, 0),
+            (self.disjointClasses_checkbox, 1, 1),
+            (self.equivalentObjectProperty_checkbox, 1, 2),
+            (self.objectPropertyCharacteristic_checkbox, 2, 0),
+            (self.inverseObjectProperties_checkbox, 2, 1),
+            (self.subObjectProperty_checkbox, 2, 2),
+            (self.dataPropertyCharacteristic_checkbox, 3, 0),
+            (self.equivalentClass_checkbox, 3, 1),
+            (self.justLoadNoInference, 3, 2)
+        ]
+
+        # Estilo individual para cada checkbox
+        for checkbox, row, col in checkboxes:
+            if row + col == 0:
+                checkbox.setStyleSheet("""
+                    QCheckBox {
+                        font-size: 14px;
+                        color: #333;
+                        font-family: 'Segoe UI', Arial, sans-serif;
+                        padding: 5px;
+                    }
+                    QCheckBox::indicator {
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 3px;
+                    }
+                    QCheckBox::indicator:checked {
+                        background-color: #b85252;
+                        border: 1px solid #b85252;
+                    }
+                    QCheckBox::indicator:unchecked {
+                        background-color: #c0c0c0;
+                        border: 1px solid #a0a0a0;
+                    }
+                """)
+            elif row + col == 5:
+                checkbox.setStyleSheet("""
+                    QCheckBox {
+                        font-size: 14px;
+                        color: #333;
+                        font-family: 'Segoe UI', Arial, sans-serif;
+                        padding: 5px;
+                    }
+                    QCheckBox::indicator {
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 3px;
+                    }
+                    QCheckBox::indicator:checked {
+                        background-color: #008f39;
+                        border: 1px solid #4c89f7;
+                    }
+                    QCheckBox::indicator:unchecked {
+                        background-color: #c0c0c0;
+                        border: 1px solid #a0a0a0;
+                    }
+                """)
+            else:
+                checkbox.setStyleSheet("""
+                                    QCheckBox {
+                                        font-size: 14px;
+                                        color: #333;
+                                        font-family: 'Segoe UI', Arial, sans-serif;
+                                        padding: 5px;
+                                    }
+                                    QCheckBox::indicator {
+                                        width: 18px;
+                                        height: 18px;
+                                        border-radius: 3px;
+                                    }
+                                    QCheckBox::indicator:checked {
+                                        background-color: #4c89f7;
+                                        border: 1px solid #4c89f7;
+                                    }
+                                    QCheckBox::indicator:unchecked {
+                                        background-color: #c0c0c0;
+                                        border: 1px solid #a0a0a0;
+                                    }
+                                """)
+            self.checkbox_layout.addWidget(checkbox, row, col, alignment=QtCore.Qt.AlignmentFlag.AlignLeft)
+
+        # Agregar el layout de los checkboxes al layout del contenedor
+        self.checkbox_container_layout.addLayout(self.checkbox_layout)
+
+        # Agregar el botón de "Configuración avanzada" y el contenedor al layout principal
+        # Posicionar el botón de "Configuración avanzada" debajo del botón "Cargar ontología" en el layout
+        self.main_layout.addWidget(self.advanced_settings_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.main_layout.addWidget(self.checkbox_container)
+
+        self.main_layout.addWidget(self.cargar_con_excel)
 
         # Crear área y layout de instancias
         self.instance_area = QtWidgets.QWidget(self)
@@ -109,6 +325,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.loading_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.loading_label.setStyleSheet("font-size: 16px; font-weight: bold; color: black;")
         self.main_layout.addWidget(self.loading_label)
+        # Mensaje de carga y ruedita
+        self.sub_loading_label = QtWidgets.QLabel("", self)
+        self.sub_loading_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.sub_loading_label.setStyleSheet("font-size: 14px; font-weight: bold; color: grey;")
+        self.main_layout.addWidget(self.sub_loading_label)
 
         self.loading_wheel = QtWidgets.QLabel(self)
         self.loading_wheel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -118,6 +339,149 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Cargar la animación de la ruedita giratoria
         self.movie = QtGui.QMovie("icons/spinner.gif")
         self.loading_wheel.setMovie(self.movie)
+
+    def update_window_title(window, rdf_path=None):
+        # Título base
+        title = 'Ontology Viewer'
+
+        # Agregar versión y path si están definidos
+        title += f' - Version: v1.0.13'
+        if rdf_path:
+            title += f' - Archivo de ontologia: {rdf_path}'
+
+        # Establecer el nuevo título en la ventana
+        window.setWindowTitle(title)
+
+    # Función para mostrar u ocultar el contenedor de configuración avanzada
+    def toggle_advanced_settings(self):
+        if self.advanced_settings_button.isChecked():
+            self.checkbox_container.setVisible(True)
+        else:
+            self.checkbox_container.setVisible(False)
+
+    # Función para mostrar el diálogo de ayuda con formato
+    def show_help_dialog(self):
+        dialog = QtWidgets.QDialog(self)
+        dialog.setWindowTitle("Información de Ayuda")
+        dialog.setMinimumSize(400, 300)
+
+        # Texto con formato HTML
+        help_text = """
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendación de Generadores de Axiomas</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; line-height: 1.6; }
+        .container { max-width: 800px; margin: auto; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        h2 { color: #444; }
+        .generator { background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+        .recommendation { background-color: #e8f5e9; padding: 10px; border-radius: 5px; }
+        .note { font-style: italic; color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Seleccion de Generadores de Axiomas</h1>
+    <div class="recommendation">
+        <h2>Recomendaciones Generales</h2>
+        <p><strong>Para empezar:</strong> Si no estas familiarizado con el uso de Generadores de Axiomas, usa <em>Class Assertions</em> y <em>Property Assertions</em>.</p>
+        <p><strong>Tiempo de Ejecucion:</strong> Si bien agregar mas Generadores puede obtener inferencias nuevas para ontologias personalizadas, tambien aumenta exponencialmente el tiempo de carga.</p>
+    </div>
+    <div class="generator">
+        <h2>Reemplazar Archivo</h2>
+        <p><strong>¿Qué hace?</strong> Indica que el resultado de las inferencias se debe guardar en el archivo original, expandiendo el mismo.</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo si no hay problema con modificar el archivo original de la ontologia con las inferencias obtenidas por los Generadores de Axiomas elegidos.</p>
+        </div>
+    </div> 
+    <br>
+    <p><strong>Para elegir qué generadores de axiomas utilizar, aquí tienes una descripción simple de cada tipo con recomendaciones: </<strong></p>
+
+    <div class="generator">
+        <h2>Class Assertions (Afirmaciones de Clase)</h2>
+        <p><strong>¿Qué hace?</strong> Identifica automáticamente a qué clases pertenecen los individuos en la ontología.</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo si necesitas ver que, por ejemplo, "Juan es un Estudiante" sin definirlo explícitamente cada vez.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Property Assertions (Afirmaciones de Propiedad)</h2>
+        <p><strong>¿Qué hace?</strong> Encuentra relaciones específicas entre individuos, como "Juan vive en Bogotá".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo cuando quieras conocer las relaciones entre los elementos de tu ontología.</p>
+    </div>
+
+    <div class="generator">
+        <h2>SubClass (Subclase)</h2>
+        <p><strong>¿Qué hace?</strong> Deduce relaciones de subclase, como que "Estudiante" es un tipo de "Persona".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo si te interesa ver cómo se estructuran jerárquicamente tus categorías.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Equivalent Class (Clase Equivalente)</h2>
+        <p><strong>¿Qué hace?</strong> Declara que dos clases son lo mismo, como "Alumno" y "Estudiante".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo cuando tienes diferentes nombres o términos para el mismo concepto.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Disjoint Classes (Clases Disjuntas)</h2>
+        <p><strong>¿Qué hace?</strong> Identifica clases que no comparten elementos, como "Perro" y "Gato".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo si necesitas evitar que se mezclen clases incompatibles.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Equivalent Object Property (Propiedad de Objeto Equivalente)</h2>
+        <p><strong>¿Qué hace?</strong> Encuentra propiedades que significan lo mismo, como "esPadreDe" y "esProgenitorDe".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo para combinar relaciones o términos sinónimos.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Object Property Characteristic (Característica de Propiedad de Objeto)</h2>
+        <p><strong>¿Qué hace?</strong> Detecta propiedades especiales, como aquellas que son simétricas o transitivas.</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo para propiedades con reglas específicas, como relaciones recíprocas.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Inverse Object Properties (Propiedades Inversas)</h2>
+        <p><strong>¿Qué hace?</strong> Define que una propiedad es la inversa de otra, como "esPadreDe" y "esHijoDe".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo para entender relaciones desde ambas perspectivas.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Sub Object Property (Subpropiedad de Objeto)</h2>
+        <p><strong>¿Qué hace?</strong> Deduce que una relación es un tipo de otra, como "esDueñoDe" siendo un tipo de "posee".</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo para estructurar relaciones en categorías más específicas.</p>
+    </div>
+
+    <div class="generator">
+        <h2>Data Property Characteristic (Característica de Propiedad de Datos)</h2>
+        <p><strong>¿Qué hace?</strong> Gestiona características de propiedades de datos, como valores únicos.</p>
+        <p><strong>¿Cuándo usarlo?</strong> Úsalo si trabajas con muchos datos específicos y necesitas reglas sobre ellos.</p>
+    </div>
+
+    
+</div>
+
+</body>
+</html>
+
+        """
+
+        # Crear un QTextEdit para mostrar el texto de ayuda
+        text_edit = QtWidgets.QTextEdit()
+        text_edit.setReadOnly(True)
+        text_edit.setHtml(help_text)
+
+        # Layout del diálogo
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(text_edit)
+        dialog.setLayout(layout)
+
+        # Mostrar el diálogo
+        dialog.exec()
+
 
     def show_info_message(self, title, message):
         # Crear un cuadro de mensaje de información
@@ -129,59 +493,145 @@ class OntologyViewer(QtWidgets.QMainWindow):
         msg_box.exec()
 
     def load_ontology(self):
+
         file_name, _ = QFileDialog.getOpenFileName(self, "Abrir archivo RDF", "", "RDF Files (*.rdf);;All Files (*)")
         if file_name:
+            self.advanced_settings_button.setVisible(False)
+            self.cargar_con_excel.setVisible(False)
+            self.checkbox_container.setVisible(False)
+
             self.ontology_file = file_name
-            try:
-                # Validar la ontología primero
-                if self.infer_checkbox.isChecked():
-                    self.validation_label.setText("Validando ontología...")
-                    QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
 
-                    is_consistent = self.loader.validate_ontology(file_name)  # Validar ontología
-
-                    if is_consistent:
-                        self.validation_label.setText("La ontología es consistente.")
-                        QtCore.QCoreApplication.processEvents()
-
-                    else:
-                        self.validation_label.setText("Error: La ontología no es consistente.")
-                        QtCore.QCoreApplication.processEvents()
-                        return  # Si no es consistente, detener el proceso
-
-                    # Forzar la actualización de la interfaz antes de continuar
-                    QtCore.QCoreApplication.processEvents()
-
-                    # Mostrar mensaje de carga y ruedita giratoria
-                    self.loading_label.setText("Cargando ontología")
-                    self.loading_wheel.setVisible(True)
-                    self.movie.start()
-                    QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
-                    self.loader.validate_and_infer_ontology(file_name)  # Validar ontología
-
-                    # Cargar la ontología
-
-                    self.load_button.setVisible(False)
-                    self.display_project_instances()
-                else:
-                    self.loading_label.setText("Cargando ontología")
-                    self.loading_wheel.setVisible(True)
-                    self.movie.start()
-                    QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
-                    # Cargar la ontología
-                    self.loader.load_rdf_file(file_name)  # Cargar RDF sin razonador
-                    self.load_button.setVisible(False)
-                    self.display_project_instances()
-
-
-            finally:
+            if self.justLoadNoInference.isChecked():
+                self.loader.validate_and_infer_ontology(file_name,False,True)
+                # Cargar la ontología
+                self.load_button.setVisible(False)
+                self.display_project_instances()
 
                 # Limpiar mensajes y detener la animación de la ruedita giratoria
-                if self.infer_checkbox.isChecked() and is_consistent:
-                    self.validation_label.setText("")  # Limpiar mensaje de validación
-                self.loading_label.setText("")  # Limpiar mensaje de carga
-                self.movie.stop()
-                self.loading_wheel.setVisible(False)
+
+                self.main_layout.removeWidget(self.loading_label)
+                self.loading_label.deleteLater()  # Libera el recurso del QLabel
+                self.loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+                self.main_layout.removeWidget(self.sub_loading_label)
+                self.sub_loading_label.deleteLater()  # Libera el recurso del QLabel
+                self.sub_loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+                self.update_window_title(file_name)
+                return
+            # Validar la ontología primero
+
+            self.validation_label.setText("Validando ontología...")
+            QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
+
+            is_consistent = self.loader.validate_ontology(file_name)  # Validar ontología
+
+            if is_consistent:
+                self.validation_label.setText("La ontología es consistente.")
+                QtCore.QCoreApplication.processEvents()
+                self.main_layout.removeItem(self.spacerInit)
+                del self.spacerInit  # Elimina la referencia al espaciador
+
+            else:
+                self.validation_label.setText("Error: La ontología no es consistente.")
+                self.advanced_settings_button.setVisible(True)
+                QtCore.QCoreApplication.processEvents()
+                return  # Si no es consistente, detener el proceso
+
+            # Forzar la actualización de la interfaz antes de continuar
+            QtCore.QCoreApplication.processEvents()
+
+            demora = 0
+            # Recopilar las opciones de inferencia seleccionadas en los checkboxes
+            selected_inferences = []
+            if self.classAssertions_checkbox.isChecked():
+                selected_inferences.append("classAssertions")
+                demora += 1
+            if self.propertyAssertions_checkbox.isChecked():
+                selected_inferences.append("propertyAssertions")
+                demora += 3
+            if self.subClass_checkbox.isChecked():
+                selected_inferences.append("subClass")
+                demora += 1
+            if self.equivalentClass_checkbox.isChecked():
+                selected_inferences.append("equivalentClass")
+                demora += 1
+            if self.disjointClasses_checkbox.isChecked():
+                selected_inferences.append("disjointClasses")
+                demora += 1
+            if self.equivalentObjectProperty_checkbox.isChecked():
+                selected_inferences.append("equivalentObjectProperty")
+                demora += 3
+            if self.objectPropertyCharacteristic_checkbox.isChecked():
+                selected_inferences.append("objectPropertyCharacteristic")
+                demora += 3
+            if self.inverseObjectProperties_checkbox.isChecked():
+                selected_inferences.append("inverseObjectProperties")
+                demora += 2
+            if self.subObjectProperty_checkbox.isChecked():
+                selected_inferences.append("subObjectProperty")
+                demora += 3
+            if self.dataPropertyCharacteristic_checkbox.isChecked():
+                selected_inferences.append("dataPropertyCharacteristic")
+                demora += 1
+
+
+            if demora < 1.5:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+            elif demora < 3:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos")
+
+            elif demora < 5:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos. Por favor sea paciente")
+            else:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos. Por favor sea paciente")
+
+            self.loading_wheel.setVisible(True)
+            self.movie.start()
+
+            QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
+
+
+            # Llamar a la función para validar e inferir ontología con las opciones seleccionadas
+
+
+            if self.replaceFile_checkbox.isChecked():
+                self.loader.validate_and_infer_ontology(file_name,False, False, selected_inferences)
+                self.update_window_title(file_name)
+            else:
+                self.loader.validate_and_infer_ontology(file_name, True, False, selected_inferences)
+                folder_path = os.path.dirname(file_name)
+                base_name = os.path.basename(file_name)
+                copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
+                self.update_window_title(copy_file_name)
+
+
+
+            # Cargar la ontología
+            self.load_button.setVisible(False)
+
+            self.display_project_instances()
+
+
+            # Limpiar mensajes y detener la animación de la ruedita giratoria
+            if is_consistent:
+                self.validation_label.setText("")  # Limpiar mensaje de validación
+            self.loading_label.setText("")  # Limpiar mensaje de carga
+
+            self.main_layout.removeWidget(self.loading_label)
+            self.loading_label.deleteLater()  # Libera el recurso del QLabel
+            self.loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+            self.main_layout.removeWidget(self.sub_loading_label)
+            self.sub_loading_label.deleteLater()  # Libera el recurso del QLabel
+            self.sub_loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+            self.movie.stop()
+            self.loading_wheel.setVisible(False)
 
     def run_external_program(self):
         # Ejecutar el programa `main.py` con la ruta al archivo RDF como argumento
@@ -201,8 +651,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.title_label.deleteLater()  # Libera el recurso del QLabel
         self.title_label = None  # Opcional: elimina la referencia para evitar posibles errores
 
-        self.main_layout.removeItem(self.spacerInit)
-        del self.spacerInit  # Elimina la referencia al espaciador
+        #self.main_layout.removeItem(self.spacerInit)
+        #del self.spacerInit  # Elimina la referencia al espaciador
 
         # Crear un QFrame para contener el ComboBox, el botón y los textos
         project_frame = QFrame(self)
@@ -361,7 +811,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         for i in range(self.main_layout.count()):
             item = self.main_layout.itemAt(i)
             widget = item.widget()
-            if isinstance(widget, QtWidgets.QCheckBox) and widget is self.infer_checkbox:
+            if widget is self.checkbox_layout:
                 # Eliminar el checkbox encontrado
                 widget.deleteLater()
                 break
@@ -377,6 +827,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 elif isinstance(widget, QtWidgets.QPushButton) and widget is self.visualizar_button:
                     # Eliminar el botón "Visualizar" encontrado
                     widget.deleteLater()
+                # Recorrer los elementos del layout en reversa para eliminar cada uno
 
     def display_custom_queries_section(self):
         """
@@ -387,13 +838,27 @@ class OntologyViewer(QtWidgets.QMainWindow):
         - Botones de consulta organizados en pestañas de acuerdo al grupo
         - Un área de visualización de información dentro del mismo marco
         """
-        # Buscar y eliminar solo el checkbox "infer_checkbox"
-        for i in range(self.main_layout.count()):
+        # Buscar y eliminar el QGridLayout que contiene los checkboxes en el main_layout
+        for i in reversed(range(self.main_layout.count())):
             item = self.main_layout.itemAt(i)
             widget = item.widget()
-            if isinstance(widget, QtWidgets.QCheckBox) and widget is self.infer_checkbox:
-                widget.deleteLater()
-                break
+
+            # Si el item es un layout y es igual a checkbox_layout
+            if widget is None and isinstance(item.layout(), QtWidgets.QGridLayout):
+                layout = item.layout()
+                if layout == self.checkbox_layout:
+                    # Eliminar todos los checkboxes dentro de checkbox_layout
+                    for j in reversed(range(layout.count())):
+                        sub_item = layout.itemAt(j)
+                        sub_widget = sub_item.widget()
+                        if sub_widget:
+                            sub_widget.setParent(None)  # Quitar widget del layout
+
+                    # Eliminar el layout en sí mismo
+                    self.main_layout.removeItem(item)
+                    layout.deleteLater()  # Eliminar el layout
+                    self.checkbox_layout = None  # Eliminar referencia
+
 
         # Crear el contenedor principal de la sección para ocupar todo el ancho
         section_container = QFrame(self)
@@ -898,17 +1363,20 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def clear_layout(self, layout):
         """
-        Elimina todos los widgets en un layout dado.
+        Elimina todos los widgets en un layout dado, excepto la barra de título.
         """
-        while layout.count():
-            item = layout.takeAt(0)
+        for i in reversed(range(layout.count())):
+            item = layout.itemAt(i)
             widget = item.widget()
 
+            # Eliminar widget o sublayout
             if widget is not None:
                 widget.deleteLater()
             elif item.layout() is not None:
-                # Solo llama a clear_layout si el item tiene un sublayout
+                # Llama recursivamente para sublayouts
                 self.clear_layout(item.layout())
+
+            layout.removeItem(item)  # Elimina el ítem del layout
 
     def create_instance_window(self, project_instance, project_name, row, col):
         # Crear el frame clickeable para la instancia
@@ -1008,13 +1476,9 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.instance_layout.addWidget(instance_frame, row, col)
 
     def display_buttons_between_sections(self):
-        """
-        Muestra los botones para alternar la visibilidad de secciones específicas dentro de un marco bien delimitado.
-        Incluye un título, botones de filtro y un subtítulo dentro del marco.
-        """
-        # Crear un QFrame para contener el título, los botones y el subtítulo
-        filter_frame = QFrame(self)
-        filter_frame.setStyleSheet("""
+        # Crear un QFrame para contener la lista de instancias inferidas y el botón de "Ver inferencias"
+        inferred_frame = QFrame(self)
+        inferred_frame.setStyleSheet("""
             QFrame {
                 background-color: #f9f9f9;
                 border: 1px solid #d3d3d3;
@@ -1023,91 +1487,168 @@ class OntologyViewer(QtWidgets.QMainWindow):
             }
         """)
 
-        # Crear un layout vertical para el marco que contenga la fila de título + botones y el subtítulo
-        section_layout = QVBoxLayout(filter_frame)
-        section_layout.setContentsMargins(20, 10, 20, 10)
-        section_layout.setSpacing(10)
+        # Crear un layout vertical para el QFrame
+        inferred_layout = QVBoxLayout(inferred_frame)
+        inferred_layout.setContentsMargins(20, 10, 20, 10)
+        inferred_layout.setSpacing(10)
 
-        # Crear un layout horizontal para el título y los botones
-        title_buttons_layout = QHBoxLayout()
-
-        # Título "Filtros por área" alineado a la izquierda en la misma fila que los botones
-        title_label = QLabel("Filtros por área", self)
-        title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter)  # Alineación vertical central
+        # Título para la sección
+        title_label = QLabel("Instancias Inferidas por el Razonador", self)
+        #title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("""
             font-size: 20px;
             font-weight: bold;
             color: #4a90e2;
             font-family: 'Arial', sans-serif;
-            padding: 0 10px;  /* Ajustar el padding horizontal */
-            border: 0px solid #d3d3d3;
+            padding: 0 10px;
+            border: none;
         """)
-        title_buttons_layout.addWidget(title_label)
+        inferred_layout.addWidget(title_label)
 
-        # Layout para los botones con espaciado entre el título y los botones
-        title_buttons_layout.addSpacing(20)
+        # Botón para ver inferencias
+        self.view_inferences_button = QPushButton("Ver log de inferencias realizadas", self)
 
-        # Estilo de los botones
+        # Definir el estilo para el botón
         button_style = """
-            QPushButton {
-                font-size: 16px;
-                font-weight: bold;
-                color: #333333;
-                background-color: #f9f9f9;  /* Color de fondo igual al de la sección */
-                border: 1px solid #d3d3d3;
-                border-radius: 8px;
-                padding: 10px 20px;
-            }
-            QPushButton:hover {
-                background-color: #e0e0e0;  /* Color de fondo al pasar el mouse */
-            }
-            QPushButton:pressed {
-                background-color: #d0d0d0;  /* Color de fondo al presionar */
-            }
-            QPushButton[active="true"] {
-                background-color: #34a853;  /* Color verde cuando está activo */
-                color: white;  /* Cambia el color del texto cuando el botón está activo */
-            }
-        """
+                    QPushButton {
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #333333;
+                        background-color: #f9f9f9;
+                        border: 1px solid #d3d3d3;
+                        border-radius: 8px;
+                        padding: 10px 20px;
+                    }
+                    QPushButton:hover {
+                        background-color: #e0e0e0;
+                    }
+                    QPushButton:pressed {
+                        background-color: #d0d0d0;
+                    }
+                """
+        self.view_inferences_button.setStyleSheet(button_style)
+        # Crear el botón "Cargar Objetivos" y aplicar el estilo
 
-        # Botón para alternar la visibilidad de las secciones principales
-        self.btn_toggle_all_sections = QtWidgets.QPushButton("Formulación")
-        self.btn_toggle_all_sections.setStyleSheet(button_style)
-        self.update_button_style(self.btn_toggle_all_sections, self.is_all_sections_active)
-        self.btn_toggle_all_sections.clicked.connect(self.toggle_all_sections)
-        title_buttons_layout.addWidget(self.btn_toggle_all_sections)
+        self.view_inferences_button.clicked.connect(self.show_inferences)
+        inferred_layout.addWidget(self.view_inferences_button)
 
-        # Botón para alternar la visibilidad de las secciones secundarias
-        self.btn_toggle_secondary_sections = QtWidgets.QPushButton("Campo")
-        self.btn_toggle_secondary_sections.setStyleSheet(button_style)
-        self.update_button_style(self.btn_toggle_secondary_sections, self.is_secondary_sections_active)
-        self.btn_toggle_secondary_sections.clicked.connect(self.toggle_secondary_sections)
-        title_buttons_layout.addWidget(self.btn_toggle_secondary_sections)
-
-        # Botón para alternar la visibilidad de las secciones terciarias
-        self.btn_toggle_third_sections = QtWidgets.QPushButton("Análisis")
-        self.btn_toggle_third_sections.setStyleSheet(button_style)
-        self.update_button_style(self.btn_toggle_third_sections, self.is_third_sections_active)
-        self.btn_toggle_third_sections.clicked.connect(self.toggle_third_sections)
-        title_buttons_layout.addWidget(self.btn_toggle_third_sections)
-
-        # Añadir el layout horizontal (título + botones) al layout vertical de la sección
-        section_layout.addLayout(title_buttons_layout)
-
-        # Subtítulo "Seleccione el o las áreas por las que desea filtrar la información"
-        subtitle_label = QLabel("Seleccione el o las áreas por las que desea filtrar la información", self)
-        subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        subtitle_label.setStyleSheet("""
+        # Contenedor de texto para mostrar el contenido del archivo de inferencias
+        self.inference_text_display = QTextEdit(self)
+        self.inference_text_display.setReadOnly(True)
+        self.inference_text_display.setStyleSheet("""
             font-size: 14px;
-            color: #555555;
+            color: #333333;
             font-family: 'Arial', sans-serif;
-            margin-top: 10px;
-            border: 0px solid #d3d3d3;
+            background-color: #ffffff;
+            border: 1px solid #d3d3d3;
+            padding: 10px;
+            min-height: 300px;  /* Tamaño ampliado para facilitar la visualización */
         """)
-        section_layout.addWidget(subtitle_label)
+        inferred_layout.addWidget(self.inference_text_display)
+        self.inference_text_display.hide()  # Ocultarlo inicialmente
 
-        # Añadir el marco completo (con el layout de la sección) al layout principal
-        self.main_layout.addWidget(filter_frame)
+        # Botón para cargar más líneas
+        self.load_more_button = QPushButton("Cargar más", self)
+        self.load_more_button.setStyleSheet("""
+            font-size: 14px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+        """)
+        self.load_more_button.clicked.connect(self.load_more_inferences)
+        inferred_layout.addWidget(self.load_more_button)
+        self.load_more_button.hide()  # Ocultarlo inicialmente
+
+        # Añadir el frame completo al layout principal
+        self.main_layout.addWidget(inferred_frame)
+
+        # Variables para gestionar la carga de bloques
+        self.current_line = 0
+        self.inference_file_path = "inference_log.txt"
+
+    def remove_duplicates(self, file_path):
+        """Elimina líneas duplicadas y filtra líneas que contienen ciertos términos en el archivo especificado."""
+        temp_file_path = file_path + "_temp"
+
+        # Compilamos los términos a filtrar en una expresión regular para una verificación eficiente
+        filter_terms = re.compile(
+            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty")
+
+        with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
+            seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
+
+            for line in infile:
+                # Comprobar si la línea contiene alguno de los términos a filtrar
+                if filter_terms.search(line):
+                    continue
+
+                # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
+                parts = line.split("->", 1)
+                if len(parts) < 2:
+                    continue  # Si la línea no tiene '->', ignorarla (evitar errores)
+
+                content_after_arrow = parts[1].strip()  # Contenido después de '->'
+
+                # Verificar si el contenido después de '->' ya ha sido visto
+                if content_after_arrow not in seen_lines_content:
+                    outfile.write(line)  # Escribir línea única en el archivo temporal
+                    seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
+
+        os.replace(temp_file_path, file_path)
+
+    def show_inferences(self):
+        """Realiza limpieza del archivo, muestra las primeras 100 líneas, y oculta el botón 'Ver inferencias'."""
+        # Primero, eliminar líneas duplicadas en el archivo de inferencias
+        self.remove_duplicates(self.inference_file_path)
+
+        self.inference_text_display.clear()  # Limpiar el área de texto
+        self.current_line = 0  # Reiniciar el contador de líneas
+        self.view_inferences_button.hide()  # Ocultar el botón "Ver inferencias"
+
+        # Abrir el archivo una vez y guardar la referencia para cargar en bloques
+        try:
+            self.inference_file = open(self.inference_file_path, 'r')  # Mantener archivo abierto
+        except FileNotFoundError:
+            self.inference_text_display.setText("Archivo de inferencias no encontrado.")
+            return
+
+        self.load_more_inferences()  # Cargar las primeras líneas
+        self.inference_text_display.show()  # Mostrar el área de texto
+        self.load_more_button.show()  # Mostrar el botón de cargar más
+
+    def load_more_inferences(self):
+        """Carga 100 líneas adicionales del archivo de inferencias, formateadas con HTML y sin prefijo."""
+        lines_to_display = []
+        prefix = "<http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
+        try:
+            with open(self.inference_file_path, 'r') as file:
+                # Saltar líneas ya cargadas
+                for _ in range(self.current_line):
+                    file.readline()
+
+                # Leer el siguiente bloque de 100 líneas
+                for _ in range(100):
+                    line = file.readline()
+                    if not line:
+                        break
+                    # Eliminar el prefijo y agregar HTML para formatear el texto
+                    cleaned_line = line.replace(prefix, "").replace(">", "")
+                    formatted_line = f"<p style='margin: 5px 0;'><b>{cleaned_line}</b></p>"
+                    lines_to_display.append(formatted_line)
+
+                # Actualizar la posición actual en el archivo
+                self.current_line += len(lines_to_display)
+
+                # Agregar las líneas al display con HTML
+                self.inference_text_display.append("".join(lines_to_display))
+
+                # Si no hay más líneas, ocultar el botón de cargar más
+                if len(lines_to_display) < 100:
+                    self.load_more_button.hide()
+
+        except FileNotFoundError:
+            self.inference_text_display.setHtml("<p style='color: red;'>El archivo de inferencias no se encontró.</p>")
 
     def update_button_style(self, button, is_active):
         """
@@ -1119,13 +1660,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def show_project_view(self, project_instance, project_name):
         # Buscar y eliminar solo el checkbox "infer_checkbox"
-        for i in range(self.main_layout.count()):
-            item = self.main_layout.itemAt(i)
-            widget = item.widget()
-            if isinstance(widget, QtWidgets.QCheckBox) and widget is self.infer_checkbox:
-                # Eliminar el checkbox encontrado
-                widget.deleteLater()
-                break
+        # for i in range(self.main_layout.count()):
+        #     item = self.main_layout.itemAt(i)
+        #     widget = item.widget()
+        #     if isinstance(widget, QtWidgets.QCheckBox) and widget is self.infer_checkbox:
+        #         # Eliminar el checkbox encontrado
+        #         widget.deleteLater()
+        #         break
 
         # Crear un QFrame para contener el título y la sección de investigadores
         project_frame = QFrame(self)
@@ -1146,12 +1687,15 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Crear el título del proyecto
         project_title = QLabel(f"INVESTIGACION: {project_name}")
         project_title.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+
         project_title.setStyleSheet("""
-            font-size: 24px; font-weight: bold;
-            color: black; margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            border: 0px solid #d3d3d3;
-        """)
+                   font-size: 25px;
+                   font-weight: bold;
+                   color: #4a90e2;
+                   font-family: 'Arial', sans-serif;
+                   margin-bottom: 2px;
+                   border: none ;
+               """)
         project_layout.addWidget(project_title)
 
         # Mostrar la sección de Investigadores dentro del marco
@@ -1193,7 +1737,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Continuar mostrando las otras secciones en el layout principal fuera del marco
         self.display_new_section(project_instance)
-
+        self.display_buttons_between_sections()
         self.tab_widgetPrincipal = QtWidgets.QTabWidget()  # Crea el widget de pestañas
         self.main_layout.addWidget(self.tab_widgetPrincipal)  # Añade el QTabWidget al layout principal
         self.setLayout(self.main_layout)  # Configura el layout en la ventana principal
@@ -1235,6 +1779,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.diagram_window.show()
 
     def display_new_section(self, project_instance):
+
         # Crear el QFrame para la nueva sección "Resumen"
         section_frame = QFrame(self)
         section_frame.setStyleSheet("""
@@ -1252,7 +1797,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         section_layout.setSpacing(15)
 
         # Agregar el título de la sección 'Resumen'
-        section_title = QLabel("Resumen")
+        section_title = QLabel("Consultas predefinidas")
         section_title.setStyleSheet("""
             font-size: 22px;
             font-weight: bold;
@@ -1264,8 +1809,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
         section_layout.addWidget(section_title)
 
         # Subtítulo
-        subtitle_label = QLabel("Seleccione o ingrese una consulta...", self)
-        subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        subtitle_label = QLabel("Seleccione o ingrese una consulta para realizar sobre la investigacion elegida...", self)
+        #subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         subtitle_label.setStyleSheet("""
                     font-size: 15px;
                     color: #555555;
@@ -2165,71 +2710,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Asegurarse de que el contenedor se muestre con la nueva sección cargada
         self.marco_teorico_container.setVisible(True)
-
-    def toggle_all_sections(self):
-        """
-        Alterna la visibilidad de las secciones principales y cambia el estilo del botón.
-        """
-        is_any_visible = any([
-            self.objectives_container.isVisible(),
-            self.bibliografia_container.isVisible(),
-            self.marco_teorico_container.isVisible(),
-            self.estrategia_container.isVisible(),
-            self.tecnica_container.isVisible()
-        ])
-
-        # Si cualquiera de las secciones está visible, ocultarlas
-        self.objectives_container.setVisible(not is_any_visible)
-        self.bibliografia_container.setVisible(not is_any_visible)
-        self.estrategia_container.setVisible(not is_any_visible)
-        self.tecnica_container.setVisible(not is_any_visible)
-        self.marco_teorico_container.setVisible(not is_any_visible)
-
-        # Cambiar el estilo del botón según el estado
-        self.is_all_sections_active = not is_any_visible
-        self.update_button_style(self.btn_toggle_all_sections, self.is_all_sections_active)
-
-    def toggle_secondary_sections(self):
-        """
-        Alterna la visibilidad de las secciones secundarias y cambia el estilo del botón.
-        """
-        is_any_visible = any([
-            self.sujeto_u_objeto_container.isVisible(),
-            self.soporte_container.isVisible(),
-            self.registro_container.isVisible(),
-            self.informacion_container.isVisible()
-        ])
-
-        # Si cualquiera de las secciones está visible, ocultarlas
-        self.sujeto_u_objeto_container.setVisible(not is_any_visible)
-        self.soporte_container.setVisible(not is_any_visible)
-        self.registro_container.setVisible(not is_any_visible)
-        self.informacion_container.setVisible(not is_any_visible)
-
-        # Cambiar el estilo del botón según el estado
-        self.is_secondary_sections_active = not is_any_visible
-        self.update_button_style(self.btn_toggle_secondary_sections, self.is_secondary_sections_active)
-
-    def toggle_third_sections(self):
-        """
-        Alterna la visibilidad de las secciones terciarias y cambia el estilo del botón.
-        """
-        is_any_visible = any([
-            self.metadatos_container.isVisible(),
-            self.esquema_clasificacion_descriptiva_container.isVisible(),
-            self.esquema_clasificacion_analitica_container.isVisible(),
-            self.reporte_container.isVisible()
-        ])
-
-        # Si cualquiera de las secciones está visible, ocultarlas
-        self.metadatos_container.setVisible(not is_any_visible)
-        self.esquema_clasificacion_descriptiva_container.setVisible(not is_any_visible)
-        self.esquema_clasificacion_analitica_container.setVisible(not is_any_visible)
-        self.reporte_container.setVisible(not is_any_visible)
-
-        # Cambiar el estilo del botón según el estado
-        self.is_third_sections_active = not is_any_visible
-        self.update_button_style(self.btn_toggle_third_sections, self.is_third_sections_active)
 
     def display_bibliografia(self, project_instance):
         """

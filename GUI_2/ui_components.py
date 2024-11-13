@@ -1,18 +1,19 @@
 import os
 import tempfile
 
+from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import (
-    QMainWindow, QVBoxLayout, QWidget, QLabel, QComboBox, QLineEdit, QPushButton,
+    QMainWindow,  QComboBox,
     QMessageBox, QStackedWidget, QFormLayout, QSpacerItem, QSizePolicy, QCompleter
 )
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
+
 
 import utils
 from utils import cargar_ontologia, obtener_clases, obtener_relaciones, obtener_atributos, guardar_instancia, \
     ONTOLOGY_NAMESPACE
 from rdflib import URIRef, RDF
-
+from carga_xcel import *
 
 class OntologyApp(QMainWindow):
     def __init__(self, rdf_path):
@@ -64,6 +65,8 @@ class OntologyApp(QMainWindow):
         add_relation_button.setFixedHeight(40)
         add_relation_button.clicked.connect(self.mostrar_agregar_relacion)
         layout.addWidget(add_relation_button)
+
+
 
         # Crear el widget del menú principal
         menu_widget = QWidget()
@@ -272,28 +275,33 @@ class OntologyApp(QMainWindow):
             relacion_uri = URIRef(ONTOLOGY_NAMESPACE + relacion)
             instancia_destino_uri = URIRef(ONTOLOGY_NAMESPACE + instancia_destino)
             self.g.add((instancia_origen_uri, relacion_uri, instancia_destino_uri))
+            QMessageBox.information(self, "Éxito",
+                                    f"Relacion '{relacion_uri}' agregada.")
 
-            if self.validate_ontology():
-                QMessageBox.information(self, "Éxito", f"Relación '{relacion}' agregada entre '{instancia_origen}' y '{instancia_destino}'.")
-            else:
-                QMessageBox.warning(self, "Error de Validación", "La ontología no es válida después de agregar esta relación.")
         else:
             QMessageBox.warning(self, "Advertencia", "Por favor, completa todos los campos para agregar una relación.")
 
     def closeEvent(self, event):
-        """Valida la ontología antes de guardar al cerrar la aplicación."""
+        """Valida la ontología en un archivo temporal antes de guardar en el archivo principal."""
+        # Crear un archivo temporal para la validación
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".rdf")
-        temp_path = temp_file.name
-        temp_file.close()
+        temp_path = temp_file.name  # Ruta del archivo temporal
+        temp_file.close()  # Cerrar el archivo temporal para que pueda ser usado por la validación
 
+        # Guardar los cambios en el archivo temporal
         self.g.serialize(destination=temp_path, format="xml")
 
-        if utils.validate_ontology(temp_path):
+        # Validar la ontología en el archivo temporal usando la ruta del archivo
+        if utils.validate_ontology(temp_path):  # Usar temp_path en lugar de temp_file
+            # Si la validación es exitosa, guardar en el archivo principal
             self.g.serialize(destination=self.rdf_path, format="xml")
             QMessageBox.information(self, "Guardado", "Cambios guardados en el archivo RDF.")
-            event.accept()
+            event.accept()  # Cerrar la ventana
         else:
-            QMessageBox.warning(self, "Error de Validación", "La ontología no es válida. No se guardarán los cambios.")
-            event.ignore()
+            # Si la validación falla, mostrar advertencia y cancelar el cierre
+            QMessageBox.warning(self, "Error de Validación",
+                                "La ontología no es válida. No se guardarán los cambios.")
+            event.accept()  # Cerrar la ventana
 
+        # Eliminar el archivo temporal
         os.remove(temp_path)
