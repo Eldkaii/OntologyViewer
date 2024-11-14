@@ -19,11 +19,6 @@
             "grupo": "Registros",
             "nombre": "Obtener todos los registros",
             "consulta": "SELECT DISTINCT ?registro WHERE { ?registro rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro>  . }"
-        },
-        {
-            "grupo": "Prueba",
-            "nombre": "nombre prueba",
-            "consulta": "1"
         }
     ]
 }

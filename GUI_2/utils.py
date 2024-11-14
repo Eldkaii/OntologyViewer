@@ -31,23 +31,22 @@ def validate_ontology(file_name):
         return False
 
 def obtener_clases(g):
-    """Obtiene todas las clases definidas en la ontología."""
-    clases = []
+    """Obtiene todas las clases definidas en la ontología, eliminando duplicados."""
+    clases = set()
     for s in g.subjects(RDF.type, OWL.Class):
         if isinstance(s, URIRef) and s.startswith(ONTOLOGY_NAMESPACE):
-            clases.append(str(s).replace(str(ONTOLOGY_NAMESPACE), ""))
+            clases.add(str(s).replace(str(ONTOLOGY_NAMESPACE), ""))
     return sorted(clases)
 
 
+
 def obtener_relaciones(g):
-    """Obtiene todas las propiedades de objeto (relaciones) definidas en la ontología."""
-    relaciones = []
+    """Obtiene todas las propiedades de objeto (relaciones) definidas en la ontología, eliminando duplicados."""
+    relaciones = set()
     for s in g.subjects(RDF.type, OWL.ObjectProperty):
         if isinstance(s, URIRef) and s.startswith(ONTOLOGY_NAMESPACE):
-            relaciones.append(str(s).replace(str(ONTOLOGY_NAMESPACE), "").replace("_", " "))
+            relaciones.add(str(s).replace(str(ONTOLOGY_NAMESPACE), "").replace("_", " "))
     return sorted(relaciones)
-
-
 
 
 def obtener_atributos(g, clase):

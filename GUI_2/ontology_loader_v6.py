@@ -24,7 +24,7 @@ class OntologyLoader:
         command = ["java", "-jar", jar_file, file_name]
 
         try:
-            res = subprocess.run(command, capture_output=True, text=True, check=True)
+            res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
 
             # Captura la salida estándar del proceso (en caso de éxito)
             print(f"Validación exitosa: {res.stdout}")
@@ -88,7 +88,7 @@ class OntologyLoader:
 
 
         try:
-            subprocess.run(command_inference, check=True)
+            subprocess.run(command_inference, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
             if replace:
                 print(f"Ontología mejorada guardada en '{copy_file_name}'.")
                 self.load_rdf_file(copy_file_name)

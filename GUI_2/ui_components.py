@@ -1,26 +1,24 @@
 import os
 import tempfile
 
-from PyQt6 import QtWidgets
+
 from PyQt6.QtWidgets import (
     QMainWindow,  QComboBox,
     QMessageBox, QStackedWidget, QFormLayout, QSpacerItem, QSizePolicy, QCompleter
 )
 from PyQt6.QtCore import Qt
-
-
 import utils
 from utils import cargar_ontologia, obtener_clases, obtener_relaciones, obtener_atributos, guardar_instancia, \
     ONTOLOGY_NAMESPACE
-from rdflib import URIRef, RDF
 from carga_xcel import *
 
-class OntologyApp(QMainWindow):
+class OntologyAppEditor(QMainWindow):
     def __init__(self, rdf_path):
         super().__init__()
         self.rdf_path = rdf_path
         self.setWindowTitle("Editor de Ontología Avanzado")
         self.setFixedSize(500, 600)
+        self.force_close = False  # Bandera para forzar el cierre sin validar
 
         # Cargar y aplicar el archivo de estilo
         self.cargar_estilos()
@@ -66,6 +64,28 @@ class OntologyApp(QMainWindow):
         add_relation_button.clicked.connect(self.mostrar_agregar_relacion)
         layout.addWidget(add_relation_button)
 
+        # Botón para regresar al menú principal con confirmación
+        def confirmar_y_cerrar():
+            # Crear el cuadro de diálogo de confirmación
+            mensaje_confirmacion = QMessageBox()
+            mensaje_confirmacion.setWindowTitle("Confirmación")
+            mensaje_confirmacion.setText("¿Estás seguro de que deseas cerrar sin guardar?")
+            mensaje_confirmacion.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            mensaje_confirmacion.setDefaultButton(QMessageBox.StandardButton.No)
+
+            # Mostrar el cuadro de diálogo y verificar la respuesta
+            respuesta = mensaje_confirmacion.exec()
+
+            # Si el usuario confirma, activar la bandera y cerrar la ventana
+            if respuesta == QMessageBox.StandardButton.Yes:
+                self.force_close = True  # Activa la bandera para omitir la validación
+                self.close()  # Cierra la ventana actual
+        cerrar_sin_guardar_button = QPushButton("Cerrar sin guardar")
+        cerrar_sin_guardar_button.setFixedHeight(40)
+        cerrar_sin_guardar_button.clicked.connect(confirmar_y_cerrar)
+
+        layout.addWidget(cerrar_sin_guardar_button)
+
 
 
         # Crear el widget del menú principal
@@ -73,43 +93,6 @@ class OntologyApp(QMainWindow):
         menu_widget.setLayout(layout)
         return menu_widget
 
-    def crear_vista_agregar_instancia(self):
-        """Crea la interfaz para agregar una nueva instancia."""
-        layout = QVBoxLayout()
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(15)
-
-        layout.addWidget(QLabel("Clase:"))
-        self.class_combo = QComboBox()
-        self.class_combo.addItems(self.clases)
-        self.class_combo.currentIndexChanged.connect(self.mostrar_atributos_clase)
-        layout.addWidget(self.class_combo)
-
-        layout.addWidget(QLabel("Nombre de la Instancia:"))
-        self.instance_input = QLineEdit()
-        layout.addWidget(self.instance_input)
-
-        # Contenedor para los atributos dinámicos
-        self.atributos_layout = QFormLayout()
-        layout.addLayout(self.atributos_layout)
-
-        # Botón para guardar la instancia
-        save_instance_button = QPushButton("Guardar Instancia")
-        save_instance_button.setObjectName("actionButton")
-        save_instance_button.setFixedHeight(40)
-        save_instance_button.clicked.connect(self.agregar_instancia)
-        layout.addWidget(save_instance_button)
-
-        # Botón para regresar al menú principal
-        back_button = QPushButton("Volver")
-        back_button.setFixedHeight(40)
-        back_button.clicked.connect(self.mostrar_menu_principal)  # Conecta al menú principal
-        layout.addWidget(back_button)
-
-        # Crear el widget de agregar instancia
-        instance_widget = QWidget()
-        instance_widget.setLayout(layout)
-        return instance_widget
 
     def crear_vista_agregar_relacion(self):
         """Crea la interfaz para agregar una relación entre instancias usando comboboxes con filtrado."""
@@ -153,6 +136,13 @@ class OntologyApp(QMainWindow):
         back_button2.setFixedHeight(40)
         back_button2.clicked.connect(self.mostrar_menu_principal)  # Conecta al menú principal
         layout.addWidget(back_button2)
+
+
+
+
+
+
+
 
         # Crear el widget de agregar relación
         relation_widget = QWidget()
@@ -244,13 +234,13 @@ class OntologyApp(QMainWindow):
             self.atributo_inputs[atributo] = input_field
 
     def obtener_nombres_instancias(self):
-        """Devuelve una lista con los nombres de todas las instancias en el grafo RDF."""
-        nombres_instancias = []
+        """Devuelve una lista con los nombres únicos de todas las instancias en el grafo RDF."""
+        nombres_instancias = set()  # Usar un set para eliminar duplicados
         for s in self.g.subjects():
             if (s, RDF.type, URIRef("http://www.w3.org/2002/07/owl#NamedIndividual")) in self.g:
                 nombre = str(s).replace(str(ONTOLOGY_NAMESPACE), "")
-                nombres_instancias.append(nombre)
-        return sorted(nombres_instancias)
+                nombres_instancias.add(nombre)  # Agregar al set en lugar de una lista
+        return sorted(nombres_instancias)  # Convertir a lista ordenada
 
     def agregar_instancia(self):
         """Agrega una instancia a la ontología con sus atributos."""
@@ -281,8 +271,14 @@ class OntologyApp(QMainWindow):
         else:
             QMessageBox.warning(self, "Advertencia", "Por favor, completa todos los campos para agregar una relación.")
 
+    # Modificar el closeEvent para verificar la bandera
     def closeEvent(self, event):
         """Valida la ontología en un archivo temporal antes de guardar en el archivo principal."""
+        if self.force_close:
+            # Si la bandera está activa, omitir validación y solo cerrar
+            event.accept()  # Cierra la ventana sin validación
+            return
+
         # Crear un archivo temporal para la validación
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".rdf")
         temp_path = temp_file.name  # Ruta del archivo temporal

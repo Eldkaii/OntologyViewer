@@ -5,15 +5,7 @@ a = Analysis(
     ['ontology_viewer_v6.py'],
     pathex=[],
     binaries=[],
-    datas = [
-    ('consultas_personalizadas.json', '.'),  # Agrega el archivo JSON en el directorio raíz
-    ('preguntas_competencia.json', '.'),     # Otro archivo JSON en el directorio raíz
-    ('style.qss', '.'),                      # Archivo de estilo en el directorio raíz
-    ('icons', 'icons'),                      # Carpeta completa de icons en una carpeta `icons` en el ejecutable
-    ('base_documents', 'base_documents'),    # Carpeta completa de documentos base en el ejecutable
-    ('razonador', 'razonador'),              # Carpeta completa `razonador` en el ejecutable
-    ('inference_log.txt', '.')               # Archivo de log (opcional, dependiendo del uso)
-    ],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

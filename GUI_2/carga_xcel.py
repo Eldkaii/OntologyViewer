@@ -41,6 +41,9 @@ def load_excel_and_populate_ontology(self):
         if excel_path:
             # Procesar el archivo seleccionado (continuar con la lógica de carga)
             print(f"Archivo seleccionado: {excel_path}")
+        if not excel_path:
+            print("No se seleccionó un archivo Excel.")
+            return
 
     elif msg_box.clickedButton() == descargar_btn:
         # Descargar el archivo Excel de ejemplo
@@ -62,9 +65,7 @@ def load_excel_and_populate_ontology(self):
             return
 
 
-    if not excel_path:
-        print("No se seleccionó un archivo Excel.")
-        return
+
 
 
     # Crear un cuadro de mensaje con dos opciones
@@ -116,6 +117,8 @@ def load_excel_and_populate_ontology(self):
             QtWidgets.QMessageBox.warning(None, "Error", "El archivo de repositorio nuevo no se encontró.")
             return
 
+    if not selected_file_path or not excel_path:
+        return
     # Cargar la ontología base
     g = Graph()
     g.parse(selected_file_path)

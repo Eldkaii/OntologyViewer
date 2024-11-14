@@ -1,21 +1,18 @@
 import rdflib
-from rdflib import Graph, Literal, Namespace,RDFS
-from PyQt6 import QtWidgets, QtGui, QtCore
-from PyQt6.QtWidgets import QVBoxLayout, QScrollArea, QLabel, QHBoxLayout, QCheckBox, QFileDialog, QDialog, QTextEdit, QWidget, QFrame, QGridLayout,QLineEdit,QPushButton,QTabWidget
-from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem,QHeaderView, QComboBox
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve
-
+from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, Qt
 
 import main
 from ontology_loader_v6 import OntologyLoader
 from clickable_widgets_v6 import ClickableFrame
 from carga_xcel import *
+from help import HelpButton
 
-from main import *
+
 import json  # Añadir esta línea al inicio para cargar JSON
 import csv
 import re
-import subprocess
+from help import *
 import os
 
 
@@ -36,7 +33,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.is_third_sections_active = True
         self.ontology_file = ""
         self.is_maximized = False
-
 
         # Inicializamos tecnica_buttons como un diccionario vacío
         self.tecnica_buttons = {}
@@ -104,10 +100,37 @@ class OntologyViewer(QtWidgets.QMainWindow):
             font-size: 24px; font-weight: bold;
             color: black; font-family: 'Segoe UI', Arial, sans-serif;
         """)
+
+
         self.main_layout.addWidget(self.title_label)
 
+        # Crear botones de ayuda con diferentes textos e imágenes
+
+
+        self.button_help_init = HelpButton("", "help_images/1_menu_inicio.png", "init_help", self)
+        # Agregar botones al layout
+        self.main_layout.addWidget(self.button_help_init, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        # Crear y agregar el texto "Primera vez?" solo si es la primera vez que se muestra el botón
+
+        self.first_time_label = QtWidgets.QLabel(" Primera vez?  ", self)
+        self.first_time_label.hide()
+        self.first_time_label.setStyleSheet("""
+                    QLabel {
+                        font-size: 14px;
+                        color: #ff0000;
+                        border: 2px solid #ff0000;
+                        border-radius: 5px;
+                        padding: 0px;
+                        margin: 0px;
+                    }
+                """)
+        self.first_time_label.setFixedSize(90, 40)
+        if not os.path.exists("help_init_help.txt"):
+            self.first_time_label.show()
+        self.main_layout.addWidget(self.first_time_label,alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+
         # Espacio en blanco para desplazar el botón hacia abajo
-        self.spacerInit = QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Policy.Minimum,
+        self.spacerInit = QtWidgets.QSpacerItem(20, 100, QtWidgets.QSizePolicy.Policy.Minimum,
                                                 QtWidgets.QSizePolicy.Policy.Minimum)
         self.main_layout.addItem(self.spacerInit)
 
@@ -117,7 +140,10 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.load_button.clicked.connect(self.load_ontology)
         self.main_layout.addWidget(self.load_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        #BOTONES DE INFERENCIA
+
+
+
+        # BOTONES DE INFERENCIA
         # Crear el botón para mostrar/ocultar el recuadro de configuración avanzada
         self.advanced_settings_button = QtWidgets.QPushButton("Configuración avanzada")
         self.advanced_settings_button.setIcon(QtGui.QIcon('icons/advance_configuracion.png'))
@@ -137,7 +163,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
             }
         """)
         self.advanced_settings_button.clicked.connect(self.toggle_advanced_settings)
-
 
         self.cargar_con_excel = QtWidgets.QPushButton("Cargar con excel")
         self.cargar_con_excel.setIcon(QtGui.QIcon('icons/advance_configuracion.png'))
@@ -191,7 +216,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Agregar el layout del título al layout principal del contenedor
         self.checkbox_container_layout.addLayout(title_layout)
-
 
         # Crear un QGridLayout para organizar los checkboxes en varias filas y columnas
         self.checkbox_layout = QtWidgets.QGridLayout()
@@ -314,6 +338,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.instance_layout = QtWidgets.QGridLayout(self.instance_area)
         self.main_layout.addWidget(self.instance_area)
 
+        
         # Mensaje de validación
         self.validation_label = QtWidgets.QLabel("", self)
         self.validation_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -337,7 +362,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.loading_wheel)
 
         # Cargar la animación de la ruedita giratoria
-        self.movie = QtGui.QMovie("icons/spinner.gif")
+        self.movie = QtGui.QMovie("icons/mate.png")
+        self.movie.setScaledSize(QtCore.QSize(40, 40))  # Ajusta a 100x100 píxeles, o el tamaño que prefieras
         self.loading_wheel.setMovie(self.movie)
 
     def update_window_title(window, rdf_path=None):
@@ -461,7 +487,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         <p><strong>¿Cuándo usarlo?</strong> Úsalo si trabajas con muchos datos específicos y necesitas reglas sobre ellos.</p>
     </div>
 
-    
+
 </div>
 
 </body>
@@ -482,7 +508,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Mostrar el diálogo
         dialog.exec()
 
-
     def show_info_message(self, title, message):
         # Crear un cuadro de mensaje de información
         msg_box = QtWidgets.QMessageBox()
@@ -494,6 +519,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def load_ontology(self):
 
+        self.first_time_label.hide()
+        self.first_time_label.setVisible(False)
         file_name, _ = QFileDialog.getOpenFileName(self, "Abrir archivo RDF", "", "RDF Files (*.rdf);;All Files (*)")
         if file_name:
             self.advanced_settings_button.setVisible(False)
@@ -503,9 +530,10 @@ class OntologyViewer(QtWidgets.QMainWindow):
             self.ontology_file = file_name
 
             if self.justLoadNoInference.isChecked():
-                self.loader.validate_and_infer_ontology(file_name,False,True)
+                self.loader.validate_and_infer_ontology(file_name, False, True)
                 # Cargar la ontología
                 self.load_button.setVisible(False)
+                self.first_time_label.hide()
                 self.display_project_instances()
 
                 # Limpiar mensajes y detener la animación de la ruedita giratoria
@@ -518,8 +546,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 self.sub_loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
                 self.update_window_title(file_name)
                 return
-            # Validar la ontología primero
 
+            # Validar la ontología primero
             self.validation_label.setText("Validando ontología...")
             QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
 
@@ -574,35 +602,34 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 selected_inferences.append("dataPropertyCharacteristic")
                 demora += 1
 
-
             if demora < 1.5:
                 # Mostrar mensaje de inferencia y ruedita giratoria
                 self.loading_label.setText("Realizando Inferencias")
             elif demora < 3:
                 # Mostrar mensaje de inferencia y ruedita giratoria
                 self.loading_label.setText("Realizando Inferencias")
-                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos")
+                self.sub_loading_label.setText("El proceso puede tardar hasta " + str(demora) + " minutos")
 
             elif demora < 5:
                 # Mostrar mensaje de inferencia y ruedita giratoria
                 self.loading_label.setText("Realizando Inferencias")
-                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos. Por favor sea paciente")
+                self.sub_loading_label.setText(
+                    "El proceso puede tardar hasta " + str(demora) + " minutos. Por favor sea paciente")
             else:
                 # Mostrar mensaje de inferencia y ruedita giratoria
                 self.loading_label.setText("Realizando Inferencias")
-                self.sub_loading_label.setText("El proceso puede tardar hasta "+ str(demora)+ " minutos. Por favor sea paciente")
+                self.sub_loading_label.setText(
+                    "El proceso puede tardar hasta " + str(demora) + " minutos. Por favor sea paciente")
 
             self.loading_wheel.setVisible(True)
             self.movie.start()
 
             QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
 
-
             # Llamar a la función para validar e inferir ontología con las opciones seleccionadas
 
-
             if self.replaceFile_checkbox.isChecked():
-                self.loader.validate_and_infer_ontology(file_name,False, False, selected_inferences)
+                self.loader.validate_and_infer_ontology(file_name, False, False, selected_inferences)
                 self.update_window_title(file_name)
             else:
                 self.loader.validate_and_infer_ontology(file_name, True, False, selected_inferences)
@@ -611,13 +638,10 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
                 self.update_window_title(copy_file_name)
 
-
-
             # Cargar la ontología
             self.load_button.setVisible(False)
 
             self.display_project_instances()
-
 
             # Limpiar mensajes y detener la animación de la ruedita giratoria
             if is_consistent:
@@ -633,16 +657,16 @@ class OntologyViewer(QtWidgets.QMainWindow):
             self.movie.stop()
             self.loading_wheel.setVisible(False)
 
+
     def run_external_program(self):
         # Ejecutar el programa `main.py` con la ruta al archivo RDF como argumento
-        subprocess.run(
-            ["venv/Scripts/python", "main.py", self.ontology_file],
-            check=True
-        )
+        #subprocess.run(["venv/Scripts/python", "main.py", self.ontology_file],check=True)
+        main.iniciar_app(self.ontology_file)
         if self.loader.validate_ontology(self.ontology_file):
             self.loader.load_rdf_file(self.ontology_file)  # Cargar RDF sin razonador
         else:
-            self.show_info_message("Error", f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
+            self.show_info_message("Error",
+                                   f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
 
     def display_project_instances(self):
 
@@ -650,9 +674,12 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.main_layout.removeWidget(self.title_label)
         self.title_label.deleteLater()  # Libera el recurso del QLabel
         self.title_label = None  # Opcional: elimina la referencia para evitar posibles errores
+        if not os.path.exists("help_init_help.txt"):
+            self.first_time_label.hide()
+        self.button_help_init.hide()
 
-        #self.main_layout.removeItem(self.spacerInit)
-        #del self.spacerInit  # Elimina la referencia al espaciador
+        # self.main_layout.removeItem(self.spacerInit)
+        # del self.spacerInit  # Elimina la referencia al espaciador
 
         # Crear un QFrame para contener el ComboBox, el botón y los textos
         project_frame = QFrame(self)
@@ -669,8 +696,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Crear un layout vertical para el marco que contendrá el título, subtítulo y layout del ComboBox/botón
         project_frame_layout = QVBoxLayout(project_frame)
 
+        # Crear botones de ayuda con diferentes textos e imágenes
+        button_help_explore = HelpButton("", "help_images/2_menu_exploracion_individual.png", "individual_help", self)
+
+        project_frame_layout.addWidget(button_help_explore, alignment=QtCore.Qt.AlignmentFlag.AlignLeft)
+
         # Crear el título "Explorar investigación"
-        title_label = QLabel("Explorar investigación", self)
+        title_label = QLabel("Explorar Investigación Individual", self)
         title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("""
              font-size: 26px;
@@ -684,7 +716,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         project_frame_layout.addWidget(title_label)
 
         # Crear el subtítulo "Seleccione una investigación para explorar..."
-        subtitle_label = QLabel("Seleccione una investigación para explorar...", self)
+        subtitle_label = QLabel("Selecciona una investigación para ver toda su informacion...", self)
         subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         subtitle_label.setStyleSheet("""
             font-size: 14px;
@@ -735,15 +767,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
             self.instance_combobox.addItem(project_name, userData=project_instance)
 
         # Crear el botón "Visualizar" con tamaño fijo
-        self.visualizar_button = QtWidgets.QPushButton('Visualizar', self)
+        self.visualizar_button = QtWidgets.QPushButton('Explorar', self)
         self.visualizar_button.setFixedSize(100, 40)
         self.visualizar_button.clicked.connect(self.on_visualize_button_clicked)
 
         # Añadir el ComboBox y el botón al layout horizontal
         project_layout.addWidget(self.instance_combobox)
         project_layout.addWidget(self.visualizar_button)
-
-
 
         # Botón para ejecutar el programa empaquetado
         self.alta_Ontologia = QtWidgets.QPushButton("")
@@ -755,8 +785,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Añadir el layout horizontal al layout vertical del marco (debajo del título y subtítulo)
         project_frame_layout.addLayout(project_layout)
-
-
 
         # Añadir el marco completo al layout principal
         self.main_layout.addWidget(project_frame)
@@ -859,7 +887,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
                     layout.deleteLater()  # Eliminar el layout
                     self.checkbox_layout = None  # Eliminar referencia
 
-
         # Crear el contenedor principal de la sección para ocupar todo el ancho
         section_container = QFrame(self)
         section_container.setStyleSheet("""
@@ -876,8 +903,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Layout principal vertical de esta sección
         main_layout = QVBoxLayout(section_container)
 
+        # Crear botones de ayuda con diferentes textos e imágenes
+        button_help_global = HelpButton("", "help_images/3_menu_exploracion_global.png", "global_help", self)
+
         # Título destacado
-        title_label = QLabel("Consultas Personalizadas", self)
+        title_label = QLabel("Consultas Globales de Investigaciones", self)
         title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("""
             font-size: 26px;
@@ -888,10 +918,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
             margin-bottom: 2px;
             border: none ;
         """)
+        main_layout.addWidget(button_help_global,alignment=QtCore.Qt.AlignmentFlag.AlignLeft)
         main_layout.addWidget(title_label)
 
+
         # Subtítulo
-        subtitle_label = QLabel("Seleccione o ingrese una consulta...", self)
+        subtitle_label = QLabel(
+            "Realiza consultas para ver información comparativa y general de todas las investigaciones...", self)
         subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         subtitle_label.setStyleSheet("""
             font-size: 15px;
@@ -919,7 +952,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 font-weight: bold;
                 font-size: 14px;
                 transition: background 0.3s;
-                
+
             }
             QTabBar::tab:hover {
                 background: #559cd1;
@@ -1015,7 +1048,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Alinear el layout de botones a la izquierda
         buttons_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
 
-
         # Añadir el layout de botones a la pantalla principal
         main_layout.addLayout(buttons_layout)
 
@@ -1070,11 +1102,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
             name_label = QLabel("Nombre de la consulta:")
             self.name_input = QLineEdit(self)
-            self.name_input.setPlaceholderText("Ingrese el nombre de la consulta")
+            self.name_input.setPlaceholderText("Ingrese una breve descripcion de la consulta")
 
             query_label = QLabel("Texto de la consulta:")
             self.query_input = QTextEdit(self)
-            self.query_input.setPlaceholderText("Ingrese el texto de la consulta")
+            self.query_input.setPlaceholderText("Ingrese el codigo de la consulta en lenguaje SPARQL. ")
 
             # Establecer estilo
             field_style = """
@@ -1125,7 +1157,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
             """)
             self.save_button.clicked.connect(self.save_new_query)
             layout.addWidget(self.save_button, 3, 1, alignment=QtCore.Qt.AlignmentFlag.AlignRight)
-
 
         # Mostrar el contenedor de campos
         self.fields_container.setVisible(True)
@@ -1201,8 +1232,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         button_container = QWidget()
         button_container.setLayout(button_layout)
 
-
-
         # Añadir el contenedor del botón al layout de la pestaña correspondiente
         if group not in self.tabs:
             tab = QWidget()
@@ -1226,7 +1255,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         except Exception as e:
             print(f"Error cargando consultas personalizadas: {e}")
 
-    def on_custom_query_clicked(self, query_text,project_instance):
+    def on_custom_query_clicked(self, query_text, project_instance):
         """
         Ejecuta la consulta SPARQL y muestra los resultados en el área de información usando display_info.
         """
@@ -1403,6 +1432,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
             font-size: 14px; font-weight: bold;
             color: black; font-family: 'Segoe UI', Arial, sans-serif;
         """)
+        # Crear botones de ayuda con diferentes textos e imágenes
+
         layout.addWidget(project_label)
 
         # Agregar información adicional: Investigadores relacionados
@@ -1419,7 +1450,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Agregar el objetivo del proyecto
         objectives = self.loader.get_objectives_for_project(project_instance)
         if objectives:
-            objectives_title_label= QLabel(f"Objetivos:")
+            objectives_title_label = QLabel(f"Objetivos:")
             layout.addWidget(objectives_title_label)
             for objective in objectives:
                 objective_description = self.loader.get_objective_description(objective.objective)
@@ -1494,7 +1525,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Título para la sección
         title_label = QLabel("Instancias Inferidas por el Razonador", self)
-        #title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        # title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("""
             font-size: 20px;
             font-weight: bold;
@@ -1503,6 +1534,9 @@ class OntologyViewer(QtWidgets.QMainWindow):
             padding: 0 10px;
             border: none;
         """)
+        button_help_axiomas_individual = HelpButton("", "help_images/5_axiomas.png",
+                                                   "axiomas_help", self)
+        inferred_layout.addWidget(button_help_axiomas_individual,alignment=QtCore.Qt.AlignmentFlag.AlignRight)
         inferred_layout.addWidget(title_label)
 
         # Botón para ver inferencias
@@ -1610,7 +1644,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         try:
             self.inference_file = open(self.inference_file_path, 'r')  # Mantener archivo abierto
         except FileNotFoundError:
-            self.inference_text_display.setText("Archivo de inferencias no encontrado.")
+            self.inference_text_display.setText("<p style='color: red;'>Archivo de inferencias no encontrado.</p>")
             return
 
         self.load_more_inferences()  # Cargar las primeras líneas
@@ -1634,7 +1668,29 @@ class OntologyViewer(QtWidgets.QMainWindow):
                         break
                     # Eliminar el prefijo y agregar HTML para formatear el texto
                     cleaned_line = line.replace(prefix, "").replace(">", "")
-                    formatted_line = f"<p style='margin: 5px 0;'><b>{cleaned_line}</b></p>"
+
+                    # Dividir el nombre de la instancia del resto del texto
+                    instance_name, *rest_of_line = cleaned_line.split(" ", 1)
+                    rest_of_line = " ".join(rest_of_line)
+
+                    # Determinar el icono según el tipo de inferencia
+                    if "pertenece a la clase" in cleaned_line:
+                        icon = "&#x1F4CC;"  # 📌 Pin para inferencias de clase
+                    elif "tiene la relación" in cleaned_line:
+                        icon = "&#x1F50D;"  # 🔍 Lupa para inferencias de relación
+                    else:
+                        icon = "&#x1F4A1;"  # 💡 (Idea) icono genérico si no coincide ninguna
+
+                    # Formatear la línea con el nuevo estilo
+                    formatted_line = (
+                        f"<div style='display: flex; align-items: center; padding: 10px; "
+                        f"margin: 8px 0; background-color: #e0f2ff; color: #000000; border-radius: 8px; "
+                        f"border: 3px solid #007acc; font-family: Arial, sans-serif; font-size: 16px;'>"
+                        f"<span style='font-size: 20px; color: #007acc;'>{icon}</span>"  # Icono dinámico
+                        f"<span style='margin-left: 10px; color: #007acc; font-weight: bold;'>{instance_name}</span>"  # Nombre en azul más oscuro
+                        f"<span style='margin-left: 8px;'>{rest_of_line}</span>"  # Resto de la línea en negro
+                        f"</div>"
+                    )
                     lines_to_display.append(formatted_line)
 
                 # Actualizar la posición actual en el archivo
@@ -1726,6 +1782,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Crear un layout horizontal para mantener el botón en la esquina inferior derecha
         button_layout = QtWidgets.QHBoxLayout()
         button_layout.addStretch()  # Espacio flexible para empujar el botón a la derecha
+        button_help_titulo_individual = HelpButton("", "help_images/4_titulo_consulta_individual.png","individual_titulo_help", self)
+        project_layout.addWidget(button_help_titulo_individual,alignment=QtCore.Qt.AlignmentFlag.AlignLeft)
         button_layout.addWidget(diagram_button)
         project_layout.addLayout(button_layout)
 
@@ -1738,9 +1796,15 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Continuar mostrando las otras secciones en el layout principal fuera del marco
         self.display_new_section(project_instance)
         self.display_buttons_between_sections()
+
+        button_help_explora_clases = HelpButton("", "help_images/6_explorador_clases.png",
+                                                "explora_clases_help", self)
+        self.main_layout.addWidget(button_help_explora_clases, alignment=QtCore.Qt.AlignmentFlag.AlignLeft)
+
         self.tab_widgetPrincipal = QtWidgets.QTabWidget()  # Crea el widget de pestañas
         self.main_layout.addWidget(self.tab_widgetPrincipal)  # Añade el QTabWidget al layout principal
         self.setLayout(self.main_layout)  # Configura el layout en la ventana principal
+
 
         self.display_objectives(project_instance)
         self.display_marco_teorico(project_instance)
@@ -1809,8 +1873,9 @@ class OntologyViewer(QtWidgets.QMainWindow):
         section_layout.addWidget(section_title)
 
         # Subtítulo
-        subtitle_label = QLabel("Seleccione o ingrese una consulta para realizar sobre la investigacion elegida...", self)
-        #subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        subtitle_label = QLabel("Seleccione o ingrese una consulta para realizar sobre la investigacion elegida...",
+                                self)
+        # subtitle_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         subtitle_label.setStyleSheet("""
                     font-size: 15px;
                     color: #555555;
@@ -2083,18 +2148,42 @@ class OntologyViewer(QtWidgets.QMainWindow):
         """
         properties_dialog = QDialog(self)
         properties_dialog.setWindowTitle(f"Propiedades de {instance_uri.split('#')[-1]}")
+        properties_dialog.setStyleSheet("""
+            QDialog {
+                background-color: #2b2b2b;
+                border: 2px solid #3a3a3a;
+                border-radius: 8px;
+            }
+            QLabel {
+                color: #d3d3d3;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            QTextEdit {
+                background-color: #1e1e1e;
+                color: #e0e0e0;
+                font-size: 14px;
+                padding: 8px;
+                border: none;
+                border-radius: 5px;
+            }
+        """)
 
+        # Create properties text widget
         properties_text = QTextEdit(properties_dialog)
         properties_text.setReadOnly(True)
-        properties_text.setStyleSheet("background-color: #2b2b2b; color: black;")
 
+        # Set properties info with a styled header
         properties_info = self.loader.get_properties_for_instance(instance_uri)
-        properties_text.setText(properties_info)
+        formatted_text = f"<b>{instance_uri.split('#')[-1]}</b><br><br>{properties_info}"
+        properties_text.setHtml(formatted_text)
 
+        # Position and layout settings
         properties_dialog.move(mouse_pos)
-        properties_dialog.setLayout(QVBoxLayout())
-        properties_dialog.layout().addWidget(properties_text)
-        properties_dialog.setMinimumSize(300, 200)
+        layout = QVBoxLayout(properties_dialog)
+        layout.addWidget(properties_text)
+        layout.setContentsMargins(10, 10, 10, 10)
+        properties_dialog.setMinimumSize(350, 250)
         properties_dialog.exec()
 
     def is_proyecto_de_investigacion(self, instance_uri):
@@ -2560,7 +2649,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.objectives_layout.setContentsMargins(20, 10, 20, 10)  # Reducido para ajustarse mejor al marco decorativo
         self.objectives_layout.setSpacing(10)
 
-
         # Definir el estilo para el botón
         button_style = """
             QPushButton {
@@ -2593,7 +2681,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                         15)  # Para dar un espacio entre el marco decorativo y el contenido interno
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Objetivos", self.objectives_outer_frame)
+        # self.add_expandable_panel("Objetivos", self.objectives_outer_frame)
         self.add_tabPrincipal("Objetivos", self.objectives_outer_frame)
 
     # Método para cargar y mostrar la sección 'Objetivos' cuando se hace clic en el botón
@@ -2678,7 +2766,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                         15)  # Para dar un espacio entre el marco decorativo y el contenido interno
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Marco Teorico", self.marco_teorico_outer_frame)
+        # self.add_expandable_panel("Marco Teorico", self.marco_teorico_outer_frame)
         self.add_tabPrincipal("Marco Teorico", self.marco_teorico_outer_frame)
 
     # Método para cargar y mostrar la sección 'Marco Teórico' cuando se hace clic en el botón
@@ -2764,7 +2852,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                         15)  # Para dar un espacio entre el marco decorativo y el contenido interno
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Bibliografia", self.bibliografia_outer_frame)
+        # self.add_expandable_panel("Bibliografia", self.bibliografia_outer_frame)
         self.add_tabPrincipal("Bibliografia", self.bibliografia_outer_frame)
 
     def load_bibliografia_section(self, project_instance):
@@ -2850,7 +2938,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                         15)  # Para dar un espacio entre el marco decorativo y el contenido interno
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Estrategia Metodológica", self.estrategia_outer_frame)
+        # self.add_expandable_panel("Estrategia Metodológica", self.estrategia_outer_frame)
         self.add_tabPrincipal("Estrategia Metodológica", self.estrategia_outer_frame)
 
     # Método para cargar y mostrar la sección 'Estrategia Metodológica' cuando se hace clic en el botón
@@ -2937,7 +3025,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                         15)  # Para dar un espacio entre el marco decorativo y el contenido interno
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Técnica", self.tecnica_outer_frame)
+        # self.add_expandable_panel("Técnica", self.tecnica_outer_frame)
         self.add_tabPrincipal("Técnica", self.tecnica_outer_frame)
 
     # Método para cargar y mostrar la sección 'Técnica' cuando se hace clic en el botón
@@ -3023,7 +3111,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Sujeto u Objeto", self.sujeto_u_objeto_outer_frame)
+        # self.add_expandable_panel("Sujeto u Objeto", self.sujeto_u_objeto_outer_frame)
         self.add_tabPrincipal("Sujeto u Objeto", self.sujeto_u_objeto_outer_frame)
 
     # Método para cargar y mostrar la sección 'Sujeto u Objeto' cuando se hace clic en el botón
@@ -3109,7 +3197,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Soporte", self.soporte_outer_frame)
+        # self.add_expandable_panel("Soporte", self.soporte_outer_frame)
         self.add_tabPrincipal("Soporte", self.soporte_outer_frame)
 
     # Método para cargar y mostrar la sección 'Soporte' cuando se hace clic en el botón
@@ -3195,7 +3283,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Registro", self.registro_outer_frame)
+        # self.add_expandable_panel("Registro", self.registro_outer_frame)
         self.add_tabPrincipal("Registro", self.registro_outer_frame)
 
     # Método para cargar y mostrar la sección 'Registro' cuando se hace clic en el botón
@@ -3281,7 +3369,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Información", self.informacion_outer_frame)
+        # self.add_expandable_panel("Información", self.informacion_outer_frame)
         self.add_tabPrincipal("Información", self.informacion_outer_frame)
 
     # Método para cargar y mostrar la sección 'Información' cuando se hace clic en el botón
@@ -3361,14 +3449,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.metadatos_button.clicked.connect(lambda: self.load_metadatos_section(project_instance))
         self.metadatos_layout.addWidget(self.metadatos_button)
 
-
         # Agregar el layout de la sección al marco exterior
         outer_layout = QVBoxLayout(self.metadatos_outer_frame)
         outer_layout.addWidget(self.metadatos_container)
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Metadatos", self.metadatos_outer_frame)
+        # self.add_expandable_panel("Metadatos", self.metadatos_outer_frame)
         self.add_tabPrincipal("Metadatos", self.metadatos_outer_frame)
 
     # Método para cargar y mostrar la sección 'Metadatos' cuando se hace clic en el botón
@@ -3457,8 +3544,9 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Esquema de Clasificación Descriptiva",self.esquema_clasificacion_descriptiva_outer_frame)
-        self.add_tabPrincipal("Esquema de Clasificación Descriptiva", self.esquema_clasificacion_descriptiva_outer_frame)
+        # self.add_expandable_panel("Esquema de Clasificación Descriptiva",self.esquema_clasificacion_descriptiva_outer_frame)
+        self.add_tabPrincipal("Esquema de Clasificación Descriptiva",
+                              self.esquema_clasificacion_descriptiva_outer_frame)
 
     # Método para cargar y mostrar la sección 'Esquema de Clasificación Descriptiva' cuando se hace clic en el botón
     def load_esquema_clasificacion_descriptiva_section(self, project_instance):
@@ -3545,8 +3633,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Esquema de Clasificación Analítica",self.esquema_clasificacion_analitica_outer_frame)
-        self.add_tabPrincipal("Esquema de Clasificación Analítica",self.esquema_clasificacion_analitica_outer_frame)
+        # self.add_expandable_panel("Esquema de Clasificación Analítica",self.esquema_clasificacion_analitica_outer_frame)
+        self.add_tabPrincipal("Esquema de Clasificación Analítica", self.esquema_clasificacion_analitica_outer_frame)
 
     # Método para cargar y mostrar la sección 'Esquema de Clasificación Analítica' cuando se hace clic en el botón
     def load_esquema_clasificacion_analitica_section(self, project_instance):
@@ -3624,15 +3712,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.reporte_button.clicked.connect(lambda: self.load_reporte_section(project_instance))
         self.reporte_layout.addWidget(self.reporte_button)
 
-
-
         # Agregar el layout de la sección al marco exterior
         outer_layout = QVBoxLayout(self.reporte_outer_frame)
         outer_layout.addWidget(self.reporte_container)
         outer_layout.setContentsMargins(15, 15, 15, 15)
 
         # Agregar el marco decorativo completo como panel expandible
-        #self.add_expandable_panel("Reporte", self.reporte_outer_frame)
+        # self.add_expandable_panel("Reporte", self.reporte_outer_frame)
         self.add_tabPrincipal("Reporte", self.reporte_outer_frame)
 
     # Método para cargar y mostrar la sección 'Reporte' cuando se hace clic en el botón

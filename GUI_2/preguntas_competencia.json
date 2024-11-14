@@ -37,8 +37,8 @@
     },
     {
       "grupo": "Objetivos",
-      "nombre": "Dado un proyecto de investigacion, obtener los objetivos propuestos y/o alcanzados.",
-      "consulta": ""
+      "nombre": "Dado un proyecto de investigacion, obtener los objetivos alcanzados.",
+      "consulta": "SELECT DISTINCT ?objetivo WHERE {?reporte <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza> ?objetivo . <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo> ?objetivo  . }\n"
     },
     {
       "grupo": "Reportes",
