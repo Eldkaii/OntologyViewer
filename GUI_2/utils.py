@@ -43,7 +43,7 @@ def validate_ontology(file_name):
         print(f"Ejecutando: {' '.join(command)}")
 
         # Ejecutar el comando
-        res = subprocess.run(command, capture_output=True, text=True, check=True)
+        res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
         print(f"Salida estándar: {res.stdout}")
 
         # Verificar el resultado

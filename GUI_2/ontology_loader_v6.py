@@ -54,7 +54,7 @@ class OntologyLoader:
             print(f"Ejecutando: {' '.join(command)}")
 
             # Ejecutar el comando
-            res = subprocess.run(command, capture_output=True, text=True, check=True)
+            res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
             print(f"Salida estándar: {res.stdout}")
 
             # Verificar el resultado
@@ -137,7 +137,7 @@ class OntologyLoader:
             logging.info(command_inference)
 
         try:
-            subprocess.run(command_inference, check=True)
+            subprocess.run(command_inference, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
             if replace:
                 print(f"Ontología mejorada guardada en '{copy_file_name}'.")
                 logging.info(f"Ontología mejorada guardada en '{copy_file_name}'.")
