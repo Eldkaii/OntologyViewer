@@ -30,6 +30,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(OntologyViewer, self).__init__()
+
         self.loader = OntologyLoader()  # Instancia del nuevo manejador de ontologías
         self.version = 'beta'
         self.file_path = ''

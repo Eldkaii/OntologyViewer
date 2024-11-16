@@ -535,6 +535,7 @@
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
                     <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
                     <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
                 </owl:unionOf>
