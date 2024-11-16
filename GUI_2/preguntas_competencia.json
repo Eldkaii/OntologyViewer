@@ -3,47 +3,47 @@
     {
       "grupo": "Tecnicas",
       "nombre": "Dado un proyecto de investigacion, nos interesa obtener el conjunto de tecnicas aplicadas y que informacion se obtiene a partir de su aplicacion.",
-      "consulta": "SELECT DISTINCT ?tecnica ?registro WHERE { <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro . }"
+      "consulta": "SELECT DISTINCT ?tecnica ?registro WHERE { <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro . }"
     },
     {
       "grupo": "Tecnicas",
       "nombre": "Dado una tecnica aplicada, ¿sobre que sujetos y/o objetos se aplican?",
-      "consulta": "SELECT DISTINCT ?tecnica ?sujeto WHERE { <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto> ?sujeto . }"
+      "consulta": "SELECT DISTINCT ?tecnica ?sujeto WHERE { <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_sujeto_u_objeto> ?sujeto . }"
     },
     {
       "grupo": "Tecnicas",
       "nombre": "Dado una tecnica aplicada, ¿en que soporte se encuentran los datos?",
-      "consulta": "SELECT DISTINCT ?tecnica ?soporte ?registro WHERE { <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro . ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en> ?soporte . }"
+      "consulta": "SELECT DISTINCT ?tecnica ?soporte ?registro WHERE { <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica . ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro . ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Soportado_en> ?soporte . }"
     },
     {
       "grupo": "Registros",
       "nombre": "Dado un proyecto de investigacion, obtener los esquemas de clasificacion descriptiva y que registros tienen asociados.",
-      "consulta": "SELECT ?esqDescriptiva ?registro WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?esqDescriptiva . ?esqDescriptiva rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo> . ?idur <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva> ?esqDescriptiva . ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta> ?idur . }"
+      "consulta": "SELECT ?esqDescriptiva ?registro WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?esqDescriptiva . ?esqDescriptiva rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo> . ?idur <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_descriptiva> ?esqDescriptiva . ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta> ?idur . }"
     },
     {
       "grupo": "Informacion",
       "nombre": "Dado un proyecto de investigacion, obtener los esquemas de clasificacion analiticos y que informacion tienen asociados.",
-      "consulta": "SELECT ?esqAnal ?informacion WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?esqAnal . ?esqAnal rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico> . ?informacion <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica> ?esqAnal . }\n"
+      "consulta": "SELECT ?esquemaAnalitico ?informacion WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?esquemaAnalitico . ?esquemaAnalitico rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico> . ?informacion <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_analitica> ?esquemaAnalitico . }\n"
     },
     {
       "grupo": "Tecnicas",
       "nombre": "Dado un proyecto de investigacion que aplica una o varias tecnicas de tipo entrevista, obtener los nucleos tematicos, guia de entrevista y/o cuestionarios.",
-      "consulta": "SELECT ?tecnica ?preg WHERE { <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica . ?tecnica rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista> . ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta> ?preg . }\n"
+      "consulta": "SELECT ?tecnica ?preg WHERE { <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica . ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica . ?tecnica rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#entrevista> . ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_pregunta> ?preg . }\n"
     },
     {
       "grupo": "Reformulacion",
       "nombre": "Dado un proyecto de investigacion, obtener las reformulaciones de objetivos (si hubo) y/o supuestos iniciales.",
-      "consulta": "SELECT ?objectiveRef ?reformulacion ?origen WHERE { <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo> ?objectiveRef . ?reformulacion <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion> ?objectiveRef . ?origen <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion> ?reformulacion . }\n"
+      "consulta": "SELECT ?objectiveRef ?reformulacion ?origen WHERE { <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo> ?objectiveRef . ?reformulacion <http://www.semanticweb.org/tesis_inv_cualitativa#Destino_de_reformulacion> ?objectiveRef . ?origen <http://www.semanticweb.org/tesis_inv_cualitativa#Origen_de_reformulacion> ?reformulacion . }\n"
     },
     {
       "grupo": "Objetivos",
       "nombre": "Dado un proyecto de investigacion, obtener los objetivos alcanzados.",
-      "consulta": "SELECT DISTINCT ?objetivo WHERE {?reporte <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza> ?objetivo . <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo> ?objetivo  . }\n"
+      "consulta": "SELECT DISTINCT ?objetivo WHERE {?reporte <http://www.semanticweb.org/tesis_inv_cualitativa#Alcanza_objetivo> ?objetivo . <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo> ?objetivo  . }\n"
     },
     {
       "grupo": "Reportes",
       "nombre": "Dado un proyecto de investigacion, obtener hallazgos principales o conclusiones.",
-      "consulta": "SELECT DISTINCT ?reporte WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?reporte . ?reporte rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte> . }\n"
+      "consulta": "SELECT DISTINCT ?reporte WHERE { <{project_instance}> ?property ?related_instance . ?related_instance (<>|!<>)* ?reporte . ?reporte rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#reporte> . }\n"
     }
   ]
 }

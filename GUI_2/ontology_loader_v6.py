@@ -1,11 +1,22 @@
 import shutil
 import subprocess
 import os
+from sre_constants import error
 
 import rdflib
+from exceptiongroup import catch
 from rdflib import Graph
 import PyQt6.QtWidgets
 
+import logging
+
+# Configurar el logging
+logging.basicConfig(
+    filename='log.txt',  # Nombre del archivo de log
+    level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
+    datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora
+)
 
 class OntologyLoader:
     def __init__(self):
@@ -13,9 +24,13 @@ class OntologyLoader:
 
     def load_rdf_file(self, file_name):
         """Carga el archivo RDF en el grafo."""
-        self.graph = Graph()
-        self.graph.parse(file_name)
-        print(f"Archivo RDF '{file_name}' cargado correctamente.")
+        try:
+            logging.info("load_rdf_file " + file_name)
+            self.graph = Graph()
+            self.graph.parse(file_name)
+            print(f"Archivo RDF '{file_name}' cargado correctamente.")
+        except Exception as e:
+            logging.error(e)
 
 
 
@@ -24,24 +39,30 @@ class OntologyLoader:
         command = ["java", "-jar", jar_file, file_name]
 
         try:
+            logging.info("validate_ontology " + " ".join(command))
             res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
 
             # Captura la salida estándar del proceso (en caso de éxito)
             print(f"Validación exitosa: {res.stdout}")
             if res.stdout == 'La ontología es consistente.\n':
+                logging.info(res.stdout)
                 return True
             else:
+                logging.info(res.stdout)
                 return False
         except subprocess.CalledProcessError as e:
             # Captura la salida de error del proceso (en caso de fallo)
             print(f"Error al ejecutar el archivo .jar: {e.stderr}")
+            logging.error(e)
             return False
 
 
     def validate_and_infer_ontology(self, file_name,replace,justLoad, inference_options=None):
 
+        logging.info("validate_and_infer_ontology " + file_name + " replace"+ str(replace) + " justLoad " +str(justLoad)  )
         base_name, ext = os.path.splitext(file_name)
         if justLoad:
+
             self.load_rdf_file(file_name)
             return True
 
@@ -80,28 +101,32 @@ class OntologyLoader:
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = ["java", "-jar", razonador, copy_file_name] + selected_inferences
+            logging.info(command_inference)
         else:
             output_file = file_name
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = ["java", "-jar", razonador, file_name] + selected_inferences
+            logging.info(command_inference)
 
 
         try:
+
             subprocess.run(command_inference, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
             if replace:
-                print(f"Ontología mejorada guardada en '{copy_file_name}'.")
+
+                print(f"Ontologia mejorada guardada en '{copy_file_name}'.")
+                logging.info(f"Ontologia mejorada guardada en '{copy_file_name}'.")
                 self.load_rdf_file(copy_file_name)
 
             else:
                 print(f"Ontología mejorada guardada correctamente'.")
+                logging.info(f"Ontología mejorada guardada en '{file_name}'.")
                 self.load_rdf_file(file_name)
-
-
-
 
             return True
         except subprocess.CalledProcessError as e:
+            logging.error(e)
             print(f"Error al ejecutar el archivo de inferencia .jar: {e}")
             return False
 
@@ -109,17 +134,21 @@ class OntologyLoader:
         """Retorna las instancias de la clase 'proyecto_de_investigacion'."""
         query = """
         SELECT ?project WHERE {
-            ?project rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion> .
+            ?project rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion> .
         }
         """
-        results = self.graph.query(query)
-        return [str(row.project) for row in results]
+        try:
+
+            results = self.graph.query(query)
+            return [str(row.project) for row in results]
+        except Exception as e:
+            logging.error(e)
 
     def get_investigators_for_project(self, project_instance):
         """Retorna los investigadores relacionados con un proyecto."""
         investigators_query = f"""
         SELECT ?investigator WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante> ?investigator .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante> ?investigator .
         }}
         """
         return self.graph.query(investigators_query)
@@ -128,7 +157,7 @@ class OntologyLoader:
         """Retorna el atributo 'Nombre' de un investigador."""
         inv_name_query = f"""
         SELECT ?nombre WHERE {{
-            <{investigator_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre> ?nombre .
+            <{investigator_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Nombre> ?nombre .
         }}
         """
         result = self.graph.query(inv_name_query)
@@ -140,7 +169,7 @@ class OntologyLoader:
         """Retorna los objetivos relacionados con un proyecto."""
         objectives_query = f"""
         SELECT ?objective WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo> ?objective .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo> ?objective .
         }}
         """
         return self.graph.query(objectives_query)
@@ -150,9 +179,9 @@ class OntologyLoader:
         """Retorna los objetivos relacionados con un proyecto."""
         objectives_query = f"""
         SELECT  ?objectiveRef ?reformulacion ?origen WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo> ?objectiveRef .
-            ?reformulacion <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion> ?objectiveRef.
-            ?origen <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion> ?reformulacion .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo> ?objectiveRef .
+            ?reformulacion <http://www.semanticweb.org/tesis_inv_cualitativa#Destino_de_reformulacion> ?objectiveRef.
+            ?origen <http://www.semanticweb.org/tesis_inv_cualitativa#Origen_de_reformulacion> ?reformulacion .
         }}
         """
         return self.graph.query(objectives_query)
@@ -248,7 +277,7 @@ class OntologyLoader:
         """
         query = f"""
         SELECT ?marco_teorico WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_marco_teorico> ?marco_teorico .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_marco_teorico> ?marco_teorico .
         }}
         """
         results = self.graph.query(query)
@@ -274,7 +303,7 @@ class OntologyLoader:
         """
         query = f"""
         SELECT ?bibliografia WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_bibliografia> ?bibliografia .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_bibliografia> ?bibliografia .
         }}
         """
         results = self.graph.query(query)
@@ -286,7 +315,7 @@ class OntologyLoader:
         """
         query = f"""
         SELECT ?est_metodologica WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?est_metodologica .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?est_metodologica .
         }}
         """
         results = self.graph.query(query)
@@ -298,8 +327,8 @@ class OntologyLoader:
         """
         query = f"""
         SELECT ?tecnica WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estrategia_metodologica .
-            ?estrategia_metodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estrategia_metodologica .
+            ?estrategia_metodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
         }}
         """
         results = self.graph.query(query)
@@ -316,7 +345,7 @@ class OntologyLoader:
         """
         query = f"""
         SELECT ?tecnica ?tecnicaClass WHERE {{
-            <{estrategia_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
+            <{estrategia_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
             ?tecnica rdf:type ?tecnicaClass .
         }}
         """
@@ -357,9 +386,9 @@ class OntologyLoader:
     def get_sujeto_u_objeto_for_project(self, project_instance):
         query = f"""
           SELECT DISTINCT ?sujeto_u_objeto WHERE {{
-              <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-              ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-              ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_aplica_en> ?sujeto_u_objeto . 
+              <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+              ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+              ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Se_aplica_en> ?sujeto_u_objeto . 
           }}
           """
         results = self.graph.query(query)
@@ -371,8 +400,8 @@ class OntologyLoader:
           SELECT DISTINCT ?soporte WHERE {{
               <{project_instance}> ?property ?related_instance .
               ?related_instance (<>|!<>)* ?registro .
-              ?registro rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro> .
-              ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en> ?soporte .
+              ?registro rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#registro> .
+              ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Soportado_en> ?soporte .
           }}
           """
         results = self.graph.query(query)
@@ -387,7 +416,7 @@ class OntologyLoader:
         SELECT DISTINCT ?registro WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?registro .
-            ?registro rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro> .
+            ?registro rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#registro> .
         }}
         """
         # Ejecutar ambas consultas
@@ -399,10 +428,10 @@ class OntologyLoader:
         # Segunda consulta: registros encontrados mediante la relación específica que genera el efecto de brillo
         query = f"""
         SELECT DISTINCT ?registro WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-            ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-            ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
-            ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+            ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+            ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
+            ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro .
         }}
         """
         # Ejecutar ambas consultas
@@ -415,10 +444,10 @@ class OntologyLoader:
         """
         query = f"""
         SELECT DISTINCT ?tecnica ?registro WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-            ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-            ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
-            ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+            ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+            ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
+            ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro .
         }}
         """
         results = self.graph.query(query)
@@ -432,10 +461,10 @@ class OntologyLoader:
         # Segunda consulta: registros encontrados mediante la relación específica que genera el efecto de brillo
         query = f"""
           SELECT DISTINCT ?tecnica ?sujeto WHERE {{
-              <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-              ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-              ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
-              ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto> ?sujeto .
+              <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+              ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+              ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
+              ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_sujeto_u_objeto> ?sujeto .
           }}
           """
         # Ejecutar ambas consultas
@@ -448,11 +477,11 @@ class OntologyLoader:
         """
         query = f"""
         SELECT DISTINCT ?tecnica ?soporte ?registro WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-            ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-            ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
-            ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro .
-            ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en> ?soporte .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+            ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+            ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
+            ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro .
+            ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Soportado_en> ?soporte .
         }}
         """
         results = self.graph.query(query)
@@ -466,12 +495,12 @@ class OntologyLoader:
         """
         query = f"""
                 SELECT DISTINCT ?informacion WHERE {{
-                    <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-                    ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-                    ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
-                    ?tssuo <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera> ?registro .
-                    ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta> ?idur .
-                    ?idur <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_informacion> ?informacion .
+                    <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+                    ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+                    ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tssuo . 
+                    ?tssuo <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro .
+                    ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta> ?idur .
+                    ?idur <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_informacion> ?informacion .
                 }}
                 """
         results = self.graph.query(query)
@@ -485,7 +514,7 @@ class OntologyLoader:
             SELECT DISTINCT ?informacion WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?informacion .
-            ?informacion rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion> .
+            ?informacion rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#informacion> .
         }}
         """
         results = self.graph.query(query)
@@ -499,7 +528,7 @@ class OntologyLoader:
             SELECT DISTINCT ?metadato WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?metadato .
-            ?metadato rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos> .
+            ?metadato rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#metadato> .
         }}
         """
         results = self.graph.query(query)
@@ -513,7 +542,7 @@ class OntologyLoader:
             SELECT DISTINCT ?esqDescriptiva WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?esqDescriptiva .
-            ?esqDescriptiva rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo> .
+            ?esqDescriptiva rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo> .
         }}
         """
         results = self.graph.query(query)
@@ -527,9 +556,9 @@ class OntologyLoader:
             SELECT  ?esqDescriptiva ?registro WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?esqDescriptiva .
-            ?esqDescriptiva rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo> .
-            ?idur <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva> ?esqDescriptiva .
-            ?registro <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta> ?idur .
+            ?esqDescriptiva rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo> .
+            ?idur <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_descriptiva> ?esqDescriptiva .
+            ?registro <http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta> ?idur .
         }}
         """
         results = self.graph.query(query)
@@ -541,10 +570,10 @@ class OntologyLoader:
         """
         query = f"""
             SELECT  ?tecnica ?preg WHERE {{
-            <{project_instance}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define> ?estMetodologica .
-            ?estMetodologica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias> ?tecnica .
-            ?tecnica rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista> .
-            ?tecnica <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta> ?preg .
+            <{project_instance}> <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estMetodologica .
+            ?estMetodologica <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tecnica .
+            ?tecnica rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#entrevista> .
+            ?tecnica <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_pregunta> ?preg .
 
 
         }}
@@ -562,8 +591,8 @@ class OntologyLoader:
             
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?esqAnal .
-            ?esqAnal rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico> .
-            ?informacion <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica> ?esqAnal .
+            ?esqAnal rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico> .
+            ?informacion <http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_analitica> ?esqAnal .
         }}
         """
         results = self.graph.query(query)
@@ -577,7 +606,7 @@ class OntologyLoader:
                SELECT DISTINCT ?esqAnal WHERE {{
                <{project_instance}> ?property ?related_instance .
                ?related_instance (<>|!<>)* ?esqAnal .
-               ?esqAnal rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico> .
+               ?esqAnal rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico> .
            }}
            """
         results = self.graph.query(query)
@@ -591,7 +620,7 @@ class OntologyLoader:
             SELECT DISTINCT ?reporte WHERE {{
             <{project_instance}> ?property ?related_instance .
             ?related_instance (<>|!<>)* ?reporte .
-            ?reporte rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte> .
+            ?reporte rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#reporte> .
         }}
         """
         results = self.graph.query(query)
@@ -604,7 +633,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?name WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre> ?name .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Nombre> ?name .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -642,7 +671,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?value WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Valor> ?value .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Valor> ?value .
         }}
         """
 
@@ -660,7 +689,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?desc WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Descripcion> ?desc .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Descripcion> ?desc .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -677,7 +706,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?title WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Titulo> ?title .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Titulo> ?title .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -694,7 +723,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?autor WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Autor> ?autor .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Autor> ?autor .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -717,7 +746,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?tipo WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tipo> ?tipo .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Tipo> ?tipo .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -734,7 +763,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?location WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicacion> ?location .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Ubicacion> ?location .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -751,7 +780,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?obje WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo> ?obje .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Objetivo> ?obje .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -768,7 +797,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?pauta WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Pauta> ?pauta .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Pauta> ?pauta .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -785,7 +814,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?nucleo WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nucleo> ?nucleo .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Nucleo> ?nucleo .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -802,7 +831,7 @@ class OntologyLoader:
         # Aquí agregarás la consulta SPARQL para obtener el valor del objetivo
         query = f"""
         SELECT ?conclusion WHERE {{
-            <{instance_uri}> <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Conclusion> ?conclusion .
+            <{instance_uri}> <http://www.semanticweb.org/tesis_inv_cualitativa#Conclusion> ?conclusion .
         }}
         """
         # Ejecutar la consulta y devolver el valor
@@ -821,7 +850,7 @@ class OntologyLoader:
                 SELECT DISTINCT ?reporte WHERE {{
                 <{instance_uri}> ?property ?related_instance .
                 ?related_instance (<>|!<>)* ?reporte .
-                ?reporte rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte> .
+                ?reporte rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#reporte> .
                 }}
                 """
         # Ejecutar la consulta y devolver el valor

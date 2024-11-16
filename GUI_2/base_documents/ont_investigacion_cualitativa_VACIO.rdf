@@ -1,30 +1,13 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
-     xml:base="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27"
-     xmlns:ns="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
+<rdf:RDF xmlns="http://www.semanticweb.org/tesis_inv_cualitativa#"
+     xml:base="http://www.semanticweb.org/tesis_inv_cualitativa"
+     xmlns:ns="http://www.semanticweb.org/tesis_inv_cualitativa#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-    <owl:Ontology rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicación -->
-
-    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicación"/>
+    <owl:Ontology rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa"/>
     
 
 
@@ -39,373 +22,458 @@
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Alcanza_objetivo -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Aplica_una_o_varias">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Alcanza_objetivo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <rdfs:comment>Un reporte cumple con o alcanza objetivo</rdfs:comment>
+        <rdfs:label>Alcanza objetivo</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Define">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Una estrategia metodológica aplica una o varias tecnicas</rdfs:comment>
+        <rdfs:label>Aplica una o varias</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Categoria_superior -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Destino_de_reformulacion">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Categoria_superior">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:comment>Relación que modela categorización jerarquica entre esquemas de clasificación descriptivos</rdfs:comment>
+        <rdfs:label>Categoria superior</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Define -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Define">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+        <rdfs:comment>Proyecto de investigación define estrategia metodológica</rdfs:comment>
+        <rdfs:label>Define</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Destino_de_reformulacion -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Destino_de_reformulacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <rdfs:comment>Modela el destino de una reformulación</rdfs:comment>
+        <rdfs:label>Destino de reformulación</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_parte_del_marco_teorico -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Es_de_entrevista -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_parte_del_marco_teorico">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_de_entrevista">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_pregunta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista"/>
+        <rdfs:comment>Relaciona las preguntas con las entrevistas</rdfs:comment>
+        <rdfs:label>Es de entrevista</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Es_generado_por -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_generado_por">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#Genera"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:comment>Una tecnica sobre un sujeto u objeto genera un registro</rdfs:comment>
+        <rdfs:label>Es generado por</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante_de -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Es_parte_del_marco_teorico -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante_de">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_parte_del_marco_teorico">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <rdfs:comment>Elementos bibliográficos son parte del marco teórico</rdfs:comment>
+        <rdfs:label>Es parte del marco teórico</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Genera">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+        <rdfs:comment>Investigador es participante de proyecto de investigación</rdfs:comment>
+        <rdfs:label>Es participante</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Inf_insumo_para_producir -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante_de -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Inf_insumo_para_producir">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante_de">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <rdfs:comment>Participantes de Sujetos</rdfs:comment>
+        <rdfs:label>Es participante de</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Interpretacion_de_analisis -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Genera -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Interpretacion_de_analisis">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Genera">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <rdfs:comment>Tecnica sobre sujeto u objeto genera registro</rdfs:comment>
+        <rdfs:label>Genera</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Met_insumo_para_producir -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Inf_insumo_para_producir -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Met_insumo_para_producir">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Inf_insumo_para_producir">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:comment>Información como insumo para producir reporte</rdfs:comment>
+        <rdfs:label>Información es insumo para producir</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Metadato -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Interpretacion_de_analisis -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Metadato">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Interpretacion_de_analisis">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
+        <rdfs:comment>Interpretación de análisis que genera reformulación</rdfs:comment>
+        <rdfs:label>Interpretación de análisis</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Met_insumo_para_producir -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Met_insumo_para_producir">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:comment>Metadato como insumo para producir reporte</rdfs:comment>
+        <rdfs:label>Metadato es insumo para producir</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Metadato -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Metadato">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+        <rdfs:comment>Relaciona esquema de clasificación descriptivo o registro con metadatos</rdfs:comment>
+        <rdfs:label>Metadato</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Origen_de_reformulacion -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Origen_de_reformulacion">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Origen_de_reformulacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
+        <rdfs:comment>Modela el origen de la reformulación</rdfs:comment>
+        <rdfs:label>Origen de reformulación</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Posee_metadatos -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Posee_metadatos -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Posee_metadatos">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Posee_metadatos">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+        <rdfs:comment>Esquema de clasificación descriptivo posee metadatos</rdfs:comment>
+        <rdfs:label>Posee metadatos</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_esquema_de_clasificacion_descriptivo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_esquema_de_clasificacion_descriptivo -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_esquema_de_clasificacion_descriptivo">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_esquema_de_clasificacion_descriptivo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+        <rdfs:comment>Esquema de clasificación analítico se relacion con descriptivo</rdfs:comment>
+        <rdfs:label>Relacionado a esquema de clasificación descriptivo</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_informacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_informacion -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_informacion">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_informacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+        <rdfs:comment>Interpretación de dato se relaciona con información</rdfs:comment>
+        <rdfs:label>Relacionado a información</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_registro -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_registro">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <rdfs:comment>Interpretación de dato relacionado a un registro</rdfs:comment>
+        <rdfs:label>Relacionado a registro</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_sujeto_u_objeto -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_sujeto_u_objeto">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <rdfs:comment>Tecnica sobre sujeto u objeto se relacion con el sujeto u objeto</rdfs:comment>
+        <rdfs:label>Relacionado a sujeto u objeto</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Tecnica sobre sujeto u objeto se relaciona con una tecnica</rdfs:comment>
+        <rdfs:label>Relacionado a técnica</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:comment>Técnica relacionada con Técnica sobre sujeto u objeto</rdfs:comment>
+        <rdfs:label>Relacionado a técnica sobre sujeto u objeto</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_al_registro -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Reporta_proyecto -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_al_registro">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Reporta_proyecto">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:label>Reporta proyecto</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_entrevista -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Responde_a_entrevista -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_entrevista">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Responde_a_entrevista">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_respuestas"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_generado_por"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_generado_por"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_de_entrevista"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Responde_a_pregunta"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Es_de_entrevista"/>
         </owl:propertyChainAxiom>
+        <rdfs:comment>Relaciona respuestas a entrevistas</rdfs:comment>
+        <rdfs:label>Responde a entrevista</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Responde_a_pregunta -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Responde_a_pregunta">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Responde_a_pregunta">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#TIene_respuesta"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <rdfs:comment>Relaciona la respuesta a entrevista con la pregunta</rdfs:comment>
+        <rdfs:label>Responde a pregunta</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_aplica_en -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Se_aplica_en -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_aplica_en">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Se_aplica_en">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Relacionado_a_sujeto_u_objeto"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_sujeto_u_objeto"/>
         </owl:propertyChainAxiom>
+        <rdfs:comment>Aplicación de la tecnica sobre sujeto u objeto</rdfs:comment>
+        <rdfs:label>Se aplica en</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_interpreta">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Se_interpreta">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato"/>
+        <rdfs:comment>Interpretación de un registro</rdfs:comment>
+        <rdfs:label>Se interpreta</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_reformula -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Se_reformula -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Se_reformula">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Se_reformula">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <rdfs:comment>Reformulación del proyecto</rdfs:comment>
+        <rdfs:label>Se reformula</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Soportado_en -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Soportado_en">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Soportado_en">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <rdfs:comment>Donde se soporta un registro</rdfs:comment>
+        <rdfs:label>Soportado en</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_bibliografia -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#TIene_respuesta -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_bibliografia">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_analitica">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_esquema_de_clasificacion_descriptiva"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior"/>
-        </owl:propertyChainAxiom>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_marco_teorico -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_marco_teorico">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_objetivo">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_pregunta">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuesta">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#TIene_respuesta">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <rdfs:comment>Respuesta de pregunta</rdfs:comment>
+        <rdfs:label>Tiene respuesta</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_bibliografia -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tiene_respuestas">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_bibliografia">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia"/>
+        <rdfs:comment>Bibliografía de proyecto de investigación</rdfs:comment>
+        <rdfs:label>Tiene bibliografía</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_analitica -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#categoria_superior">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_analitica">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico"/>
+        <rdfs:comment>Tiene esquema de clasificación analítico</rdfs:comment>
+        <rdfs:label>Tiene esquema de clasificación analítica</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_descriptiva -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Cumple_con_/_Alcanza">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_descriptiva">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_esquema_de_clasificacion_descriptiva"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Categoria_superior"/>
+        </owl:propertyChainAxiom>
+        <rdfs:comment>Tiene esquema de clasificación descriptivo</rdfs:comment>
+        <rdfs:label>Tiene esquema de clasificación descriptiva</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_marco_teorico -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_marco_teorico">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <rdfs:comment>Proyecto de investigación tiene marco teórico</rdfs:comment>
+        <rdfs:label>Tiene marco teórico</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_objetivo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <rdfs:comment>Proyecto de investigación tiene objetivo</rdfs:comment>
+        <rdfs:label>Tiene objetivo</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_pregunta -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_pregunta">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <rdfs:comment>Entrevista tiene pregunta</rdfs:comment>
+        <rdfs:label>Tiene pregunta</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_respuestas -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tiene_respuestas">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <rdfs:comment>Respuesta de entrevista</rdfs:comment>
+        <rdfs:label>Tiene respuestas</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -431,169 +499,191 @@
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Autor -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Autor -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Autor">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Autor">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Autor de marco teórico o bibliografía</rdfs:comment>
+        <rdfs:label>Autor</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Concluciones -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Conclusiones -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Concluciones">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Conclusiones">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Conclusiones de un reporte</rdfs:comment>
+        <rdfs:label>Conclusiones</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Descripcion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Descripcion -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Descripcion">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Descripcion">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Data property descripción de una clase</rdfs:comment>
+        <rdfs:label>Descripción</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Fecha_de_realizacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Fecha_de_realizacion -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Fecha_de_realizacion">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Fecha_de_realizacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Data property de fechas de realización</rdfs:comment>
+        <rdfs:label>Fecha de realización</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Nombre -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Nombre">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Nombre">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Data property para nombre de cierta instancia de una clase</rdfs:comment>
+        <rdfs:label>Nombre</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Núcleo_temático -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Nucleo_tematico -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Núcleo_temático">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Nucleo_tematico">
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Nucleo tematico de entrevistas</rdfs:comment>
+        <rdfs:label>Nucleo temático</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Objetivo -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Objetivo">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Objetivo de cierta instancia de cierta clase</rdfs:comment>
+        <rdfs:label>Objetivo</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Pauta -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Pauta -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Pauta">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Pauta">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Pauta de entrevista</rdfs:comment>
+        <rdfs:label>Pauta</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tipo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Tipo -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Tipo">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Tipo">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Usado para incluir tipos</rdfs:comment>
+        <rdfs:label>Tipo</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Titulo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Titulo -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Titulo">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Titulo">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Usado para incluir titulos</rdfs:comment>
+        <rdfs:label>Título</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Ubicacion -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Ubicacion">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Ubicacion">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Usado para especificar ubicaciones</rdfs:comment>
+        <rdfs:label>Ubicación</rdfs:label>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Valor -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#Valor -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Valor">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#Valor">
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Valor generico de cierta instancia</rdfs:comment>
+        <rdfs:label>Valor</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -609,360 +699,429 @@
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#analisis -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis_documental -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis_documental">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#analisis">
+        <rdfs:comment>Clase padre de la fase de análisis</rdfs:comment>
+        <rdfs:label>Análisis</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#analisis_documental -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#analisis_documental">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:comment>Tecnica de análisis documental</rdfs:comment>
+        <rdfs:label>Análisis Documental</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <rdfs:comment>Elementos bibliograficos</rdfs:comment>
+        <rdfs:label>Bibliografía</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#campo -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#campo">
+        <rdfs:comment>Clase padre de la fase de campo</rdfs:comment>
+        <rdfs:label>Campo</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#documento -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#entrevista">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#documento">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#documento_enriquecido"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#notas_de_campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Tipo de sujeto u objeto: documento</rdfs:comment>
+        <rdfs:label>Documento</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#documento_enriquecido -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#documento_enriquecido">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Registro de documento enriquecido</rdfs:comment>
+        <rdfs:label>Documento enriquecido</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#entrevista -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#entrevista">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:comment>Técnica de entrevista</rdfs:comment>
+        <rdfs:label>Entrevista</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <owl:hasKey rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Objetivo"/>
-        </owl:hasKey>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Esquema de clasificación analítico para el análisis de datos</rdfs:comment>
+        <rdfs:label>Esquema de clasificación analítico</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:comment>Esquema de clasificación descriptivo para el análisis de datos</rdfs:comment>
+        <rdfs:label>Esquema de clasificación descriptivo</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Estrategia metodológica de proyecto de investigación</rdfs:comment>
+        <rdfs:label>Estrategia Metodológica</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#formulacion -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion">
+        <rdfs:comment>Clase padre de la fase de formulación</rdfs:comment>
+        <rdfs:label>Formulación</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#informacion -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#informacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:comment>Información generada a partir de datos</rdfs:comment>
+        <rdfs:label>Información</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato">
+        <rdfs:comment>Clase que modela la interpretación de un dato</rdfs:comment>
+        <rdfs:label>Interpretación de dato</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#investigador -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#investigador">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Investigador que participa de uno o mas proyectos</rdfs:comment>
+        <rdfs:label>Investigador</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#observacion">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Marco teórico del proyecto</rdfs:comment>
+        <rdfs:label>Marco Teórico</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#metadato -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#metadato">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
+        <rdfs:comment>Metadato para el análisis de datos</rdfs:comment>
+        <rdfs:label>Metadato</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#notas_de_campo -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#notas_de_campo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Tipo de registro: Notas de campo</rdfs:comment>
+        <rdfs:label>Notas de campo</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#objetivo -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#observacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Objetivo de investigación</rdfs:comment>
+        <rdfs:label>Objetivo</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#observacion -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#observacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <rdfs:comment>Técnica de observación</rdfs:comment>
+        <rdfs:label>Observación</rdfs:label>
+    </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#participante -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#participante">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Participante de sujeto u objeto</rdfs:comment>
+        <rdfs:label>Participante</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#pregunta -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Pregunta de entrevista</rdfs:comment>
+        <rdfs:label>Pregunta</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
+        <rdfs:comment>Clase padre del proyecto de investigación</rdfs:comment>
+        <rdfs:label>Proyecto de Investigación</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#reformulacion">
+        <rdfs:comment>Clase que modela una reformulación</rdfs:comment>
+        <rdfs:label>Reformulación</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#registro -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#registro">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#campo"/>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#documento_enriquecido"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#notas_de_campo"/>
-                    <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#documento_enriquecido"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#notas_de_campo"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista"/>
                 </owl:unionOf>
             </owl:Class>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Clase padre que modela los tipos de registro</rdfs:comment>
+        <rdfs:label>Registro</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#reporte -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#reporte">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+        <rdfs:comment>Reporte de investigación</rdfs:comment>
+        <rdfs:label>Reporte</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#respuesta_a_entrevista">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#respuesta_a_entrevista">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Registro de respuesta a entrevista</rdfs:comment>
+        <rdfs:label>Respuesta a entrevista</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#soporte -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#soporte">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <rdfs:comment>Clase padre que modela los distintos tipos de soporte de registros</rdfs:comment>
+        <rdfs:label>Soporte</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#sujeto -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Tipo de sujeto u objeto: sujeto</rdfs:comment>
+        <rdfs:label>Sujeto</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#campo"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#texto"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#video"/>
+        <rdfs:comment>Clase padre que modela sujetos u objetos</rdfs:comment>
+        <rdfs:label>Sujeto u objeto</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#tecnica -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+        <rdfs:comment>Clase padre que modela las diferentes tecnicas.</rdfs:comment>
+        <rdfs:label>Técnica</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
-    
-
-
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#texto">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto">
+        <rdfs:comment>Clase que modela la aplicación de una tecnica sobre un sujeto u objeto</rdfs:comment>
+        <rdfs:label>Técnica sobre sujeto u objeto</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video -->
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#texto -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#video">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#texto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <rdfs:comment>Soporte de texto</rdfs:comment>
+        <rdfs:label>Texto</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tesis_inv_cualitativa#video -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#video">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+        <rdfs:comment>Soporte de video</rdfs:comment>
+        <rdfs:label>Video</rdfs:label>
     </owl:Class>
     
 
@@ -978,60 +1137,51 @@
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#interpretacion_de_dato"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica_sobre_sujeto_u_objeto"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#analisis"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#campo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#formulacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#interpretacion_de_dato"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica_sobre_sujeto_u_objeto"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#analisis"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#campo"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#formulacion"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reformulacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_analitico"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#pregunta"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_analitico"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#pregunta"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#esquema_de_clasificacion_descriptivo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#informacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#metadato"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#reporte"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#esquema_de_clasificacion_descriptivo"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#informacion"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#metadatos"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#reporte"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#estrategia_metodologica"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#investigador"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#marco_teorico"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#objetivo"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#tecnica"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#estrategia_metodologica"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#investigador"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#marco_teorico"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#objetivo"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#tecnica"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#participante"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#soporte"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#sujeto_u_objeto"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#participante"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#registro"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#soporte"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/tesis_inv_cualitativa#sujeto_u_objeto"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>

@@ -3,22 +3,22 @@
         {
             "grupo": "Proyectos",
             "nombre": "Obtener todos los proyectos",
-            "consulta": "SELECT DISTINCT ?proy WHERE { ?proy rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#proyecto_de_investigacion> .}"
+            "consulta": "SELECT DISTINCT ?proy WHERE { ?proy rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#proyecto_de_investigacion> .}"
         },
         {
             "grupo": "Proyectos",
             "nombre": "Obtener todos los proyectos con sus investigadores",
-            "consulta": "SELECT DISTINCT ?proy ?investigador WHERE { ?proy <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#Es_participante> ?investigador .}"
+            "consulta": "SELECT DISTINCT ?proy ?investigador WHERE { ?proy <http://www.semanticweb.org/tesis_inv_cualitativa#Es_participante> ?investigador .}"
         },
         {
             "grupo": "Bibliografias",
             "nombre": "Ver todas las bibliografias",
-            "consulta": "SELECT DISTINCT ?bibliografia WHERE { ?bibliografia rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#bibliografia> .}"
+            "consulta": "SELECT DISTINCT ?bibliografia WHERE { ?bibliografia rdf:type <http://www.semanticweb.org/tesis_inv_cualitativa#bibliografia> .}"
         },
         {
             "grupo": "Registros",
-            "nombre": "Obtener todos los registros",
-            "consulta": "SELECT DISTINCT ?registro WHERE { ?registro rdf:type <http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#registro>  . }"
+            "nombre": "Obtener todos los registros agrupados por proyecto",
+            "consulta": "SELECT DISTINCT ?proyecto ?registro WHERE { ?proyecto <http://www.semanticweb.org/tesis_inv_cualitativa#Define> ?estmet . ?estmet <http://www.semanticweb.org/tesis_inv_cualitativa#Aplica_una_o_varias> ?tec . ?tec <http://www.semanticweb.org/tesis_inv_cualitativa#Relacionado_a_tecnica_sobre_sujeto_u_objeto> ?tsso . ?tsso <http://www.semanticweb.org/tesis_inv_cualitativa#Genera> ?registro}"
         }
     ]
 }

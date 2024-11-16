@@ -3,7 +3,7 @@ import subprocess
 
 
 # Definir el namespace general para el proyecto
-ONTOLOGY_NAMESPACE = Namespace("http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#")
+ONTOLOGY_NAMESPACE = Namespace("http://www.semanticweb.org/tesis_inv_cualitativa#")
 
 
 def cargar_ontologia(ruta):

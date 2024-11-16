@@ -8,6 +8,17 @@ from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QVBoxLayout, QScrollArea, QLabel, QHBoxLayout, QCheckBox, QFileDialog, QDialog, QTextEdit, QWidget, QFrame, QGridLayout,QLineEdit,QPushButton,QTabWidget
 import re
 
+import logging
+
+# Configurar el logging
+logging.basicConfig(
+    filename='log.txt',  # Nombre del archivo de log
+    level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
+    datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora
+)
+
+
 # Función para reemplazar espacios en nombres con guiones bajos
 def replace_spaces(text):
     if isinstance(text, str):  # Solo procesar si es una cadena
@@ -119,12 +130,16 @@ def load_excel_and_populate_ontology(self):
 
     if not selected_file_path or not excel_path:
         return
-    # Cargar la ontología base
-    g = Graph()
-    g.parse(selected_file_path)
+    try:
+        # Cargar la ontología base
+        g = Graph()
+        g.parse(selected_file_path)
+    except Exception as e:
+        logging.error(e)
+        return
 
     # Definir el namespace de la ontología
-    namespace_uri = "http://www.semanticweb.org/emilio/ontologies/2024/5/untitled-ontology-27#"
+    namespace_uri = "http://www.semanticweb.org/tesis_inv_cualitativa#"
     ns = Namespace(namespace_uri)
     g.bind("ns", ns)
 
@@ -190,6 +205,7 @@ def load_excel_and_populate_ontology(self):
         msg_box.setText(f"Ontología con instancias y propiedades de datos guardada exitosamente en {selected_file_path}")
 
     except Exception as e:
+        logging.error(e)
         msg_box.setWindowTitle("CARGA FALLIDA")
         print(e.args)
         msg_box.setText(e.args)

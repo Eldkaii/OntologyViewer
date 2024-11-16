@@ -11,6 +11,15 @@ import utils
 from utils import cargar_ontologia, obtener_clases, obtener_relaciones, obtener_atributos, guardar_instancia, \
     ONTOLOGY_NAMESPACE
 from carga_xcel import *
+import logging
+
+# Configurar el logging
+logging.basicConfig(
+    filename='log.txt',  # Nombre del archivo de log
+    level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
+    datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora
+)
 
 class OntologyAppEditor(QMainWindow):
     def __init__(self, rdf_path):
@@ -24,7 +33,10 @@ class OntologyAppEditor(QMainWindow):
         self.cargar_estilos()
 
         # Cargar la ontología desde la ruta proporcionada
-        self.g = cargar_ontologia(rdf_path)
+        try:
+            self.g = cargar_ontologia(rdf_path)
+        except Exception as e:
+            logging.error(e)
 
         # Cargar clases y relaciones
         self.clases = obtener_clases(self.g)
@@ -136,13 +148,6 @@ class OntologyAppEditor(QMainWindow):
         back_button2.setFixedHeight(40)
         back_button2.clicked.connect(self.mostrar_menu_principal)  # Conecta al menú principal
         layout.addWidget(back_button2)
-
-
-
-
-
-
-
 
         # Crear el widget de agregar relación
         relation_widget = QWidget()
