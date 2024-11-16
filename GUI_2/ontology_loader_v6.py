@@ -7,6 +7,7 @@ import rdflib
 from exceptiongroup import catch
 from rdflib import Graph
 import PyQt6.QtWidgets
+import tempfile
 
 import logging
 
@@ -32,39 +33,66 @@ class OntologyLoader:
         except Exception as e:
             logging.error(e)
 
+    def validate_ontology(self,file_name):
+        # Ruta al ejecutable de Java portable
+        java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
+        jar_file = os.path.join("razonador", "validadorHermiT-jar-with-dependencies.jar")
 
-
-    def validate_ontology(self, file_name):
-        jar_file = "razonador/validadorHermiT-jar-with-dependencies.jar"  # Ruta al archivo .jar
-        command = ["java", "-jar", jar_file, file_name]
-
-        try:
-            logging.info("validate_ontology " + " ".join(command))
-            res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
-
-            # Captura la salida estándar del proceso (en caso de éxito)
-            print(f"Validación exitosa: {res.stdout}")
-            if res.stdout == 'La ontología es consistente.\n':
-                logging.info(res.stdout)
-                return True
-            else:
-                logging.info(res.stdout)
-                return False
-        except subprocess.CalledProcessError as e:
-            # Captura la salida de error del proceso (en caso de fallo)
-            print(f"Error al ejecutar el archivo .jar: {e.stderr}")
-            logging.error(e)
+        # Verificar que las rutas existen
+        if not os.path.exists(java_path):
+            logging.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
+            print(f"Error: No se encontró el ejecutable de Java en {java_path}")
+            return False
+        if not os.path.exists(jar_file):
+            logging.error(f"Error: No se encontró el archivo .jar en {jar_file}")
+            print(f"Error: No se encontró el archivo .jar en {jar_file}")
             return False
 
+        try:
+            # Comando para ejecutar el JAR usando el Java portable
+            command = [java_path, "-jar", jar_file, file_name]
+            print(f"Ejecutando: {' '.join(command)}")
 
-    def validate_and_infer_ontology(self, file_name,replace,justLoad, inference_options=None):
+            # Ejecutar el comando
+            res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
+            print(f"Salida estándar: {res.stdout}")
 
-        logging.info("validate_and_infer_ontology " + file_name + " replace"+ str(replace) + " justLoad " +str(justLoad)  )
+            # Verificar el resultado
+            if "La ontología es consistente" in res.stdout:
+                print("La ontología es consistente.")
+                return True
+            else:
+                print("La ontología no es consistente.")
+                return False
+
+        except subprocess.CalledProcessError as e:
+            logging.error(e)
+            print(f"Error al ejecutar Java: {e.stderr}")
+            return False
+
+        except Exception as e:
+            logging.error(e)
+            print(f"Error inesperado: {e}")
+            return False
+
+    def validate_and_infer_ontology(self, file_name, replace, justLoad, inference_options=None):
+        import os
+        import shutil
+        import logging
+        import subprocess
+
+        logging.info(
+            "validate_and_infer_ontology " + file_name + " replace" + str(replace) + " justLoad " + str(justLoad))
         base_name, ext = os.path.splitext(file_name)
         if justLoad:
-
             self.load_rdf_file(file_name)
             return True
+
+        # Ruta al ejecutable de Java portable
+        java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
+        if not os.path.exists(java_path):
+            logging.error(f"No se encontró el ejecutable de Java en {java_path}")
+            raise FileNotFoundError(f"No se encontró el ejecutable de Java en {java_path}")
 
         # Lista de opciones de inferencia válidas
         valid_inference_options = {
@@ -92,7 +120,6 @@ class OntologyLoader:
         if replace:
             # Preparación para la inferencia
             # Crear el nombre para la copia con el sufijo "_INF"
-            # Obtener la carpeta y el nombre del archivo original
             folder_path = os.path.dirname(file_name)
             base_name = os.path.basename(file_name)
             copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
@@ -100,27 +127,23 @@ class OntologyLoader:
 
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
-            command_inference = ["java", "-jar", razonador, copy_file_name] + selected_inferences
+            command_inference = [java_path, "-jar", razonador, copy_file_name] + selected_inferences
             logging.info(command_inference)
         else:
             output_file = file_name
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
-            command_inference = ["java", "-jar", razonador, file_name] + selected_inferences
+            command_inference = [java_path, "-jar", razonador, file_name] + selected_inferences
             logging.info(command_inference)
 
-
         try:
-
-            subprocess.run(command_inference, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
+            subprocess.run(command_inference, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
             if replace:
-
-                print(f"Ontologia mejorada guardada en '{copy_file_name}'.")
-                logging.info(f"Ontologia mejorada guardada en '{copy_file_name}'.")
+                print(f"Ontología mejorada guardada en '{copy_file_name}'.")
+                logging.info(f"Ontología mejorada guardada en '{copy_file_name}'.")
                 self.load_rdf_file(copy_file_name)
-
             else:
-                print(f"Ontología mejorada guardada correctamente'.")
+                print(f"Ontología mejorada guardada correctamente.")
                 logging.info(f"Ontología mejorada guardada en '{file_name}'.")
                 self.load_rdf_file(file_name)
 

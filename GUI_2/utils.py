@@ -1,5 +1,15 @@
 from rdflib import Graph, URIRef, Namespace, RDF, RDFS, OWL, Literal
 import subprocess
+import os
+import logging
+
+# Configurar el logging
+logging.basicConfig(
+    filename='log.txt',  # Nombre del archivo de log
+    level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
+    datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora
+)
 
 
 # Definir el namespace general para el proyecto
@@ -13,21 +23,45 @@ def cargar_ontologia(ruta):
     return g
 
 def validate_ontology(file_name):
-    jar_file = "razonador/validadorHermiT-jar-with-dependencies.jar"  # Ruta al archivo .jar
-    command = ["java", "-jar", jar_file, file_name]
+    # Ruta al ejecutable de Java portable
+    java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
+    jar_file = os.path.join("razonador", "validadorHermiT-jar-with-dependencies.jar")
+
+    # Verificar que las rutas existen
+    if not os.path.exists(java_path):
+        logging.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
+        print(f"Error: No se encontró el ejecutable de Java en {java_path}")
+        return False
+    if not os.path.exists(jar_file):
+        logging.error(f"Error: No se encontró el archivo .jar en {jar_file}")
+        print(f"Error: No se encontró el archivo .jar en {jar_file}")
+        return False
 
     try:
-        res = subprocess.run(command, capture_output=True, text=True, check=True)
+        # Comando para ejecutar el JAR usando el Java portable
+        command = [java_path, "-jar", jar_file, file_name]
+        print(f"Ejecutando: {' '.join(command)}")
 
-        # Captura la salida estándar del proceso (en caso de éxito)
-        print(f"Validación exitosa: {res.stdout}")
-        if res.stdout == 'La ontología es consistente.\n':
+        # Ejecutar el comando
+        res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
+        print(f"Salida estándar: {res.stdout}")
+
+        # Verificar el resultado
+        if "La ontología es consistente" in res.stdout:
+            print("La ontología es consistente.")
             return True
         else:
+            print("La ontología no es consistente.")
             return False
+
     except subprocess.CalledProcessError as e:
-        # Captura la salida de error del proceso (en caso de fallo)
-        print(f"Error al ejecutar el archivo .jar: {e.stderr}")
+        logging.critical(e)
+        print(f"Error al ejecutar Java: {e.stderr}")
+        return False
+
+    except Exception as e:
+        logging.critical(e)
+        print(f"Error inesperado: {e}")
         return False
 
 def obtener_clases(g):
