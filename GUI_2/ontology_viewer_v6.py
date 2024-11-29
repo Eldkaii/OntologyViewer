@@ -1,7 +1,7 @@
 import rdflib
-from PyQt6.QtGui import QColor
+from PyQt6.QtGui import QColor, QDesktopServices
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView,QGraphicsDropShadowEffect
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QTimer
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QTimer, QUrl
 
 import main
 from ontology_loader_v6 import OntologyLoader
@@ -406,6 +406,50 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.shadow_timer.timeout.connect(self.move_shadow)
         self.shadow_timer.start(30)  # Actualizar cada 30 milisegundos para un movimiento suave
 
+        # Crear layout horizontal para el botón de ayuda
+        self.manual_help_layout = QtWidgets.QHBoxLayout()
+
+        # Crear botón con ícono
+        self.manual_help_button = QtWidgets.QPushButton("📝")
+        self.manual_help_button.setFixedSize(25, 25)
+        self.manual_help_button.setStyleSheet("""
+            QPushButton {
+                font-size: 12px;
+                font-weight: bold;
+                color: white;
+                background-color: #4c89f7;
+                border-radius: 10px;
+                padding: 0;
+            }
+            QPushButton:hover {
+                background-color: #5c9aff;
+            }
+        """)
+        #self.manual_help_button.setIcon(QtGui.QIcon("ruta/al/icono.png"))  # Reemplaza con la ruta del ícono
+        self.manual_help_button.setIconSize(QtCore.QSize(25, 25))  # Ajusta el tamaño del ícono
+        self.manual_help_button.clicked.connect(self.show_manual_help_dialog)
+
+        # Crear QLabel para el texto
+        self.manual_help_label = QtWidgets.QLabel("Ver manual de usuario")
+        self.manual_help_label.setStyleSheet("""
+            font-size: 20px;
+            color: #555555;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 15px;
+            border: 0px solid #d3d3d3;
+        """)
+
+        # Agregar botón e ícono al layout horizontal
+        self.manual_help_layout.addWidget(self.manual_help_button)
+        self.manual_help_layout.addWidget(self.manual_help_label)
+
+        # Crear un widget para contener el layout
+        self.manual_help_widget = QtWidgets.QWidget()
+        self.manual_help_widget.setLayout(self.manual_help_layout)
+
+        # Agregar el widget al layout principal
+        self.main_layout.addWidget(self.manual_help_widget)
+
     def move_shadow(self):
         # Cambia la posición de la sombra
         self.shadow_offset_x += self.shadow_direction_x
@@ -427,7 +471,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         title = 'Ontology Viewer'
 
         # Agregar versión y path si están definidos
-        title += f' - Version: v1.0.13'
+        title += f' - Version: v1.0.14'
         if rdf_path:
             title += f' - Archivo de ontologia: {rdf_path}'
 
@@ -440,6 +484,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
             self.checkbox_container.setVisible(True)
         else:
             self.checkbox_container.setVisible(False)
+
+
 
     # Función para mostrar el diálogo de ayuda con formato
     def show_help_dialog(self):
@@ -454,100 +500,89 @@ class OntologyViewer(QtWidgets.QMainWindow):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendación de Generadores de Axiomas</title>
+    <title>Manual de Usuario - Visualización de Ontologías</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; line-height: 1.6; }
-        .container { max-width: 800px; margin: auto; padding: 20px; }
-        h1 { text-align: center; color: #333; }
-        h2 { color: #444; }
-        .generator { background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
-        .recommendation { background-color: #e8f5e9; padding: 10px; border-radius: 5px; }
-        .note { font-style: italic; color: #666; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #4CAF50;
+            margin-top: 15px;
+        }
+        p, ul, li {
+            margin: 10px 0;
+        }
+        .section {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            display: block;
+            margin: 0 auto; /* Centra las imágenes */
+            max-width: 100%;
+            height: auto; /* Ajusta la proporción */
+        }
+        .image-container {
+            line-height: 0; /* Elimina espacios debajo de las imágenes */
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Seleccion de Generadores de Axiomas</h1>
-    <div class="recommendation">
-        <h2>Recomendaciones Generales</h2>
-        <p><strong>Para empezar:</strong> Si no estas familiarizado con el uso de Generadores de Axiomas, usa <em>Class Assertions</em> y <em>Property Assertions</em>.</p>
-        <p><strong>Tiempo de Ejecucion:</strong> Si bien agregar mas Generadores puede obtener inferencias nuevas para ontologias personalizadas, tambien aumenta exponencialmente el tiempo de carga.</p>
-    </div>
-    <div class="generator">
-        <h2>Reemplazar Archivo</h2>
-        <p><strong>¿Qué hace?</strong> Indica que el resultado de las inferencias se debe guardar en el archivo original, expandiendo el mismo.</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo si no hay problema con modificar el archivo original de la ontologia con las inferencias obtenidas por los Generadores de Axiomas elegidos.</p>
+    <div class="container">
+        <h1>Manual de Usuario: Visualización de Ontologías</h1>
+        
+        <div class="section">
+            <h2>1. Introducción</h2>
+            <p>Esta aplicación está diseñada para explorar y visualizar información contenida en ontologías RDF. No necesitas conocimientos previos sobre ontologías, ya que el sistema es intuitivo y te guía paso a paso.</p>
         </div>
-    </div> 
-    <br>
-    <p><strong>Para elegir qué generadores de axiomas utilizar, aquí tienes una descripción simple de cada tipo con recomendaciones: </<strong></p>
 
-    <div class="generator">
-        <h2>Class Assertions (Afirmaciones de Clase)</h2>
-        <p><strong>¿Qué hace?</strong> Identifica automáticamente a qué clases pertenecen los individuos en la ontología.</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo si necesitas ver que, por ejemplo, "Juan es un Estudiante" sin definirlo explícitamente cada vez.</p>
+        <div class="section">
+            <h2>2. Pantalla Principal</h2>
+            <p>Al iniciar la aplicación, encontrarás una pantalla simple con un botón grande al centro:</p>
+            <ul>
+                <li><strong>Botón "Cargar Ontología"</strong>: Es el punto de partida. Haz clic para cargar el archivo con el repositorio de investigaciones desde tu computadora.</li>
+            </ul>
+            <p>Después de cargar un archivo RDF:</p>
+            <ul class="image-container">
+                <li>La aplicación validará automáticamente el archivo. <br>
+                <img src="manual_help_images/pantalla_principal.png" style="width: 60%;"> </li>
+                <li>Si la ontología es consistente, aparecerá un mensaje en verde: <strong>"La ontología es consistente."</strong> <br>
+                <img src="manual_help_images/mensaje_validacion.png" style="width: 50%;"></li>
+                <li>Si no es válida, el mensaje será en rojo.</li>
+            </ul>
+        </div>
     </div>
-
-    <div class="generator">
-        <h2>Property Assertions (Afirmaciones de Propiedad)</h2>
-        <p><strong>¿Qué hace?</strong> Encuentra relaciones específicas entre individuos, como "Juan vive en Bogotá".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo cuando quieras conocer las relaciones entre los elementos de tu ontología.</p>
-    </div>
-
-    <div class="generator">
-        <h2>SubClass (Subclase)</h2>
-        <p><strong>¿Qué hace?</strong> Deduce relaciones de subclase, como que "Estudiante" es un tipo de "Persona".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo si te interesa ver cómo se estructuran jerárquicamente tus categorías.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Equivalent Class (Clase Equivalente)</h2>
-        <p><strong>¿Qué hace?</strong> Declara que dos clases son lo mismo, como "Alumno" y "Estudiante".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo cuando tienes diferentes nombres o términos para el mismo concepto.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Disjoint Classes (Clases Disjuntas)</h2>
-        <p><strong>¿Qué hace?</strong> Identifica clases que no comparten elementos, como "Perro" y "Gato".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo si necesitas evitar que se mezclen clases incompatibles.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Equivalent Object Property (Propiedad de Objeto Equivalente)</h2>
-        <p><strong>¿Qué hace?</strong> Encuentra propiedades que significan lo mismo, como "esPadreDe" y "esProgenitorDe".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo para combinar relaciones o términos sinónimos.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Object Property Characteristic (Característica de Propiedad de Objeto)</h2>
-        <p><strong>¿Qué hace?</strong> Detecta propiedades especiales, como aquellas que son simétricas o transitivas.</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo para propiedades con reglas específicas, como relaciones recíprocas.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Inverse Object Properties (Propiedades Inversas)</h2>
-        <p><strong>¿Qué hace?</strong> Define que una propiedad es la inversa de otra, como "esPadreDe" y "esHijoDe".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo para entender relaciones desde ambas perspectivas.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Sub Object Property (Subpropiedad de Objeto)</h2>
-        <p><strong>¿Qué hace?</strong> Deduce que una relación es un tipo de otra, como "esDueñoDe" siendo un tipo de "posee".</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo para estructurar relaciones en categorías más específicas.</p>
-    </div>
-
-    <div class="generator">
-        <h2>Data Property Characteristic (Característica de Propiedad de Datos)</h2>
-        <p><strong>¿Qué hace?</strong> Gestiona características de propiedades de datos, como valores únicos.</p>
-        <p><strong>¿Cuándo usarlo?</strong> Úsalo si trabajas con muchos datos específicos y necesitas reglas sobre ellos.</p>
-    </div>
-
-
-</div>
-
 </body>
 </html>
+
 
         """
 
@@ -563,6 +598,12 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Mostrar el diálogo
         dialog.exec()
+
+    # Función para mostrar el diálogo de ayuda con formato
+    def show_manual_help_dialog(self):
+        ruta_pdf = QUrl.fromLocalFile("Manual de Usuario.pdf")
+        QDesktopServices.openUrl(ruta_pdf)
+
 
     def show_info_message(self, title, message):
         # Crear un cuadro de mensaje de información
