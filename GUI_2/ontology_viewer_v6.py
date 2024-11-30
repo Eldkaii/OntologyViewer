@@ -374,7 +374,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.advanced_settings_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(self.checkbox_container)
 
-        self.main_layout.addWidget(self.cargar_con_excel)
+        #self.main_layout.addWidget(self.cargar_con_excel)
 
         # Crear área y layout de instancias
         self.instance_area = QtWidgets.QWidget(self)
