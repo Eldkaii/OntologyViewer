@@ -770,7 +770,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         self.first_time_label.hide()
         self.first_time_label.setVisible(False)
-        file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), "base_documents/ont_demo.rdf")
+
+        file_name = os.path.join("base_documents","ont_demo.rdf")
+
+        logging.info(file_name)
+        print("file path: " + file_name)
 
         self.show_info_message("Version Demo",
                                f"La version Demo contiene un repositorio de muestra, los cambios que se hagan sobre el mismo no seran guardados."
@@ -4158,8 +4162,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         """Valida la ontología en un archivo temporal antes de guardar en el archivo principal."""
-        if os.path.exists("base_documents/ont_demo_INF.rdf"):
-            os.remove("base_documents/ont_demo_INF.rdf")
+        if os.path.exists("base_documents\ont_demo_INF.rdf"):
+            os.remove("base_documents\ont_demo_INF.rdf")
 
 
 if __name__ == "__main__":
