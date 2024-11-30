@@ -170,7 +170,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.main_layout.addItem(self.spacerInit)
 
         # Botón para cargar la ontología
-        self.load_button = QtWidgets.QPushButton('Cargar ontología', self)
+        self.load_button = QtWidgets.QPushButton('Cargar repositorio', self)
         self.load_button.setFixedSize(200, 50)
         self.load_button.clicked.connect(self.load_ontology)
         self.main_layout.addWidget(self.load_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
