@@ -609,7 +609,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     # Función para mostrar el diálogo de ayuda con formato
     def show_manual_help_dialog(self):
-        ruta_pdf = QUrl.fromLocalFile("Manual de Usuario.pdf")
+        ruta_pdf = QUrl.fromLocalFile("Manual de Usuario DEMO.pdf")
         QDesktopServices.openUrl(ruta_pdf)
 
 
