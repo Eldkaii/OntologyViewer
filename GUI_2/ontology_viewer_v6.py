@@ -169,13 +169,21 @@ class OntologyViewer(QtWidgets.QMainWindow):
                                                 QtWidgets.QSizePolicy.Policy.Minimum)
         self.main_layout.addItem(self.spacerInit)
 
+        self.load_buttons_layout = QtWidgets.QHBoxLayout()
+
         # Botón para cargar la ontología
-        self.load_button = QtWidgets.QPushButton('Cargar ontología', self)
-        self.load_button.setFixedSize(200, 50)
-        self.load_button.clicked.connect(self.load_ontology)
-        self.main_layout.addWidget(self.load_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        #self.load_button = QtWidgets.QPushButton('Cargar Repositorio', self)
+        #self.load_button.setFixedSize(200, 50)
+        #self.load_button.clicked.connect(self.load_ontology)
+        #self.load_buttons_layout.addWidget(self.load_button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
+        # Botón para cargar la ontología
+        self.load_button_example = QtWidgets.QPushButton('Demo', self)
+        self.load_button_example.setFixedSize(200, 50)
+        self.load_button_example.clicked.connect(self.load_ontology_demo)
+        self.load_buttons_layout.addWidget(self.load_button_example, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
+        self.main_layout.addLayout(self.load_buttons_layout)
 
 
         # BOTONES DE INFERENCIA
@@ -631,7 +639,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 self.loader.validate_and_infer_ontology(file_name, False, True)
 
                 # Cargar la ontología
-                self.load_button.setVisible(False)
+                self.load_button_example.setVisible(False)
                 self.first_time_label.hide()
                 self.display_project_instances()
 
@@ -740,7 +748,159 @@ class OntologyViewer(QtWidgets.QMainWindow):
                 self.update_window_title(copy_file_name)
 
             # Cargar la ontología
-            self.load_button.setVisible(False)
+            self.load_button_example.setVisible(False)
+
+            self.display_project_instances()
+
+            # Limpiar mensajes y detener la animación de la ruedita giratoria
+            if is_consistent:
+                self.validation_label.setText("")  # Limpiar mensaje de validación
+            self.loading_label.setText("")  # Limpiar mensaje de carga
+
+            self.main_layout.removeWidget(self.loading_label)
+            self.loading_label.deleteLater()  # Libera el recurso del QLabel
+            self.loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+            self.main_layout.removeWidget(self.sub_loading_label)
+            self.sub_loading_label.deleteLater()  # Libera el recurso del QLabel
+            self.sub_loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+            self.movie.stop()
+            self.loading_wheel.setVisible(False)
+
+    def load_ontology_demo(self):
+
+        self.first_time_label.hide()
+        self.first_time_label.setVisible(False)
+        file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), "base_documents/ont_demo.rdf")
+
+        self.show_info_message("Version Demo",
+                               f"La version Demo contiene un repositorio de muestra, los cambios que se hagan sobre el mismo no seran guardados."
+                               )
+        if file_name:
+            self.advanced_settings_button.setVisible(False)
+            self.cargar_con_excel.setVisible(False)
+            self.checkbox_container.setVisible(False)
+
+            self.ontology_file = file_name
+            logging.info("load_ontology - archivo " + self.ontology_file)
+
+            if self.justLoadNoInference.isChecked():
+                self.loader.validate_and_infer_ontology(file_name, False, True)
+
+
+
+
+                self.load_button_example.setVisible(False)
+
+
+                self.first_time_label.hide()
+                self.display_project_instances()
+
+                # Limpiar mensajes y detener la animación de la ruedita giratoria
+
+                self.main_layout.removeWidget(self.loading_label)
+                self.loading_label.deleteLater()  # Libera el recurso del QLabel
+                self.loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+                self.main_layout.removeWidget(self.sub_loading_label)
+                self.sub_loading_label.deleteLater()  # Libera el recurso del QLabel
+                self.sub_loading_label = None  # Opcional: elimina la referencia para evitar posibles errores
+                self.update_window_title(file_name)
+                return
+
+            # Validar la ontología primero
+            self.validation_label.setText("Validando ontología...")
+            QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
+
+            is_consistent = self.loader.validate_ontology(file_name)  # Validar ontología
+
+            if is_consistent:
+                self.validation_label.setText("La ontología es consistente.")
+                QtCore.QCoreApplication.processEvents()
+                self.main_layout.removeItem(self.spacerInit)
+                del self.spacerInit  # Elimina la referencia al espaciador
+
+            else:
+                self.validation_label.setText("Error: La ontología no es consistente.")
+                self.advanced_settings_button.setVisible(True)
+                QtCore.QCoreApplication.processEvents()
+                return  # Si no es consistente, detener el proceso
+
+            # Forzar la actualización de la interfaz antes de continuar
+            QtCore.QCoreApplication.processEvents()
+
+            demora = 0
+            # Recopilar las opciones de inferencia seleccionadas en los checkboxes
+            selected_inferences = []
+            if self.classAssertions_checkbox.isChecked():
+                selected_inferences.append("classAssertions")
+                demora += 1
+            if self.propertyAssertions_checkbox.isChecked():
+                selected_inferences.append("propertyAssertions")
+                demora += 3
+            if self.subClass_checkbox.isChecked():
+                selected_inferences.append("subClass")
+                demora += 1
+            if self.equivalentClass_checkbox.isChecked():
+                selected_inferences.append("equivalentClass")
+                demora += 1
+            if self.disjointClasses_checkbox.isChecked():
+                selected_inferences.append("disjointClasses")
+                demora += 1
+            if self.equivalentObjectProperty_checkbox.isChecked():
+                selected_inferences.append("equivalentObjectProperty")
+                demora += 3
+            if self.objectPropertyCharacteristic_checkbox.isChecked():
+                selected_inferences.append("objectPropertyCharacteristic")
+                demora += 3
+            if self.inverseObjectProperties_checkbox.isChecked():
+                selected_inferences.append("inverseObjectProperties")
+                demora += 2
+            if self.subObjectProperty_checkbox.isChecked():
+                selected_inferences.append("subObjectProperty")
+                demora += 3
+            if self.dataPropertyCharacteristic_checkbox.isChecked():
+                selected_inferences.append("dataPropertyCharacteristic")
+                demora += 1
+
+            if demora < 1.5:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+            elif demora < 3:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText("El proceso puede tardar hasta " + str(demora) + " minutos")
+
+            elif demora < 5:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText(
+                    "El proceso puede tardar hasta " + str(demora) + " minutos. Por favor sea paciente")
+            else:
+                # Mostrar mensaje de inferencia y ruedita giratoria
+                self.loading_label.setText("Realizando Inferencias")
+                self.sub_loading_label.setText(
+                    "El proceso puede tardar hasta " + str(demora) + " minutos. Por favor sea paciente")
+
+            self.loading_wheel.setVisible(True)
+            self.movie.start()
+
+            QtCore.QCoreApplication.processEvents()  # Permitir que la interfaz procese eventos
+
+            # Llamar a la función para validar e inferir ontología con las opciones seleccionadas
+
+            if self.replaceFile_checkbox.isChecked():
+                self.loader.validate_and_infer_ontology(file_name, False, False, selected_inferences)
+                self.update_window_title(file_name)
+                self.ontology_file = file_name
+            else:
+                self.loader.validate_and_infer_ontology(file_name, True, False, selected_inferences)
+                folder_path = os.path.dirname(file_name)
+                base_name = os.path.basename(file_name)
+                copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
+                self.ontology_file = copy_file_name
+                self.update_window_title(copy_file_name)
+
+            # Cargar la ontología
+            self.load_button_example.setVisible(False)
 
             self.display_project_instances()
 
@@ -3996,6 +4156,10 @@ class OntologyViewer(QtWidgets.QMainWindow):
             }
         """)
 
+    def closeEvent(self, event):
+        """Valida la ontología en un archivo temporal antes de guardar en el archivo principal."""
+        if os.path.exists("base_documents/ont_demo_INF.rdf"):
+            os.remove("base_documents/ont_demo_INF.rdf")
 
 
 if __name__ == "__main__":
@@ -4009,3 +4173,5 @@ if __name__ == "__main__":
     except Exception as e:
         logging.critical("Ocurrió un error durante la ejecución de la aplicación.", exc_info=True)
         sys.exit(1)
+
+
