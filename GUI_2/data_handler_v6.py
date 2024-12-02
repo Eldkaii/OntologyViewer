@@ -5,7 +5,7 @@ import logging
 #
 # # Configurar el logging
 # logging.basicConfig(
-#     filename='log.txt',  # Nombre del archivo de log
+#     filename='log_debug.txt',  # Nombre del archivo de log
 #     level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
 #     format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
 #     datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora

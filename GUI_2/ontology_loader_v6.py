@@ -12,7 +12,7 @@ import tempfile
 import logging
 
 # 1. Generar la ruta para el archivo de log en %APPDATA%
-log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log.txt")
+log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log_debug.txt")
 
 # 2. Crear el directorio si no existe
 os.makedirs(os.path.dirname(log_path), exist_ok=True)

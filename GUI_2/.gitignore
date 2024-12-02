@@ -10,6 +10,7 @@ dist
 ../coso/
 *.exe
 log.txt
+log_debug.txt
 *.spec
 */coso/
 /external_resourses/
