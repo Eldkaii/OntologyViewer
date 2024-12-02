@@ -12,3 +12,4 @@ dist
 log.txt
 *.spec
 */coso/
+/external_resourses/
