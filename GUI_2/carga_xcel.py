@@ -7,15 +7,21 @@ from rdflib.namespace import RDF, OWL, XSD
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QVBoxLayout, QScrollArea, QLabel, QHBoxLayout, QCheckBox, QFileDialog, QDialog, QTextEdit, QWidget, QFrame, QGridLayout,QLineEdit,QPushButton,QTabWidget
 import re
+import os
 
 import logging
 
-# Configurar el logging
+# 1. Generar la ruta para el archivo de log en %APPDATA%
+log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log.txt")
+
+# 2. Crear el directorio si no existe
+os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+# 3. Configurar logging para usar la nueva ubicación del archivo
 logging.basicConfig(
-    filename='log.txt',  # Nombre del archivo de log
-    level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
-    format='%(asctime)s - %(levelname)s - %(message)s',  # Formato del log
-    datefmt='%Y-%m-%d %H:%M:%S'  # Formato de fecha y hora
+    filename=log_path,
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
