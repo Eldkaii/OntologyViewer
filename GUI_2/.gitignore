@@ -6,7 +6,7 @@ __*
 /IA_consultas/
 /razonadores_anteriores/
 build
-dist
+dist/*
 ../coso/
 *.exe
 log.txt
