@@ -1,13 +1,1 @@
 Inferencias de axiomas (con detalles del generador):
-InferredClassAssertionAxiomGenerator -> La instancia 'Jane_Doe' pertenece a la clase 'formulacion'
-InferredClassAssertionAxiomGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'reformulacion'
-InferredClassAssertionAxiomGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'formulacion'
-InferredClassAssertionAxiomGenerator -> La instancia 'John_Doe' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'reformulacion'
-InferredPropertyAssertionGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'reformulacion'
-InferredPropertyAssertionGenerator -> La instancia 'Jane_Doe' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'Jane_Doe' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'John_Doe' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'proyecto_de_ejemplo' pertenece a la clase 'formulacion'
-InferredPropertyAssertionGenerator -> La instancia 'John_Doe' pertenece a la clase 'formulacion'

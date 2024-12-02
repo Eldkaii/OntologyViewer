@@ -625,6 +625,25 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.first_time_label.setVisible(False)
         file_name, _ = QFileDialog.getOpenFileName(self, "Abrir archivo RDF", "", "RDF Files (*.rdf);;All Files (*)")
         if file_name:
+
+            destino = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json")
+            if not os.path.exists(destino):
+
+                # Copiar el archivo
+                shutil.copy("consultas_personalizadas.json", destino)
+
+            # Ruta del archivo destino
+            destino = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
+
+            # Verificar si el archivo no existe
+            if not os.path.exists(destino):
+                # Crear el directorio si no existe
+                os.makedirs(os.path.dirname(destino), exist_ok=True)
+
+                # Crear el archivo vacío
+                with open(destino, "w") as file:
+                    file.write("")  # Escribe un archivo vacío o algún contenido inicial si lo deseas
+
             self.advanced_settings_button.setVisible(False)
             self.cargar_con_excel.setVisible(False)
             self.checkbox_container.setVisible(False)
@@ -1182,7 +1201,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Cargar las consultas desde el archivo JSON
         try:
-            with open("consultas_personalizadas.json", "r") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "r") as json_file:
                 data = json.load(json_file)
                 queries = data.get("consultas", [])
         except Exception as e:
@@ -1391,7 +1410,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Cargar el archivo JSON y agregar la nueva consulta
         try:
-            with open("consultas_personalizadas.json", "r") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "r") as json_file:
                 data = json.load(json_file)
         except Exception as e:
             logging.error(e)
@@ -1399,7 +1418,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         data["consultas"].append({"grupo": group, "nombre": name, "consulta": query_text})
 
-        with open("consultas_personalizadas.json", "w") as json_file:
+        with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "w") as json_file:
             json.dump(data, json_file, indent=4)
 
         # Añadir el nuevo botón a la pestaña correspondiente
@@ -1464,7 +1483,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         Carga los botones de consulta desde el archivo JSON.
         """
         try:
-            with open("consultas_personalizadas.json", "r") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "r") as json_file:
                 data = json.load(json_file)
                 queries = data.get("consultas", [])
                 for query in queries:
@@ -1519,7 +1538,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Cargar el contenido del JSON en el editor
         try:
-            with open("consultas_personalizadas.json", "r") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "r") as json_file:
                 json_content = json_file.read()
                 self.json_text_edit.setPlainText(json_content)
         except Exception as e:
@@ -1562,7 +1581,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
             data = json.loads(json_content)
 
             # Guardar en el archivo JSON
-            with open("consultas_personalizadas.json", "w") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "w") as json_file:
                 json.dump(data, json_file, indent=4)
 
             print("Cambios guardados exitosamente.")
@@ -1587,7 +1606,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Recargar las consultas desde el archivo JSON
         try:
-            with open("consultas_personalizadas.json", "r") as json_file:
+            with open(os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "consultas_personalizadas.json"), "r") as json_file:
                 data = json.load(json_file)
                 queries = data.get("consultas", [])
         except Exception as e:
@@ -1819,37 +1838,63 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Variables para gestionar la carga de bloques
         self.current_line = 0
-        self.inference_file_path = "inference_log.txt"
+        self.inference_file_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
+
+    import os
+    import re
 
     def remove_duplicates(self, file_path):
         """Elimina líneas duplicadas y filtra líneas que contienen ciertos términos en el archivo especificado."""
         temp_file_path = file_path + "_temp"
 
-        # Compilamos los términos a filtrar en una expresión regular para una verificación eficiente
+        # Expresión regular para los términos a filtrar
         filter_terms = re.compile(
-            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty")
+            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty"
+        )
 
-        with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
-            seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
+        try:
+            # Abrir el archivo original y el temporal
+            with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
+                seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
 
-            for line in infile:
-                # Comprobar si la línea contiene alguno de los términos a filtrar
-                if filter_terms.search(line):
-                    continue
+                for line in infile:
+                    # Comprobar si la línea contiene alguno de los términos a filtrar
+                    if filter_terms.search(line):
+                        continue
 
-                # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
-                parts = line.split("->", 1)
-                if len(parts) < 2:
-                    continue  # Si la línea no tiene '->', ignorarla (evitar errores)
+                    # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
+                    parts = line.split("->", 1)
+                    if len(parts) < 2:
+                        continue  # Ignorar líneas sin '->'
 
-                content_after_arrow = parts[1].strip()  # Contenido después de '->'
+                    content_after_arrow = parts[1].strip()  # Contenido después de '->'
 
-                # Verificar si el contenido después de '->' ya ha sido visto
-                if content_after_arrow not in seen_lines_content:
-                    outfile.write(line)  # Escribir línea única en el archivo temporal
-                    seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
+                    # Verificar si el contenido después de '->' ya ha sido visto
+                    if content_after_arrow not in seen_lines_content:
+                        outfile.write(line)  # Escribir línea única en el archivo temporal
+                        seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
 
-        os.replace(temp_file_path, file_path)
+            # Asegurarse de que el archivo temporal fue creado correctamente
+            if not os.path.exists(temp_file_path):
+                raise FileNotFoundError(f"El archivo temporal no se creó: {temp_file_path}")
+
+            # Intentar reemplazar el archivo original con el temporal
+            os.replace(temp_file_path, file_path)
+            print(f"Archivo {file_path} actualizado correctamente.")
+        except PermissionError as e:
+            print(f"Error de permisos: {e}")
+            print("Asegúrate de que el archivo no esté abierto en otro programa.")
+        except FileNotFoundError as e:
+            print(f"Archivo no encontrado: {e}")
+        except Exception as e:
+            print(f"Ocurrió un error inesperado: {e}")
+        finally:
+            # Limpiar el archivo temporal si queda sin usar
+            if os.path.exists(temp_file_path):
+                try:
+                    os.remove(temp_file_path)
+                except Exception as cleanup_error:
+                    print(f"Error al limpiar archivo temporal: {cleanup_error}")
 
     def show_inferences(self):
         """Realiza limpieza del archivo, muestra las primeras 100 líneas, y oculta el botón 'Ver inferencias'."""
@@ -1862,7 +1907,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Abrir el archivo una vez y guardar la referencia para cargar en bloques
         try:
-            self.inference_file = open(self.inference_file_path, 'r')  # Mantener archivo abierto
+            # Usar with open para abrir el archivo, leerlo y asignar el contenido
+            with open(self.inference_file_path, 'r') as file:
+                content = file.read()
+                # Mostrar el contenido en tu componente de texto (o usarlo de la forma requerida)
+                self.inference_text_display.setText(content)
         except Exception as e:
             logging.error(e)
             self.inference_text_display.setText("<p style='color: red;'>Archivo de inferencias no encontrado.</p>")
