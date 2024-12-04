@@ -131,13 +131,13 @@ class OntologyLoader:
             copy_file_name = os.path.join(folder_path, f"{os.path.splitext(base_name)[0]}_INF.rdf")
             shutil.copy(file_name, copy_file_name)
 
-            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
+            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v6.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = [java_path, "-jar", razonador, copy_file_name] + selected_inferences
             logging.info(command_inference)
         else:
             output_file = file_name
-            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v5_no_topObjectProperty.jar"  # Ruta al archivo de inferencia
+            razonador = "razonador/razonadorHermiT-jar-with-dependencies_v6.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = [java_path, "-jar", razonador, file_name] + selected_inferences
             logging.info(command_inference)

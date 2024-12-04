@@ -49,6 +49,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.is_third_sections_active = True
         self.ontology_file = ""
         self.is_maximized = False
+        self.first_time_remove_duplicates = True
 
         # Inicializamos tecnica_buttons como un diccionario vacío
         self.tecnica_buttons = {}
@@ -469,7 +470,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Aplicar el desplazamiento de sombra
         self.shadow_effect.setXOffset(self.shadow_offset_x)
         self.shadow_effect.setYOffset(self.shadow_offset_y)
-        self.first_time_label.destroyed.connect(lambda: self.shadow_timer.stop())
+        # Desconecta adecuadamente y verifica antes de detener
+        self.first_time_label.destroyed.connect(self.stop_shadow_timer)
+
+    def stop_shadow_timer(self):
+        # Verifica si el timer aún existe y deténlo
+        if self.shadow_timer is not None and isinstance(self.shadow_timer, QTimer):
+            self.shadow_timer.stop()
 
     def update_window_title(window, rdf_path=None):
         # Título base
@@ -1840,66 +1847,42 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.current_line = 0
         self.inference_file_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
 
-    import os
-    import re
-
     def remove_duplicates(self, file_path):
         """Elimina líneas duplicadas y filtra líneas que contienen ciertos términos en el archivo especificado."""
         temp_file_path = file_path + "_temp"
 
-        # Expresión regular para los términos a filtrar
+        # Compilamos los términos a filtrar en una expresión regular para una verificación eficiente
         filter_terms = re.compile(
-            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty"
-        )
+            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty")
 
-        try:
-            # Abrir el archivo original y el temporal
-            with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
-                seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
+        with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
+            seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
 
-                for line in infile:
-                    # Comprobar si la línea contiene alguno de los términos a filtrar
-                    if filter_terms.search(line):
-                        continue
+            for line in infile:
+                # Comprobar si la línea contiene alguno de los términos a filtrar
+                if filter_terms.search(line):
+                    continue
 
-                    # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
-                    parts = line.split("->", 1)
-                    if len(parts) < 2:
-                        continue  # Ignorar líneas sin '->'
+                # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
+                parts = line.split("->", 1)
+                if len(parts) < 2:
+                    continue  # Si la línea no tiene '->', ignorarla (evitar errores)
 
-                    content_after_arrow = parts[1].strip()  # Contenido después de '->'
+                content_after_arrow = parts[1].strip()  # Contenido después de '->'
 
-                    # Verificar si el contenido después de '->' ya ha sido visto
-                    if content_after_arrow not in seen_lines_content:
-                        outfile.write(line)  # Escribir línea única en el archivo temporal
-                        seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
+                # Verificar si el contenido después de '->' ya ha sido visto
+                if content_after_arrow not in seen_lines_content:
+                    outfile.write(line)  # Escribir línea única en el archivo temporal
+                    seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
 
-            # Asegurarse de que el archivo temporal fue creado correctamente
-            if not os.path.exists(temp_file_path):
-                raise FileNotFoundError(f"El archivo temporal no se creó: {temp_file_path}")
-
-            # Intentar reemplazar el archivo original con el temporal
-            os.replace(temp_file_path, file_path)
-            print(f"Archivo {file_path} actualizado correctamente.")
-        except PermissionError as e:
-            print(f"Error de permisos: {e}")
-            print("Asegúrate de que el archivo no esté abierto en otro programa.")
-        except FileNotFoundError as e:
-            print(f"Archivo no encontrado: {e}")
-        except Exception as e:
-            print(f"Ocurrió un error inesperado: {e}")
-        finally:
-            # Limpiar el archivo temporal si queda sin usar
-            if os.path.exists(temp_file_path):
-                try:
-                    os.remove(temp_file_path)
-                except Exception as cleanup_error:
-                    print(f"Error al limpiar archivo temporal: {cleanup_error}")
+        os.replace(temp_file_path, file_path)
 
     def show_inferences(self):
         """Realiza limpieza del archivo, muestra las primeras 100 líneas, y oculta el botón 'Ver inferencias'."""
         # Primero, eliminar líneas duplicadas en el archivo de inferencias
-        self.remove_duplicates(self.inference_file_path)
+        if self.first_time_remove_duplicates:
+            self.remove_duplicates(self.inference_file_path)
+            self.first_time_remove_duplicates = False
 
         self.inference_text_display.clear()  # Limpiar el área de texto
         self.current_line = 0  # Reiniciar el contador de líneas
@@ -1907,11 +1890,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Abrir el archivo una vez y guardar la referencia para cargar en bloques
         try:
-            # Usar with open para abrir el archivo, leerlo y asignar el contenido
-            with open(self.inference_file_path, 'r') as file:
-                content = file.read()
-                # Mostrar el contenido en tu componente de texto (o usarlo de la forma requerida)
-                self.inference_text_display.setText(content)
+            self.inference_file = open(self.inference_file_path, 'r')  # Mantener archivo abierto
         except Exception as e:
             logging.error(e)
             self.inference_text_display.setText("<p style='color: red;'>Archivo de inferencias no encontrado.</p>")

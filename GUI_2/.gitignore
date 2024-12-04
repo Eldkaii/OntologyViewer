@@ -8,7 +8,6 @@ __*
 build
 dist/*
 ../coso/
-*.exe
 log.txt
 *.spec
 */coso/
