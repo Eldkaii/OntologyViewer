@@ -1,14 +1,13 @@
 GUI_*/
 Combinado/
 __*
-.idea/
+.idea/*
 /GUI_3/
 /IA_consultas/
 /razonadores_anteriores/
 build
 dist/*
 ../coso/
-*.exe
 log.txt
 log_debug.txt
 *.spec
