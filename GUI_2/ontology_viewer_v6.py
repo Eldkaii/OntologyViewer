@@ -638,6 +638,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
             # Verificar si el archivo no existe
             if not os.path.exists(destino):
                 # Crear el directorio si no existe
+                print(f"Se crea inference_log.txt")
                 os.makedirs(os.path.dirname(destino), exist_ok=True)
 
                 # Crear el archivo vacío
@@ -1748,6 +1749,8 @@ class OntologyViewer(QtWidgets.QMainWindow):
     def display_buttons_between_sections(self):
         # Crear un QFrame para contener la lista de instancias inferidas y el botón de "Ver inferencias"
         inferred_frame = QFrame(self)
+        destino = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
+        shutil.copy("inference_log.txt", destino)
         inferred_frame.setStyleSheet("""
             QFrame {
                 background-color: #f9f9f9;
@@ -1840,8 +1843,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.current_line = 0
         self.inference_file_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
 
-    import os
-    import re
 
     def remove_duplicates(self, file_path):
         """Elimina líneas duplicadas y filtra líneas que contienen ciertos términos en el archivo especificado."""
@@ -1849,36 +1850,56 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Expresión regular para los términos a filtrar
         filter_terms = re.compile(
-            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty"
+            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|"
+            r"InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|"
+            r"CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|"
+            r"owl:Thing|owl:topObjectProperty"
         )
 
         try:
-            # Abrir el archivo original y el temporal
+            # Intentar abrir los archivos
             with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
-                seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
+                print(f"Archivo temporal creado: {temp_file_path}")  # Confirmar que se creó el archivo temporal
 
-                for line in infile:
-                    # Comprobar si la línea contiene alguno de los términos a filtrar
-                    if filter_terms.search(line):
+                seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
+                lines_written = 0  # Contador de líneas escritas
+
+                for line_number, line in enumerate(infile, start=1):
+                    line = line.strip()  # Eliminar espacios en blanco
+
+                    # Comprobar si la línea está vacía
+                    if not line:
+                        print(f"Línea {line_number}: vacía, ignorada.")
                         continue
 
-                    # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
+                    # Comprobar si la línea contiene alguno de los términos a filtrar
+                    if filter_terms.search(line):
+                        print(f"Línea {line_number}: contiene términos filtrados, ignorada.")
+                        continue
+
+                    # Dividir la línea en dos partes usando '->' como separador
                     parts = line.split("->", 1)
                     if len(parts) < 2:
-                        continue  # Ignorar líneas sin '->'
+                        print(f"Línea {line_number}: no contiene '->', ignorada.")
+                        continue
 
                     content_after_arrow = parts[1].strip()  # Contenido después de '->'
 
                     # Verificar si el contenido después de '->' ya ha sido visto
                     if content_after_arrow not in seen_lines_content:
-                        outfile.write(line)  # Escribir línea única en el archivo temporal
+                        outfile.write(line + "\n")  # Escribir línea única en el archivo temporal
                         seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
+                        lines_written += 1
+                    else:
+                        print(f"Línea {line_number}: duplicada, ignorada.")
 
-            # Asegurarse de que el archivo temporal fue creado correctamente
+                print(f"Líneas escritas en el archivo temporal: {lines_written}")
+
+            # Verificar que el archivo temporal fue creado correctamente
             if not os.path.exists(temp_file_path):
                 raise FileNotFoundError(f"El archivo temporal no se creó: {temp_file_path}")
 
-            # Intentar reemplazar el archivo original con el temporal
+            # Reemplazar el archivo original con el temporal
             os.replace(temp_file_path, file_path)
             print(f"Archivo {file_path} actualizado correctamente.")
         except PermissionError as e:
@@ -1893,12 +1914,16 @@ class OntologyViewer(QtWidgets.QMainWindow):
             if os.path.exists(temp_file_path):
                 try:
                     os.remove(temp_file_path)
+                    print(f"Archivo temporal eliminado: {temp_file_path}")
                 except Exception as cleanup_error:
                     print(f"Error al limpiar archivo temporal: {cleanup_error}")
 
     def show_inferences(self):
         """Realiza limpieza del archivo, muestra las primeras 100 líneas, y oculta el botón 'Ver inferencias'."""
         # Primero, eliminar líneas duplicadas en el archivo de inferencias
+
+
+
         self.remove_duplicates(self.inference_file_path)
 
         self.inference_text_display.clear()  # Limpiar el área de texto
