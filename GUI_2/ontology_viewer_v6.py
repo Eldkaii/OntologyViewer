@@ -2,6 +2,7 @@ import rdflib
 from PyQt6.QtGui import QColor, QDesktopServices
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView,QGraphicsDropShadowEffect
 from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QTimer, QUrl
+from exceptiongroup import catch
 
 import main
 from ontology_loader_v6 import OntologyLoader
@@ -793,12 +794,20 @@ class OntologyViewer(QtWidgets.QMainWindow):
     def run_external_program(self):
         # Ejecutar el programa `main.py` con la ruta al archivo RDF como argumento
         #subprocess.run(["venv/Scripts/python", "main.py", self.ontology_file],check=True)
-        main.iniciar_app(self.ontology_file)
-        if self.loader.validate_ontology(self.ontology_file):
-            self.loader.load_rdf_file(self.ontology_file)  # Cargar RDF sin razonador
-        else:
-            self.show_info_message("Error",
-                                   f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
+
+        try:
+            logging.info("Se inicial el editor de ontologia")
+            main.iniciar_app(self.ontology_file)
+        except Exception as e:
+            print(e)
+            logging.error(e)
+        finally:
+
+            if self.loader.validate_ontology(self.ontology_file):
+                self.loader.load_rdf_file(self.ontology_file)  # Cargar RDF sin razonador
+            else:
+                self.show_info_message("Error",
+                                       f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
 
     def display_project_instances(self):
 
