@@ -2,6 +2,7 @@ import rdflib
 from PyQt6.QtGui import QColor, QDesktopServices
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView,QGraphicsDropShadowEffect
 from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QTimer, QUrl
+from exceptiongroup import catch
 
 import main
 from ontology_loader_v6 import OntologyLoader
@@ -49,6 +50,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.is_third_sections_active = True
         self.ontology_file = ""
         self.is_maximized = False
+        self.first_time_remove_duplicates = True
 
         # Inicializamos tecnica_buttons como un diccionario vacío
         self.tecnica_buttons = {}
@@ -469,7 +471,13 @@ class OntologyViewer(QtWidgets.QMainWindow):
         # Aplicar el desplazamiento de sombra
         self.shadow_effect.setXOffset(self.shadow_offset_x)
         self.shadow_effect.setYOffset(self.shadow_offset_y)
-        self.first_time_label.destroyed.connect(lambda: self.shadow_timer.stop())
+        # Desconecta adecuadamente y verifica antes de detener
+        self.first_time_label.destroyed.connect(self.stop_shadow_timer)
+
+    def stop_shadow_timer(self):
+        # Verifica si el timer aún existe y deténlo
+        if self.shadow_timer is not None and isinstance(self.shadow_timer, QTimer):
+            self.shadow_timer.stop()
 
     def update_window_title(window, rdf_path=None):
         # Título base
@@ -787,12 +795,20 @@ class OntologyViewer(QtWidgets.QMainWindow):
     def run_external_program(self):
         # Ejecutar el programa `main.py` con la ruta al archivo RDF como argumento
         #subprocess.run(["venv/Scripts/python", "main.py", self.ontology_file],check=True)
-        main.iniciar_app(self.ontology_file)
-        if self.loader.validate_ontology(self.ontology_file):
-            self.loader.load_rdf_file(self.ontology_file)  # Cargar RDF sin razonador
-        else:
-            self.show_info_message("Error",
-                                   f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
+
+        try:
+            logging.info("Se inicial el editor de ontologia")
+            main.iniciar_app(self.ontology_file)
+        except Exception as e:
+            print(e)
+            logging.error(e)
+        finally:
+
+            if self.loader.validate_ontology(self.ontology_file):
+                self.loader.load_rdf_file(self.ontology_file)  # Cargar RDF sin razonador
+            else:
+                self.show_info_message("Error",
+                                       f"La ontologia es inconsistente, debe corregirla desde un administrador avanzado de ontologia")
 
     def display_project_instances(self):
 
@@ -1749,8 +1765,6 @@ class OntologyViewer(QtWidgets.QMainWindow):
     def display_buttons_between_sections(self):
         # Crear un QFrame para contener la lista de instancias inferidas y el botón de "Ver inferencias"
         inferred_frame = QFrame(self)
-        destino = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
-        shutil.copy("inference_log.txt", destino)
         inferred_frame.setStyleSheet("""
             QFrame {
                 background-color: #f9f9f9;
@@ -1850,81 +1864,36 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Expresión regular para los términos a filtrar
         filter_terms = re.compile(
-            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|"
-            r"InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|"
-            r"CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|"
-            r"owl:Thing|owl:topObjectProperty"
-        )
+            r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty")
 
-        try:
-            # Intentar abrir los archivos
-            with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
-                print(f"Archivo temporal creado: {temp_file_path}")  # Confirmar que se creó el archivo temporal
+        with open(file_path, 'r') as infile, open(temp_file_path, 'w') as outfile:
+            seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
 
-                seen_lines_content = set()  # Conjunto para almacenar contenido único después de '->'
-                lines_written = 0  # Contador de líneas escritas
+            for line in infile:
+                # Comprobar si la línea contiene alguno de los términos a filtrar
+                if filter_terms.search(line):
+                    continue
 
-                for line_number, line in enumerate(infile, start=1):
-                    line = line.strip()  # Eliminar espacios en blanco
+                # Dividir la línea en dos partes usando '->' como separador y obtener el contenido después de '->'
+                parts = line.split("->", 1)
+                if len(parts) < 2:
+                    continue  # Si la línea no tiene '->', ignorarla (evitar errores)
 
-                    # Comprobar si la línea está vacía
-                    if not line:
-                        print(f"Línea {line_number}: vacía, ignorada.")
-                        continue
+                content_after_arrow = parts[1].strip()  # Contenido después de '->'
 
-                    # Comprobar si la línea contiene alguno de los términos a filtrar
-                    if filter_terms.search(line):
-                        print(f"Línea {line_number}: contiene términos filtrados, ignorada.")
-                        continue
+                # Verificar si el contenido después de '->' ya ha sido visto
+                if content_after_arrow not in seen_lines_content:
+                    outfile.write(line)  # Escribir línea única en el archivo temporal
+                    seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
 
-                    # Dividir la línea en dos partes usando '->' como separador
-                    parts = line.split("->", 1)
-                    if len(parts) < 2:
-                        print(f"Línea {line_number}: no contiene '->', ignorada.")
-                        continue
-
-                    content_after_arrow = parts[1].strip()  # Contenido después de '->'
-
-                    # Verificar si el contenido después de '->' ya ha sido visto
-                    if content_after_arrow not in seen_lines_content:
-                        outfile.write(line + "\n")  # Escribir línea única en el archivo temporal
-                        seen_lines_content.add(content_after_arrow)  # Marcar el contenido como visto
-                        lines_written += 1
-                    else:
-                        print(f"Línea {line_number}: duplicada, ignorada.")
-
-                print(f"Líneas escritas en el archivo temporal: {lines_written}")
-
-            # Verificar que el archivo temporal fue creado correctamente
-            if not os.path.exists(temp_file_path):
-                raise FileNotFoundError(f"El archivo temporal no se creó: {temp_file_path}")
-
-            # Reemplazar el archivo original con el temporal
-            os.replace(temp_file_path, file_path)
-            print(f"Archivo {file_path} actualizado correctamente.")
-        except PermissionError as e:
-            print(f"Error de permisos: {e}")
-            print("Asegúrate de que el archivo no esté abierto en otro programa.")
-        except FileNotFoundError as e:
-            print(f"Archivo no encontrado: {e}")
-        except Exception as e:
-            print(f"Ocurrió un error inesperado: {e}")
-        finally:
-            # Limpiar el archivo temporal si queda sin usar
-            if os.path.exists(temp_file_path):
-                try:
-                    os.remove(temp_file_path)
-                    print(f"Archivo temporal eliminado: {temp_file_path}")
-                except Exception as cleanup_error:
-                    print(f"Error al limpiar archivo temporal: {cleanup_error}")
+        os.replace(temp_file_path, file_path)
 
     def show_inferences(self):
         """Realiza limpieza del archivo, muestra las primeras 100 líneas, y oculta el botón 'Ver inferencias'."""
         # Primero, eliminar líneas duplicadas en el archivo de inferencias
-
-
-
-        self.remove_duplicates(self.inference_file_path)
+        if self.first_time_remove_duplicates:
+            self.remove_duplicates(self.inference_file_path)
+            self.first_time_remove_duplicates = False
 
         self.inference_text_display.clear()  # Limpiar el área de texto
         self.current_line = 0  # Reiniciar el contador de líneas
@@ -1932,11 +1901,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
         # Abrir el archivo una vez y guardar la referencia para cargar en bloques
         try:
-            # Usar with open para abrir el archivo, leerlo y asignar el contenido
-            with open(self.inference_file_path, 'r') as file:
-                content = file.read()
-                # Mostrar el contenido en tu componente de texto (o usarlo de la forma requerida)
-                self.inference_text_display.setText(content)
+            self.inference_file = open(self.inference_file_path, 'r')  # Mantener archivo abierto
         except Exception as e:
             logging.error(e)
             self.inference_text_display.setText("<p style='color: red;'>Archivo de inferencias no encontrado.</p>")

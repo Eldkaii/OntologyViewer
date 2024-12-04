@@ -40,5 +40,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Llama a iniciar_app y mantiene la ventana abierta
+    logging.info("Se inicial APP de edicion interna")
     window = iniciar_app(args.rdf_path)
     sys.exit(app.exec())  # Solo se cierra la aplicación en este caso
