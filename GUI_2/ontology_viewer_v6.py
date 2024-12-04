@@ -1857,12 +1857,11 @@ class OntologyViewer(QtWidgets.QMainWindow):
         self.current_line = 0
         self.inference_file_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "inference_log.txt")
 
-
     def remove_duplicates(self, file_path):
         """Elimina líneas duplicadas y filtra líneas que contienen ciertos términos en el archivo especificado."""
         temp_file_path = file_path + "_temp"
 
-        # Expresión regular para los términos a filtrar
+        # Compilamos los términos a filtrar en una expresión regular para una verificación eficiente
         filter_terms = re.compile(
             r"pertenece a la clase 'analisis'|pertenece a la clase 'campo'|pertenece a la clase 'formulacion'|InferredDataProperty|EquivalentObjectProperties|xsd:string|FunctionalObjectProperty|CharacteristicAxiomGeneratorDisjointClasses|IrreflexiveObjectProperty|AsymmetricObjectProperty|owl:Thing|owl:topObjectProperty")
 

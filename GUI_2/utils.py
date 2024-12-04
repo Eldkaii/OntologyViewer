@@ -45,6 +45,7 @@ def validate_ontology(file_name):
     try:
         # Comando para ejecutar el JAR usando el Java portable
         command = [java_path, "-jar", jar_file, file_name]
+        #command = ["java", "-jar", jar_file, file_name]
         print(f"Ejecutando: {' '.join(command)}")
 
         # Ejecutar el comando
