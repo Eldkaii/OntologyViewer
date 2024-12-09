@@ -3,19 +3,6 @@ import subprocess
 import os
 import logging
 
-# 1. Generar la ruta para el archivo de log en %APPDATA%
-log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log.txt")
-
-# 2. Crear el directorio si no existe
-os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
-# 3. Configurar logging para usar la nueva ubicación del archivo
-logging.basicConfig(
-    filename=log_path,
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
 
 # Definir el namespace general para el proyecto
 ONTOLOGY_NAMESPACE = Namespace("http://www.semanticweb.org/tesis_inv_cualitativa#")
@@ -29,14 +16,14 @@ def cargar_ontologia(ruta):
 
 def validate_ontology(file_name):
     # Ruta al ejecutable de Java portable
-    java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
+    #java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
     jar_file = os.path.join("razonador", "validadorHermiT-jar-with-dependencies.jar")
 
     # Verificar que las rutas existen
-    if not os.path.exists(java_path):
-        logging.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
-        print(f"Error: No se encontró el ejecutable de Java en {java_path}")
-        return False
+    # if not os.path.exists(java_path):
+    #     logging.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
+    #     print(f"Error: No se encontró el ejecutable de Java en {java_path}")
+    #     return False
     if not os.path.exists(jar_file):
         logging.error(f"Error: No se encontró el archivo .jar en {jar_file}")
         print(f"Error: No se encontró el archivo .jar en {jar_file}")
@@ -44,13 +31,29 @@ def validate_ontology(file_name):
 
     try:
         # Comando para ejecutar el JAR usando el Java portable
-        command = [java_path, "-jar", jar_file, file_name]
-        #command = ["java", "-jar", jar_file, file_name]
+        #command = [java_path, "-jar", jar_file, file_name]
+
+        try:
+            result = subprocess.run(["java", "-version"], check=True, text=True, capture_output=True)
+            java = "java"
+
+        except FileNotFoundError:
+            print("Java no encontrado en PATH")
+            logging.warning("Java no encontrado en PATH")
+            try:
+                result = subprocess.run([r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe","-version"], check=True, text=True, capture_output=True)
+                print("Java encontrado:\n", result.stdout, result.stderr)
+                java = r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe"
+            except FileNotFoundError:
+                logging.warning("Java no encontrado en C:\\Program Files\\BellSoft\\LibericaJDK-11")
+
+        command = [java, "-jar", jar_file, file_name]
         print(f"Ejecutando: {' '.join(command)}")
 
         # Ejecutar el comando
         res = subprocess.run(command, capture_output=True, text=True, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
         print(f"Salida estándar: {res.stdout}")
+        logging.log(res.stdout, res.stderr)
 
         # Verificar el resultado
         if "La ontología es consistente" in res.stdout:

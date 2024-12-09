@@ -9,12 +9,7 @@ log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log.txt")
 # 2. Crear el directorio si no existe
 os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
-# 3. Configurar logging para usar la nueva ubicación del archivo
-logging.basicConfig(
-    filename=log_path,
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+
 
 
 # Modificación de iniciar_app para que solo reciba la ruta y cree la ventana

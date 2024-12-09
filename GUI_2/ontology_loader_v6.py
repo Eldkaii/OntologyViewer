@@ -11,18 +11,9 @@ import tempfile
 
 import logging
 
-# 1. Generar la ruta para el archivo de log en %APPDATA%
-log_path = os.path.join(os.getenv("APPDATA"), "Ontology Viewer", "log.txt")
 
-# 2. Crear el directorio si no existe
-os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
-# 3. Configurar logging para usar la nueva ubicación del archivo
-logging.basicConfig(
-    filename=log_path,
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logger = logging.getLogger(__name__)  # Logger específico para este módulo
+logger.debug("Loader --//")
 
 class OntologyLoader:
     def __init__(self):
@@ -31,32 +22,46 @@ class OntologyLoader:
     def load_rdf_file(self, file_name):
         """Carga el archivo RDF en el grafo."""
         try:
-            logging.info("load_rdf_file " + file_name)
+            logger.info("load_rdf_file " + file_name)
             self.graph = Graph()
             self.graph.parse(file_name)
             print(f"Archivo RDF '{file_name}' cargado correctamente.")
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
 
     def validate_ontology(self,file_name):
         # Ruta al ejecutable de Java portable
-        java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
+        #java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
         jar_file = os.path.join("razonador", "validadorHermiT-jar-with-dependencies.jar")
 
         # Verificar que las rutas existen
-        if not os.path.exists(java_path):
-            logging.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
-            print(f"Error: No se encontró el ejecutable de Java en {java_path}")
-            return False
+        # if not os.path.exists(java_path):
+        #     logger.error(f"Error: No se encontró el ejecutable de Java en {java_path}")
+        #     print(f"Error: No se encontró el ejecutable de Java en {java_path}")
+        #     return False
         if not os.path.exists(jar_file):
-            logging.error(f"Error: No se encontró el archivo .jar en {jar_file}")
+            logger.error(f"Error: No se encontró el archivo .jar en {jar_file}")
             print(f"Error: No se encontró el archivo .jar en {jar_file}")
             return False
 
         try:
-            # Comando para ejecutar el JAR usando el Java portable
-            command = [java_path, "-jar", jar_file, file_name]
-            #command = ["java", "-jar", jar_file, file_name]
+            try:
+                result = subprocess.run(["java", "-version"], check=True, text=True, capture_output=True)
+                java = "java"
+
+            except FileNotFoundError:
+                print("Java no encontrado en PATH")
+                logger.warning("Java no encontrado en PATH")
+                try:
+                    result = subprocess.run([r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe", "-version"],
+                                            check=True, text=True, capture_output=True)
+                    print("Java encontrado:\n", result.stdout, result.stderr)
+                    java = r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe"
+                except FileNotFoundError:
+                    logger.warning(f"Java no encontrado en C:\\Program Files\\BellSoft\\LibericaJDK-11")
+
+            command = [java, "-jar", jar_file, file_name]
+
             print(f"Ejecutando: {' '.join(command)}")
 
             # Ejecutar el comando
@@ -72,33 +77,39 @@ class OntologyLoader:
                 return False
 
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logger.error(e)
             print(f"Error al ejecutar Java: {e.stderr}")
             return False
 
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
             print(f"Error inesperado: {e}")
             return False
 
     def validate_and_infer_ontology(self, file_name, replace, justLoad, inference_options=None):
-        import os
-        import shutil
-        import logging
-        import subprocess
 
-        logging.info(
-            "validate_and_infer_ontology " + file_name + " replace" + str(replace) + " justLoad " + str(justLoad))
+        logger.info(
+            "validate_and_infer_ontology " + file_name + " replace-" + str(replace) + " justLoad-" + str(justLoad))
         base_name, ext = os.path.splitext(file_name)
         if justLoad:
             self.load_rdf_file(file_name)
             return True
 
-        # Ruta al ejecutable de Java portable
-        java_path = os.path.join("portableHJDK_64_17_0_11", "CommonFiles", "OpenJDKJRE64", "bin", "java.exe")
-        if not os.path.exists(java_path):
-            logging.error(f"No se encontró el ejecutable de Java en {java_path}")
-            raise FileNotFoundError(f"No se encontró el ejecutable de Java en {java_path}")
+        java_path = ''
+        try:
+            result = subprocess.run(["java", "-version"], check=True, text=True, capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW)
+            logger.info("Java encontrado:\n", result.stdout, result.stderr)
+            java_path = "java"
+        except FileNotFoundError:
+            print("Java no encontrado en PATH")
+            logger.warning("Java no encontrado en PATH")
+            try:
+                result = subprocess.run([r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe", "-version"],
+                                        check=True, text=True, capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW)
+                print("Java encontrado:\n", result.stdout, result.stderr)
+                java_path = r"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe"
+            except FileNotFoundError:
+                logger.warning(f"Java no encontrado en C:\\Program Files\\BellSoft\\LibericaJDK-11")
 
         # Lista de opciones de inferencia válidas
         valid_inference_options = {
@@ -134,28 +145,28 @@ class OntologyLoader:
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v6.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = [java_path, "-jar", razonador, copy_file_name] + selected_inferences
-            logging.info(command_inference)
+            logger.info(command_inference)
         else:
             output_file = file_name
             razonador = "razonador/razonadorHermiT-jar-with-dependencies_v6.jar"  # Ruta al archivo de inferencia
             # Construye el comando completo con los parámetros adicionales
             command_inference = [java_path, "-jar", razonador, file_name] + selected_inferences
-            logging.info(command_inference)
+            logger.info(command_inference)
 
         try:
             subprocess.run(command_inference, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
             if replace:
                 print(f"Ontología mejorada guardada en '{copy_file_name}'.")
-                logging.info(f"Ontología mejorada guardada en '{copy_file_name}'.")
+                logger.info(f"Ontología mejorada guardada en '{copy_file_name}'.")
                 self.load_rdf_file(copy_file_name)
             else:
                 print(f"Ontología mejorada guardada correctamente.")
-                logging.info(f"Ontología mejorada guardada en '{file_name}'.")
+                logger.info(f"Ontología mejorada guardada en '{file_name}'.")
                 self.load_rdf_file(file_name)
 
             return True
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logger.error(e)
             print(f"Error al ejecutar el archivo de inferencia .jar: {e}")
             return False
 
@@ -171,7 +182,7 @@ class OntologyLoader:
             results = self.graph.query(query)
             return [str(row.project) for row in results]
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
 
     def get_investigators_for_project(self, project_instance):
         """Retorna los investigadores relacionados con un proyecto."""
