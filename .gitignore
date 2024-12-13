@@ -1,5 +1,5 @@
 /build/
 /dist/
 *.spec
-Ontology Viewer Installer*.exe
+Ontology Viewer*Installer*.exe
 .idea

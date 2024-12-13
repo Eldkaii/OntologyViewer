@@ -37,10 +37,12 @@ class HelpButton(QtWidgets.QPushButton):
         self.setVisible(False)
 
     def is_help_shown(self):
-        return os.path.exists(f"help_{self.help_id}.txt")
+        path = os.path.join(os.getenv("APPDATA"),"Ontology Viewer", f"help_{self.help_id}.txt")
+        return  os.path.exists(path)
 
     def mark_help_as_shown(self):
-        with open(f"help_{self.help_id}.txt", "w") as file:
+        file = os.path.join(os.getenv("APPDATA"),"Ontology Viewer", f"help_{self.help_id}.txt")
+        with open(file, "w") as file:
             file.write("shown")
 
     def start_reflection_timer(self):

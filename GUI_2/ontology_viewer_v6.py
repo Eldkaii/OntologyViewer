@@ -481,7 +481,7 @@ class OntologyViewer(QtWidgets.QMainWindow):
 
     def update_window_title(window, rdf_path=None):
         # Título base
-        title = 'Ontology Viewer'
+        title = 'clear Viewer'
 
         # Agregar versión y path si están definidos
         title += f' - Version: v1.0.14'
